@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- gprs_model: GPRS_模块表-->
+<mapper namespace="GprsModel">
+    <resultMap id="result_base" type="GprsModel">
+        <id property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="gprsNo" column="gprs_no" jdbcType="VARCHAR"/>
+        <result property="mo" column="mo" jdbcType="VARCHAR"/>
+        <result property="so" column="so" jdbcType="VARCHAR"/>
+        <result property="sn" column="sn" jdbcType="VARCHAR"/>
+        <result property="bind" column="bind" jdbcType="INTEGER"/>
+        <result property="state" column="state" jdbcType="INTEGER"/>
+        <result property="factoryDate" column="factory_date" jdbcType="DATE"/>
+        <result property="crtime" column="crtime" jdbcType="TIMESTAMP"/>
+        <result property="uptime" column="uptime" jdbcType="TIMESTAMP"/>
+        <result property="bizNo" column="biz_no" jdbcType="VARCHAR"/>
+        <result property="bizName" column="biz_name" jdbcType="VARCHAR"/>
+        <result property="online" column="online" jdbcType="INTEGER"/>
+        <result property="pos" column="pos" jdbcType="VARCHAR"/>
+
+        <result property="prodName" column="prod_name" jdbcType="VARCHAR"/>
+        <result property="prodSet" column="prod_set" jdbcType="VARCHAR"/>
+
+    </resultMap>
+
+    <sql id="columns">
+	     id,  name,  gprs_no,  mo,  so,  sn,  bind,  state,  factory_date,  crtime,  uptime
+	</sql>
+
+    <sql id="sql_query_where">
+        <where>
+            <if test="@Ognl@isNotEmpty(id)">AND id = #{id}</if>
+            <if test="@Ognl@isNotEmpty(name)">AND name = #{name}</if>
+            <if test="@Ognl@isNotEmpty(gprsNo)">AND gprs_no = #{gprsNo}</if>
+            <if test="@Ognl@isNotEmpty(mo)">AND mo = #{mo}</if>
+            <if test="@Ognl@isNotEmpty(so)">AND so = #{so}</if>
+            <if test="@Ognl@isNotEmpty(sn)">AND sn = #{sn}</if>
+            <if test="@Ognl@isNotEmpty(bind)">AND bind = #{bind}</if>
+            <if test="@Ognl@isNotEmpty(state)">AND state = #{state}</if>
+            <if test="@Ognl@isNotEmpty(factoryDate)">AND factory_date = #{factoryDate}</if>
+            <if test="@Ognl@isNotEmpty(crtime)">AND crtime = #{crtime}</if>
+            <if test="@Ognl@isNotEmpty(uptime)">AND uptime = #{uptime}</if>
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="GprsModel">
+        insert into gprs_model(
+        <include refid="columns"/>
+        ) values(
+        #{id,jdbcType=VARCHAR },#{name,jdbcType=VARCHAR },#{gprsNo,jdbcType=VARCHAR },#{mo,jdbcType=VARCHAR },#{so,jdbcType=VARCHAR },#{sn,jdbcType=VARCHAR },#{bind,jdbcType=INTEGER },#{state,jdbcType=INTEGER },#{factoryDate,jdbcType=DATE },#{crtime,jdbcType=TIMESTAMP },#{uptime,jdbcType=TIMESTAMP }
+        )
+    </insert>
+
+    <update id="update" parameterType="GprsModel">
+        update gprs_model
+        <set>
+            <if test="@Ognl@isNotEmpty(name)">
+                name= #{name,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(gprsNo)">
+                gprs_no= #{gprsNo,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(mo)">
+                mo= #{mo,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(so)">
+                so= #{so,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(sn)">
+                sn= #{sn,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(bind)">
+                bind= #{bind,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(state)">
+                state= #{state,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(factoryDate)">
+                factory_date= #{factoryDate,jdbcType=DATE },
+            </if>
+            <if test="@Ognl@isNotEmpty(crtime)">
+                crtime= #{crtime,jdbcType=TIMESTAMP },
+            </if>
+            <if test="@Ognl@isNotEmpty(uptime)">
+                uptime= #{uptime,jdbcType=TIMESTAMP },
+            </if>
+        </set>
+        where id =#{id}
+    </update>
+
+    <update id="updateGprsModelVersion" parameterType="map">
+        update gprs_model set mo = #{version},state=2,uptime = now() where gprs_no = #{gprsNo}
+    </update>
+
+    <update id="updateGprsModelBizBind" parameterType="map">
+        update gprs_model set bind = 1 , state=1 where gprs_no = #{gprsNo} and bind = 0
+    </update>
+
+    <update id="updateGprsModelBizUnBind" parameterType="map">
+        update gprs_model set bind = 0 where gprs_no = #{gprsNo} and bind = 1
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from gprs_model 
+          where id =#{id}
+    </delete>
+
+    <select id="load" parameterType="java.lang.String" resultMap="result_base">
+        select * from gprs_model 
+	          where id =#{id}
+    </select>
+
+    <select id="query" parameterType="map" resultMap="result_base">
+        select * from gprs_model
+        <include refid="sql_query_where"/>
+        <if test="@Ognl@isNotEmpty(orderField)">
+            order by ${orderField} ${orderSeq}
+        </if>
+        <if test="@Ognl@isEmpty(orderField)">
+            order by state asc
+        </if>
+    </select>
+
+    <select id="queryGprsModel" parameterType="map" resultMap="result_base">
+        SELECT
+        gm.*, b.biz_no,
+        b.NAME AS biz_name, ol.state as online,CONCAT(ps.prov_name,ps.city_name,ps.dist_name,ps.addr) as pos
+        FROM
+        gprs_model gm
+        LEFT JOIN biz_gprs_bind gb ON gm.gprs_no = gb.gprs_no
+        LEFT JOIN prod p ON p.gprs_no = gm.gprs_no
+        LEFT JOIN prod_instl_pos ps ON ps.prod_no = p.prod_no
+        LEFT JOIN biz b ON gb.biz_no = b.biz_no
+        LEFT JOIN prod_onl_log ol ON ol.prod_no = p.prod_no
+        <where>
+            <if test="@Ognl@isNotEmpty(bizNo)">AND (b.biz_no = #{bizNo} or b.par_biz_no = #{bizNo})</if>
+            <if test="@Ognl@isNotEmpty(gprsNo)">AND gm.gprs_no = #{gprsNo}</if>
+            <if test="@Ognl@isNotEmpty(bind)">AND gm.bind = #{bind}</if>
+            <if test="@Ognl@isNotEmpty(onlineState)">AND ol.state = #{onlineState}</if>
+            <if test="@Ognl@isNotEmpty(bizName)">AND b.name like CONCAT('%',#{bizName},'%')</if>
+            <if test="@Ognl@isNotEmpty(gprsType)">AND gm.gprs_no like CONCAT(#{gprsType},'%')</if>
+        </where>
+        order by gm.bind asc
+    </select>
+
+    <select id="countGprsModel" parameterType="Map" resultType="Integer">
+        SELECT
+        count(1)
+        FROM
+        gprs_model gm
+        LEFT JOIN biz_gprs_bind gb ON gm.gprs_no = gb.gprs_no
+        LEFT JOIN prod p ON p.gprs_no = gm.gprs_no
+        LEFT JOIN prod_instl_pos ps ON ps.prod_no = p.prod_no
+        LEFT JOIN biz b ON gb.biz_no = b.biz_no
+        LEFT JOIN prod_onl_log ol ON ol.gpno = gm.gprs_no AND ol.BIZ_NO=gb.BIZ_NO
+        <where>
+            <if test="@Ognl@isNotEmpty(bizNo)">AND (b.biz_no = #{bizNo} or b.par_biz_no = #{bizNo})</if>
+            <if test="@Ognl@isNotEmpty(gprsNo)">AND gm.gprs_no = #{gprsNo}</if>
+            <if test="@Ognl@isNotEmpty(bind)">AND gm.bind = #{bind}</if>
+            <if test="@Ognl@isNotEmpty(onlineState)">AND ol.state = #{onlineState}</if>
+            <if test="@Ognl@isNotEmpty(bizName)">AND b.name like CONCAT('%',#{bizName},'%')</if>
+            <if test="@Ognl@isNotEmpty(gprsType)">AND gm.gprs_no like CONCAT(#{gprsType},'%')</if>
+        </where>
+    </select>
+
+    <select id="queryGprsModelForProdSet" parameterType="map" resultMap="result_base">
+         select gm.*,gb.biz_no,gb.prod_set,p.PROD_NAME from gprs_model gm left join biz_gprs_bind gb on gm.gprs_no = gb.gprs_no
+        left join prod p on gb.GPRS_NO = p.GPRS_NO
+        <where>
+            <if test="@Ognl@isNotEmpty(bizNo)">AND gb.biz_no = #{bizNo}</if>
+            <if test="@Ognl@isNotEmpty(gprsNo)">AND gm.gprs_no = #{gprsNo}</if>
+            <if test="@Ognl@isNotEmpty(prodSet)">AND gb.prod_set=#{prodSet}</if>
+        </where> order by gb.crtime asc
+    </select>
+
+    <select id="queryInstlGprsModelByBizNo" parameterType="map" resultMap="result_base">
+        SELECT tb1.* FROM  (
+        select gm.*,prod.biz_no,(SELECT count(1) FROM prod_instl_pos pos where pos.prod_no=prod.prod_no ) as instlaState from gprs_model gm left join prod  on gm.gprs_no = prod.gprs_no
+        where   prod.biz_no = #{bizNo} order by prod.crtime asc) tb1
+        <where>
+            <if test="@Ognl@isNotEmpty(instlaState)">AND tb1.instlaState= #{instlaState}</if>
+        </where>
+    </select>
+
+    <select id="countGprsModelForProdSet" parameterType="map" resultType="Integer">
+        select count(1) from gprs_model gm left join biz_gprs_bind gb on gm.gprs_no = gb.gprs_no
+        left join prod p on gb.GPRS_NO = p.GPRS_NO
+        <where>
+            <if test="@Ognl@isNotEmpty(bizNo)">AND gb.biz_no = #{bizNo}</if>
+            <if test="@Ognl@isNotEmpty(gprsNo)">AND gm.gprs_no = #{gprsNo}</if>
+            <if test="@Ognl@isNotEmpty(prodSet)">AND gb.prod_set=#{prodSet}</if>
+        </where>
+    </select>
+
+    <select id="countInstlGprsModelByBizNo" parameterType="map" resultType="Integer">
+        SELECT count(1) FROM  (
+        select (SELECT count(1) FROM prod_instl_pos pos where pos.prod_no=prod.prod_no ) as instlaState from gprs_model gm left join prod  on gm.gprs_no = prod.gprs_no
+        where   prod.biz_no = #{bizNo}) tb1
+        <where>
+            <if test="@Ognl@isNotEmpty(instlaState)">AND tb1.instlaState= #{instlaState}</if>
+        </where>
+    </select>
+
+    <select id="queryGprsByGprsNo" parameterType="string" resultMap="result_base">
+        select * from gprs_model where gprs_no = #{gprsNo}
+    </select>
+
+
+    <select id="count" parameterType="Map" resultType="Integer">
+        select count(1) from gprs_model
+        <include refid="sql_query_where"/>
+    </select>
+</mapper>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<!-- prod_base_args: 商品_基本属性-->
+<mapper namespace="ProdBaseArgs">
+    <resultMap id="result_base" type="ProdBaseArgs">
+         	<id property="id" column="id" jdbcType="VARCHAR"/>
+         	<result property="bizNo" column="biz_no" jdbcType="VARCHAR" />
+         	<result property="local" column="local" jdbcType="INTEGER" />
+         	<result property="ext" column="ext" jdbcType="INTEGER" />
+         	<result property="coinRt" column="coin_rt" jdbcType="INTEGER" />
+         	<result property="coinIntl" column="coin_intl" jdbcType="INTEGER" />
+         	<result property="extPulseRt" column="ext_pulse_rt" jdbcType="INTEGER" />
+         	<result property="extPulseIntl" column="ext_pulse_intl" jdbcType="INTEGER" />
+         	<result property="used" column="used" jdbcType="INTEGER" />
+         	<result property="optor" column="optor" jdbcType="VARCHAR" />
+         	<result property="crtime" column="crtime" jdbcType="TIMESTAMP" />
+         	<result property="uptime" column="uptime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+
+	<sql id="columns">
+	     id,  biz_no,  local,  ext,  coin_rt,  coin_intl,  ext_pulse_rt,  ext_pulse_intl,  used,  optor,  crtime,  uptime 
+	</sql>
+
+    <sql id="sql_query_where">
+		<where>
+            <if test="@Ognl@isNotEmpty(id)"> AND id  = #{id} </if>
+            <if test="@Ognl@isNotEmpty(bizNo)"> AND biz_no  = #{bizNo} </if>
+            <if test="@Ognl@isNotEmpty(local)"> AND local  = #{local} </if>
+            <if test="@Ognl@isNotEmpty(ext)"> AND ext  = #{ext} </if>
+            <if test="@Ognl@isNotEmpty(coinRt)"> AND coin_rt  = #{coinRt} </if>
+            <if test="@Ognl@isNotEmpty(coinIntl)"> AND coin_intl  = #{coinIntl} </if>
+            <if test="@Ognl@isNotEmpty(extPulseRt)"> AND ext_pulse_rt  = #{extPulseRt} </if>
+            <if test="@Ognl@isNotEmpty(extPulseIntl)"> AND ext_pulse_intl  = #{extPulseIntl} </if>
+            <if test="@Ognl@isNotEmpty(used)"> AND used  = #{used} </if>
+            <if test="@Ognl@isNotEmpty(optor)"> AND optor  = #{optor} </if>
+            <if test="@Ognl@isNotEmpty(crtime)"> AND crtime  = #{crtime} </if>
+            <if test="@Ognl@isNotEmpty(uptime)"> AND uptime  = #{uptime} </if>
+        </where>
+    </sql>
+    
+    <insert id="insert" parameterType="ProdBaseArgs">
+        insert into prod_base_args(
+         <include refid="columns"/>
+        ) values(
+	    #{id,jdbcType=VARCHAR },#{bizNo,jdbcType=VARCHAR },#{local,jdbcType=INTEGER },#{ext,jdbcType=INTEGER },#{coinRt,jdbcType=INTEGER },#{coinIntl,jdbcType=INTEGER },#{extPulseRt,jdbcType=INTEGER },#{extPulseIntl,jdbcType=INTEGER },#{used,jdbcType=INTEGER },#{optor,jdbcType=VARCHAR },#{crtime,jdbcType=TIMESTAMP },#{uptime,jdbcType=TIMESTAMP }
+        )
+    </insert>
+
+    <update id="update" parameterType="ProdBaseArgs">
+        update prod_base_args 
+        <set>
+           <if test="@Ognl@isNotEmpty(bizNo)" >
+            biz_no= #{bizNo,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(local)" >
+            local= #{local,jdbcType=INTEGER },
+           </if>
+           <if test="@Ognl@isNotEmpty(ext)" >
+            ext= #{ext,jdbcType=INTEGER },
+           </if>
+           <if test="@Ognl@isNotEmpty(coinRt)" >
+            coin_rt= #{coinRt,jdbcType=INTEGER },
+           </if>
+           <if test="@Ognl@isNotEmpty(coinIntl)" >
+            coin_intl= #{coinIntl,jdbcType=INTEGER },
+           </if>
+           <if test="@Ognl@isNotEmpty(extPulseRt)" >
+            ext_pulse_rt= #{extPulseRt,jdbcType=INTEGER },
+           </if>
+           <if test="@Ognl@isNotEmpty(extPulseIntl)" >
+            ext_pulse_intl= #{extPulseIntl,jdbcType=INTEGER },
+           </if>
+           <if test="@Ognl@isNotEmpty(used)" >
+            used= #{used,jdbcType=INTEGER },
+           </if>
+           <if test="@Ognl@isNotEmpty(optor)" >
+            optor= #{optor,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(crtime)" >
+            crtime= #{crtime,jdbcType=TIMESTAMP },
+           </if>
+           <if test="@Ognl@isNotEmpty(uptime)" >
+            uptime= #{uptime,jdbcType=TIMESTAMP },
+           </if>
+       </set>
+          where id =#{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from prod_base_args 
+          where id =#{id}
+    </delete>
+
+    <select id="load" parameterType="java.lang.String" resultMap="result_base">
+        select * from prod_base_args 
+	          where id =#{id}
+    </select>
+
+    <select id="query" parameterType="map" resultMap="result_base">
+        select * from prod_base_args
+        <include refid="sql_query_where"/>
+		<if test="@Ognl@isNotEmpty(orderField)">
+		order by ${orderField} ${orderSeq}
+		</if>
+		<if test="@Ognl@isEmpty(orderField)">
+		order by crtime desc
+		</if>
+    </select>
+
+    
+    <select id="count"  parameterType="Map" resultType="Integer">
+        select count(1) from prod_base_args
+        <include refid="sql_query_where"/>
+    </select>
+</mapper>

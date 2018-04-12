@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<!-- mbr_coin: 会员积分表-->
+<mapper namespace="MbrCoin">
+    <resultMap id="result_base" type="MbrCoin">
+         	<id property="id" column="id" jdbcType="VARCHAR"/>
+         	<result property="memberId" column="member_id" jdbcType="VARCHAR" />
+         	<result property="coin" column="coin" jdbcType="DECIMAL" />
+            <result property="state" column="state" jdbcType="INTEGER" />
+         	<result property="crtime" column="crtime" jdbcType="TIMESTAMP" />
+         	<result property="uptime" column="uptime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+
+	<sql id="columns">
+	     id,  member_id,  coin,state,  crtime,  uptime
+	</sql>
+
+    <sql id="sql_query_where">
+		<where>
+            <if test="@Ognl@isNotEmpty(id)"> AND id  = #{id} </if>
+            <if test="@Ognl@isNotEmpty(memberId)"> AND member_id  = #{memberId} </if>
+            <if test="@Ognl@isNotEmpty(coin)"> AND coin  = #{coin} </if>
+            <if test="@Ognl@isNotEmpty(state)"> AND state = #{state} </if>
+            <if test="@Ognl@isNotEmpty(crtime)"> AND crtime  = #{crtime} </if>
+            <if test="@Ognl@isNotEmpty(uptime)"> AND uptime  = #{uptime} </if>
+        </where>
+    </sql>
+    
+    <insert id="insert" parameterType="MbrCoin">
+        insert into mbr_coin(
+         <include refid="columns"/>
+        ) values(
+	    #{id,jdbcType=VARCHAR },#{memberId,jdbcType=VARCHAR },#{coin,jdbcType=DECIMAL },#{state,jdbcType=INTEGER },#{crtime,jdbcType=TIMESTAMP },#{uptime,jdbcType=TIMESTAMP }
+        )
+    </insert>
+
+    <update id="update" parameterType="MbrCoin">
+        update mbr_coin 
+        <set>
+           <if test="@Ognl@isNotEmpty(memberId)" >
+            member_id= #{memberId,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(coin)" >
+            coin= #{coin,jdbcType=DECIMAL },
+           </if>
+           <if test="@Ognl@isNotEmpty(crtime)" >
+            crtime= #{crtime,jdbcType=TIMESTAMP },
+           </if>
+           <if test="@Ognl@isNotEmpty(uptime)" >
+            uptime= #{uptime,jdbcType=TIMESTAMP },
+           </if>
+       </set>
+          where id =#{id}
+    </update>
+
+    <update id="updateCoinSub" parameterType="map">     <!--此处修改新添加的：时间：12.7-->
+        update mbr_coin set coin = coin - #{coin},uptime =now() where member_id = #{memberId} and (coin - #{coin})>=0
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from mbr_coin 
+          where id =#{id}
+    </delete>
+
+    <select id="loadByMemberId" parameterType="java.lang.String" resultMap="result_base">
+        select * from mbr_coin 
+	          where member_id =#{memberId}
+    </select>
+
+    <select id="load" parameterType="java.lang.String" resultMap="result_base">
+        select * from mbr_coin
+	          where id =#{id}
+    </select>
+
+    <select id="query" parameterType="map" resultMap="result_base">
+        select * from mbr_coin
+        <include refid="sql_query_where"/>
+		<if test="@Ognl@isNotEmpty(orderField)">
+		order by ${orderField} ${orderSeq}
+		</if>
+		<if test="@Ognl@isEmpty(orderField)">
+		order by crtime desc
+		</if>
+    </select>
+
+    
+    <select id="count"  parameterType="Map" resultType="Integer">
+        select count(1) from mbr_coin
+        <include refid="sql_query_where"/>
+    </select>
+</mapper>

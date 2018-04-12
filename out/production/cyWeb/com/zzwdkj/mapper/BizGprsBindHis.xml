@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<!-- biz_gprs_bind_his: 商家_GPRS绑定历史表-->
+<mapper namespace="BizGprsBindHis">
+    <resultMap id="result_base" type="BizGprsBindHis">
+         	<id property="id" column="id" jdbcType="VARCHAR"/>
+         	<result property="bizNo" column="biz_no" jdbcType="VARCHAR" />
+         	<result property="gprsNo" column="gprs_no" jdbcType="VARCHAR" />
+         	<result property="crtime" column="crtime" jdbcType="TIMESTAMP" />
+         	<result property="uptime" column="uptime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+
+	<sql id="columns">
+	     id,  biz_no,  gprs_no,  crtime,  uptime 
+	</sql>
+
+    <sql id="sql_query_where">
+		<where>
+            <if test="@Ognl@isNotEmpty(id)"> AND id  = #{id} </if>
+            <if test="@Ognl@isNotEmpty(bizNo)"> AND biz_no  = #{bizNo} </if>
+            <if test="@Ognl@isNotEmpty(gprsNo)"> AND gprs_no  = #{gprsNo} </if>
+            <if test="@Ognl@isNotEmpty(crtime)"> AND crtime  = #{crtime} </if>
+            <if test="@Ognl@isNotEmpty(uptime)"> AND uptime  = #{uptime} </if>
+        </where>
+    </sql>
+    
+    <insert id="insert" parameterType="BizGprsBindHis">
+        insert into biz_gprs_bind_his(
+         <include refid="columns"/>
+        ) values(
+	    #{id,jdbcType=VARCHAR },#{bizNo,jdbcType=VARCHAR },#{gprsNo,jdbcType=VARCHAR },#{crtime,jdbcType=TIMESTAMP },#{uptime,jdbcType=TIMESTAMP }
+        )
+    </insert>
+
+    <update id="update" parameterType="BizGprsBindHis">
+        update biz_gprs_bind_his 
+        <set>
+           <if test="@Ognl@isNotEmpty(bizNo)" >
+            biz_no= #{bizNo,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(gprsNo)" >
+            gprs_no= #{gprsNo,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(crtime)" >
+            crtime= #{crtime,jdbcType=TIMESTAMP },
+           </if>
+           <if test="@Ognl@isNotEmpty(uptime)" >
+            uptime= #{uptime,jdbcType=TIMESTAMP },
+           </if>
+       </set>
+          where id =#{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from biz_gprs_bind_his 
+          where id =#{id}
+    </delete>
+
+    <select id="load" parameterType="java.lang.String" resultMap="result_base">
+        select * from biz_gprs_bind_his 
+	          where id =#{id}
+    </select>
+
+    <select id="query" parameterType="map" resultMap="result_base">
+        select * from biz_gprs_bind_his
+        <include refid="sql_query_where"/>
+		<if test="@Ognl@isNotEmpty(orderField)">
+		order by ${orderField} ${orderSeq}
+		</if>
+		<if test="@Ognl@isEmpty(orderField)">
+		order by crtime desc
+		</if>
+    </select>
+
+    
+    <select id="count"  parameterType="Map" resultType="Integer">
+        select count(1) from biz_gprs_bind_his
+        <include refid="sql_query_where"/>
+    </select>
+</mapper>

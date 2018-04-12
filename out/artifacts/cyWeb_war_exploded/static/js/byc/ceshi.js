@@ -1,0 +1,2 @@
+
+webpackJsonp([40],{1179:function(e,n){e.exports={render:function(){var e=this,n=e.$createElement,t=e._self._c||n;return t("div",[t("router-view")],1)},staticRenderFns:[]}},279:function(e,n,t){var r=t(24)(t(927),t(1179),null,null,null);e.exports=r.exports},927:function(e,n,t){"use strict";Object.defineProperty(n,"__esModule",{value:!0}),n.default={name:"friends-index",data:function(){return{}}}}});

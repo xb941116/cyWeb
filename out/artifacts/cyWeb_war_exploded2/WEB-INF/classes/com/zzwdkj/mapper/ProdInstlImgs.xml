@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<!-- prod_instl_imgs: 产品_安装场地图片表-->
+<mapper namespace="ProdInstlImgs">
+    <resultMap id="result_base" type="ProdInstlImgs">
+         	<id property="id" column="id" jdbcType="VARCHAR"/>
+         	<result property="bizNo" column="biz_no" jdbcType="VARCHAR" />
+         	<result property="prodNo" column="prod_no" jdbcType="VARCHAR" />
+         	<result property="filePath" column="file_path" jdbcType="VARCHAR" />
+         	<result property="mobile" column="mobile" jdbcType="VARCHAR" />
+         	<result property="crtime" column="crtime" jdbcType="TIMESTAMP" />
+         	<result property="uptime" column="uptime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+
+	<sql id="columns">
+	     id,  biz_no,  prod_no,  file_path,  mobile,  crtime,  uptime 
+	</sql>
+
+    <sql id="sql_query_where">
+		<where>
+            <if test="@Ognl@isNotEmpty(id)"> AND id  = #{id} </if>
+            <if test="@Ognl@isNotEmpty(bizNo)"> AND biz_no  = #{bizNo} </if>
+            <if test="@Ognl@isNotEmpty(prodNo)"> AND prod_no  = #{prodNo} </if>
+            <if test="@Ognl@isNotEmpty(filePath)"> AND file_path  = #{filePath} </if>
+            <if test="@Ognl@isNotEmpty(mobile)"> AND mobile  = #{mobile} </if>
+            <if test="@Ognl@isNotEmpty(crtime)"> AND crtime  = #{crtime} </if>
+            <if test="@Ognl@isNotEmpty(uptime)"> AND uptime  = #{uptime} </if>
+        </where>
+    </sql>
+    
+    <insert id="insert" parameterType="ProdInstlImgs">
+        insert into prod_instl_imgs(
+         <include refid="columns"/>
+        ) values(
+	    #{id,jdbcType=VARCHAR },#{bizNo,jdbcType=VARCHAR },#{prodNo,jdbcType=VARCHAR },#{filePath,jdbcType=VARCHAR },#{mobile,jdbcType=VARCHAR },#{crtime,jdbcType=TIMESTAMP },#{uptime,jdbcType=TIMESTAMP }
+        )
+    </insert>
+
+    <update id="update" parameterType="ProdInstlImgs">
+        update prod_instl_imgs 
+        <set>
+           <if test="@Ognl@isNotEmpty(bizNo)" >
+            biz_no= #{bizNo,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(prodNo)" >
+            prod_no= #{prodNo,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(filePath)" >
+            file_path= #{filePath,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(mobile)" >
+            mobile= #{mobile,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(crtime)" >
+            crtime= #{crtime,jdbcType=TIMESTAMP },
+           </if>
+           <if test="@Ognl@isNotEmpty(uptime)" >
+            uptime= #{uptime,jdbcType=TIMESTAMP },
+           </if>
+       </set>
+          where id =#{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from prod_instl_imgs 
+          where id =#{id}
+    </delete>
+
+    <select id="load" parameterType="java.lang.String" resultMap="result_base">
+        select * from prod_instl_imgs 
+	          where id =#{id}
+    </select>
+
+    <select id="query" parameterType="map" resultMap="result_base">
+        select * from prod_instl_imgs
+        <include refid="sql_query_where"/>
+		<if test="@Ognl@isNotEmpty(orderField)">
+		order by ${orderField} ${orderSeq}
+		</if>
+		<if test="@Ognl@isEmpty(orderField)">
+		order by crtime desc
+		</if>
+    </select>
+
+    
+    <select id="count"  parameterType="Map" resultType="Integer">
+        select count(1) from prod_instl_imgs
+        <include refid="sql_query_where"/>
+    </select>
+</mapper>

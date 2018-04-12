@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<!-- mbr: 会员-->
+<mapper namespace="Mbr">
+    <resultMap id="result_base" type="Mbr">
+         	<id property="id" column="id" jdbcType="VARCHAR"/>
+         	<result property="bizNo" column="biz_no" jdbcType="VARCHAR" />
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+         	<result property="nick" column="nick" jdbcType="VARCHAR" />
+         	<result property="headImg" column="head_img" jdbcType="VARCHAR" />
+         	<result property="mobile" column="mobile" jdbcType="VARCHAR" />
+         	<result property="pwd" column="pwd" jdbcType="VARCHAR" />
+         	<result property="payPwd" column="pay_pwd" jdbcType="VARCHAR" />
+         	<result property="email" column="email" jdbcType="VARCHAR" />
+         	<result property="local" column="local" jdbcType="VARCHAR" />
+         	<result property="state" column="state" jdbcType="INTEGER" />
+         	<result property="optor" column="optor" jdbcType="VARCHAR" />
+         	<result property="crtime" column="crtime" jdbcType="TIMESTAMP" />
+         	<result property="uptime" column="uptime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+
+	<sql id="columns">
+	     id,  biz_no, name, nick,  head_img,  mobile,  pwd,  pay_pwd,  email,  local,  state,  optor,  crtime,  uptime
+	</sql>
+
+    <sql id="sql_query_where">
+		<where>
+            <if test="@Ognl@isNotEmpty(id)"> AND mbr.id  = #{id} </if>
+            <if test="@Ognl@isNotEmpty(bizNo)"> AND mbr.biz_no  = #{bizNo} </if>
+            <if test="@Ognl@isNotEmpty(name)">AND mbr.name like CONCAT('%',#{name},'%')</if>
+            <if test="@Ognl@isNotEmpty(nick)"> AND mbr.nick like CONCAT('%',#{nick},'%') </if>
+            <if test="@Ognl@isNotEmpty(headImg)"> AND mbr.head_img  = #{headImg} </if>
+            <if test="@Ognl@isNotEmpty(mobile)"> AND mbr.mobile  = #{mobile} </if>
+            <if test="@Ognl@isNotEmpty(pwd)"> AND mbr.pwd  = #{pwd} </if>
+            <if test="@Ognl@isNotEmpty(payPwd)"> AND mbr.pay_pwd  = #{payPwd} </if>
+            <if test="@Ognl@isNotEmpty(email)"> AND mbr.email  = #{email} </if>
+            <if test="@Ognl@isNotEmpty(local)"> AND mbr.local  = #{local} </if>
+            <if test="@Ognl@isNotEmpty(state)"> AND mbr.state  = #{state} </if>
+            <if test="@Ognl@isNotEmpty(optor)"> AND mbr.optor  = #{optor} </if>
+            <if test="@Ognl@isNotEmpty(crtime)"> AND mbr.crtime  = #{crtime} </if>
+            <if test="@Ognl@isNotEmpty(uptime)"> AND mbr.uptime  = #{uptime} </if>
+        </where>
+    </sql>
+    
+    <insert id="insert" parameterType="Mbr">
+        insert into mbr(
+         <include refid="columns"/>
+        ) values(
+	    #{id,jdbcType=VARCHAR },#{bizNo,jdbcType=VARCHAR },#{name,jdbcType=VARCHAR },#{nick,jdbcType=VARCHAR },#{headImg,jdbcType=VARCHAR },#{mobile,jdbcType=VARCHAR },#{pwd,jdbcType=VARCHAR },#{payPwd,jdbcType=VARCHAR },#{email,jdbcType=VARCHAR },#{local,jdbcType=VARCHAR },#{state,jdbcType=INTEGER },#{optor,jdbcType=VARCHAR },#{crtime,jdbcType=TIMESTAMP },#{uptime,jdbcType=TIMESTAMP }
+        )
+    </insert>
+
+    <update id="update" parameterType="Mbr">
+        update mbr 
+        <set>
+           <if test="@Ognl@isNotEmpty(bizNo)" >
+            biz_no= #{bizNo,jdbcType=VARCHAR },
+           </if>
+            <if test="@Ognl@isNotEmpty(name)" >
+                name= #{name,jdbcType=VARCHAR },
+            </if>
+           <if test="@Ognl@isNotEmpty(nick)" >
+            nick= #{nick,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(headImg)" >
+            head_img= #{headImg,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(mobile)" >
+            mobile= #{mobile,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(pwd)" >
+            pwd= #{pwd,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(payPwd)" >
+            pay_pwd= #{payPwd,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(email)" >
+            email= #{email,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(local)" >
+            local= #{local,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(state)" >
+            state= #{state,jdbcType=INTEGER },
+           </if>
+           <if test="@Ognl@isNotEmpty(optor)" >
+            optor= #{optor,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(crtime)" >
+            crtime= #{crtime,jdbcType=TIMESTAMP },
+           </if>
+           <if test="@Ognl@isNotEmpty(uptime)" >
+            uptime= #{uptime,jdbcType=TIMESTAMP },
+           </if>
+       </set>
+          where id =#{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from mbr 
+          where id =#{id}
+    </delete>
+
+    <select id="load" parameterType="java.lang.String" resultMap="result_base">
+        select * from mbr 
+	          where id =#{id}
+    </select>
+
+    <select id="loadByMobile" parameterType="java.lang.String" resultMap="result_base">
+        select * from mbr
+        where mobile =#{mobile}
+    </select>
+
+    <select id="loadByOpenidAndBizNo" parameterType="Map" resultMap="result_base">
+        select * from mbr INNER JOIN mbr_oauth ON  mbr.id=mbr_oauth.member_id
+        where mbr_oauth.openid =#{openid} AND  mbr.biz_no= #{bizNo} AND mbr_oauth.state=1
+    </select>
+
+    <select id="loadByOpenId" parameterType="Map" resultMap="result_base">
+        select * from mbr INNER JOIN mbr_oauth ON  mbr.id=mbr_oauth.member_id
+        where mbr_oauth.openid =#{openid} AND mbr_oauth.state=1
+    </select>
+
+    <select id="query" parameterType="map" resultMap="result_base">
+        select * from mbr
+        <include refid="sql_query_where"/>
+		<if test="@Ognl@isNotEmpty(orderField)">
+		order by ${orderField} ${orderSeq}
+		</if>
+		<if test="@Ognl@isEmpty(orderField)">
+		order by crtime desc
+		</if>
+    </select>
+
+    <select id="queryMbrJoinWalletByMap" parameterType="map" resultMap="result_base">
+        select mbr.*, IFNULL(mbr_wallet.money ,0) as money from mbr LEFT JOIN mbr_wallet ON mbr.id=mbr_wallet.member_id
+        <include refid="sql_query_where"/>
+		<if test="@Ognl@isNotEmpty(orderField)">
+		order by ${orderField} ${orderSeq}
+		</if>
+		<if test="@Ognl@isEmpty(orderField)">
+		order by mbr.crtime desc
+		</if>
+    </select>
+
+    
+    <select id="count"  parameterType="Map" resultType="Integer">
+        select count(1) from mbr
+        <include refid="sql_query_where"/>
+    </select>
+</mapper>

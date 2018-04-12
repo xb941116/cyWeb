@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans default-autowire="byName"
+       xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context.xsd
+            http://www.springframework.org/schema/util
+            http://www.springframework.org/schema/util/spring-util.xsd"
+       >
+
+    <util:properties id="settings" location="classpath:application.properties" />
+
+    <import resource="classpath:/framework/spring-core.xml"/>
+    <import resource="classpath:/framework/serverContext.xml"/>
+
+    <context:component-scan base-package="com.zzwdkj.*.dao"/>
+    <context:component-scan base-package="com.zzwdkj.*.service"/>
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="configLocation" value="classpath:framework/mybatis-config.xml"/>
+        <property name="mapperLocations">
+            <list>
+                <value>classpath:com/zzwdkj/mapper/*.xml</value>
+            </list>
+        </property>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+</beans>

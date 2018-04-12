@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<!-- prod_mod_attr: 商品_模板_属性表-->
+<mapper namespace="ProdModAttr">
+    <resultMap id="result_base" type="ProdModAttr">
+         	<id property="id" column="id" jdbcType="VARCHAR"/>
+         	<result property="bizNo" column="biz_no" jdbcType="VARCHAR" />
+         	<result property="name" column="name" jdbcType="VARCHAR" />
+         	<result property="code" column="code" jdbcType="VARCHAR" />
+         	<result property="type" column="type" jdbcType="VARCHAR" />
+         	<result property="sort" column="sort" jdbcType="INTEGER" />
+         	<result property="crtime" column="crtime" jdbcType="TIMESTAMP" />
+         	<result property="uptime" column="uptime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+
+	<sql id="columns">
+	     id,  biz_no,  name,  code,  type,  sort,  crtime,  uptime 
+	</sql>
+
+    <sql id="sql_query_where">
+		<where>
+            <if test="@Ognl@isNotEmpty(id)"> AND id  = #{id} </if>
+            <if test="@Ognl@isNotEmpty(bizNo)"> AND biz_no  = #{bizNo} </if>
+            <if test="@Ognl@isNotEmpty(name)"> AND name  = #{name} </if>
+            <if test="@Ognl@isNotEmpty(code)"> AND code  = #{code} </if>
+            <if test="@Ognl@isNotEmpty(type)"> AND type  = #{type} </if>
+            <if test="@Ognl@isNotEmpty(sort)"> AND sort  = #{sort} </if>
+            <if test="@Ognl@isNotEmpty(crtime)"> AND crtime  = #{crtime} </if>
+            <if test="@Ognl@isNotEmpty(uptime)"> AND uptime  = #{uptime} </if>
+        </where>
+    </sql>
+    
+    <insert id="insert" parameterType="ProdModAttr">
+        insert into prod_mod_attr(
+         <include refid="columns"/>
+        ) values(
+	    #{id,jdbcType=VARCHAR },#{bizNo,jdbcType=VARCHAR },#{name,jdbcType=VARCHAR },#{code,jdbcType=VARCHAR },#{type,jdbcType=VARCHAR },#{sort,jdbcType=INTEGER },#{crtime,jdbcType=TIMESTAMP },#{uptime,jdbcType=TIMESTAMP }
+        )
+    </insert>
+
+    <update id="update" parameterType="ProdModAttr">
+        update prod_mod_attr 
+        <set>
+           <if test="@Ognl@isNotEmpty(bizNo)" >
+            biz_no= #{bizNo,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(name)" >
+            name= #{name,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(code)" >
+            code= #{code,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(type)" >
+            type= #{type,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(sort)" >
+            sort= #{sort,jdbcType=INTEGER },
+           </if>
+           <if test="@Ognl@isNotEmpty(crtime)" >
+            crtime= #{crtime,jdbcType=TIMESTAMP },
+           </if>
+           <if test="@Ognl@isNotEmpty(uptime)" >
+            uptime= #{uptime,jdbcType=TIMESTAMP },
+           </if>
+       </set>
+          where id =#{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from prod_mod_attr 
+          where id =#{id}
+    </delete>
+
+    <select id="load" parameterType="java.lang.String" resultMap="result_base">
+        select * from prod_mod_attr 
+	          where id =#{id}
+    </select>
+
+    <select id="query" parameterType="map" resultMap="result_base">
+        select * from prod_mod_attr
+        <include refid="sql_query_where"/>
+		<if test="@Ognl@isNotEmpty(orderField)">
+		order by ${orderField} ${orderSeq}
+		</if>
+		<if test="@Ognl@isEmpty(orderField)">
+		order by crtime desc
+		</if>
+    </select>
+
+    
+    <select id="count"  parameterType="Map" resultType="Integer">
+        select count(1) from prod_mod_attr
+        <include refid="sql_query_where"/>
+    </select>
+</mapper>

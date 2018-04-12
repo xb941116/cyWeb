@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- prod_coin_rpt_log: -->
+<mapper namespace="ProdCoinRptLog">
+    <resultMap id="result_base" type="ProdCoinRptLog">
+        <id property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="bizNo" column="biz_no" jdbcType="VARCHAR" />
+        <result property="type" column="type" jdbcType="INTEGER"/>
+        <result property="times" column="times" jdbcType="TINYINT" />
+        <result property="crtime" column="crtime" jdbcType="TIMESTAMP" />
+        <result property="uptime" column="uptime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+
+    <sql id="columns">
+        id,  biz_no, type,  times,  crtime,  uptime
+    </sql>
+
+    <sql id="sql_query_where">
+        <where>
+            <if test="@Ognl@isNotEmpty(id)"> AND id  = #{id} </if>
+            <if test="@Ognl@isNotEmpty(bizNo)"> AND biz_no  = #{bizNo} </if>
+            <if test="@Ognl@isNotEmpty(type)"> AND type  = #{type} </if>
+            <if test="@Ognl@isNotEmpty(times)"> AND times  = #{times} </if>
+            <if test="@Ognl@isNotEmpty(crtime)"> AND crtime  = #{crtime} </if>
+            <if test="@Ognl@isNotEmpty(uptime)"> AND uptime  = #{uptime} </if>
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="ProdCoinRptLog">
+        insert into prod_coin_rpt_log(
+        <include refid="columns"/>
+        ) values(
+        #{id,jdbcType=VARCHAR },#{bizNo,jdbcType=VARCHAR },#{type,jdbcType=INTEGER },#{times,jdbcType=TINYINT },#{crtime,jdbcType=TIMESTAMP },#{uptime,jdbcType=TIMESTAMP }
+        )
+    </insert>
+
+    <update id="update" parameterType="ProdCoinRptLog">
+        update prod_coin_rpt_log
+        <set>
+            <if test="@Ognl@isNotEmpty(bizNo)" >
+                biz_no= #{bizNo,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(type)" >
+                type= #{type,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(times)" >
+                times= #{times,jdbcType=TINYINT },
+            </if>
+            <if test="@Ognl@isNotEmpty(crtime)" >
+                crtime= #{crtime,jdbcType=TIMESTAMP },
+            </if>
+            <if test="@Ognl@isNotEmpty(uptime)" >
+                uptime= #{uptime,jdbcType=TIMESTAMP },
+            </if>
+        </set>
+        where id =#{id}
+    </update>
+
+
+    <update id="updateProdCoinRptLogTimesAdd"  parameterType="map" >
+        update prod_coin_rpt_log set times = times + 1,uptime=now()  where biz_no = #{bizNo} and type = #{type} and TO_DAYS(uptime) = TO_DAYS(now())
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from prod_coin_rpt_log 
+          where id =#{id}
+    </delete>
+
+    <select id="load" parameterType="java.lang.String" resultMap="result_base">
+        select * from prod_coin_rpt_log 
+	          where id =#{id}
+    </select>
+
+    <select id="query" parameterType="map" resultMap="result_base">
+        select * from prod_coin_rpt_log
+        <include refid="sql_query_where"/>
+        <if test="@Ognl@isNotEmpty(orderField)">
+            order by ${orderField} ${orderSeq}
+        </if>
+        <if test="@Ognl@isEmpty(orderField)">
+            order by crtime desc
+        </if>
+    </select>
+
+    <select id="queryCurrentDayRptByBizNo"  parameterType="map" resultMap="result_base">
+        select * from prod_coin_rpt_log where biz_no = #{bizNo} AND type = #{type} and TO_DAYS(uptime) = TO_DAYS(now())
+    </select>
+
+
+    <select id="count"  parameterType="Map" resultType="Integer">
+        select count(1) from prod_coin_rpt_log
+        <include refid="sql_query_where"/>
+    </select>
+</mapper>

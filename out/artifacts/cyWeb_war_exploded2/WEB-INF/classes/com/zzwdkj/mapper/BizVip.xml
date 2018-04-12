@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<!-- biz_vip: 商家VIP功能表-->
+<mapper namespace="BizVip">
+    <resultMap id="result_base" type="BizVip">
+         	<id property="id" column="id" jdbcType="VARCHAR"/>
+         	<result property="bizNo" column="biz_no" jdbcType="VARCHAR" />
+         	<result property="vipType" column="vip_type" jdbcType="INTEGER" />
+         	<result property="state" column="state" jdbcType="INTEGER" />
+         	<result property="startTime" column="start_time" jdbcType="TIMESTAMP" />
+         	<result property="endTime" column="end_time" jdbcType="TIMESTAMP" />
+         	<result property="crtime" column="crtime" jdbcType="TIMESTAMP" />
+         	<result property="uptime" column="uptime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+
+	<sql id="columns">
+	     id,  biz_no,  vip_type,  state,  start_time,  end_time,  crtime,  uptime 
+	</sql>
+
+    <sql id="sql_query_where">
+		<where>
+            <if test="@Ognl@isNotEmpty(id)"> AND id  = #{id} </if>
+            <if test="@Ognl@isNotEmpty(bizNo)"> AND biz_no  = #{bizNo} </if>
+            <if test="@Ognl@isNotEmpty(vipType)"> AND vip_type  = #{vipType} </if>
+            <if test="@Ognl@isNotEmpty(state)"> AND state  = #{state} </if>
+            <if test="@Ognl@isNotEmpty(startTime)"> AND start_time  = #{startTime} </if>
+            <if test="@Ognl@isNotEmpty(endTime)"> AND end_time  = #{endTime} </if>
+            <if test="@Ognl@isNotEmpty(checkTime)"> AND end_time  &gt; now() </if>
+            <if test="@Ognl@isNotEmpty(crtime)"> AND crtime  = #{crtime} </if>
+            <if test="@Ognl@isNotEmpty(uptime)"> AND uptime  = #{uptime} </if>
+        </where>
+    </sql>
+    
+    <insert id="insert" parameterType="BizVip">
+        insert into biz_vip(
+         <include refid="columns"/>
+        ) values(
+	    #{id,jdbcType=VARCHAR },#{bizNo,jdbcType=VARCHAR },#{vipType,jdbcType=INTEGER },#{state,jdbcType=INTEGER },#{startTime,jdbcType=TIMESTAMP },#{endTime,jdbcType=TIMESTAMP },#{crtime,jdbcType=TIMESTAMP },#{uptime,jdbcType=TIMESTAMP }
+        )
+    </insert>
+
+    <update id="update" parameterType="BizVip">
+        update biz_vip 
+        <set>
+           <if test="@Ognl@isNotEmpty(bizNo)" >
+            biz_no= #{bizNo,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(vipType)" >
+            vip_type= #{vipType,jdbcType=INTEGER },
+           </if>
+           <if test="@Ognl@isNotEmpty(state)" >
+            state= #{state,jdbcType=INTEGER },
+           </if>
+           <if test="@Ognl@isNotEmpty(startTime)" >
+            start_time= #{startTime,jdbcType=TIMESTAMP },
+           </if>
+           <if test="@Ognl@isNotEmpty(endTime)" >
+            end_time= #{endTime,jdbcType=TIMESTAMP },
+           </if>
+           <if test="@Ognl@isNotEmpty(crtime)" >
+            crtime= #{crtime,jdbcType=TIMESTAMP },
+           </if>
+           <if test="@Ognl@isNotEmpty(uptime)" >
+            uptime= #{uptime,jdbcType=TIMESTAMP },
+           </if>
+       </set>
+          where id =#{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from biz_vip 
+          where id =#{id}
+    </delete>
+
+    <select id="load" parameterType="java.lang.String" resultMap="result_base">
+        select * from biz_vip 
+	          where id =#{id}
+    </select>
+
+    <select id="loadByBizNoAndType" parameterType="map" resultMap="result_base">
+        select * from biz_vip
+	          where   biz_no= #{bizNo} AND  vip_type= #{vipType}
+        <if test="@Ognl@isNotEmpty(checkTime)"> AND end_time  &gt; now() </if>
+    </select>
+
+    <select id="query" parameterType="map" resultMap="result_base">
+        select * from biz_vip
+        <include refid="sql_query_where"/>
+		<if test="@Ognl@isNotEmpty(orderField)">
+		order by ${orderField} ${orderSeq}
+		</if>
+		<if test="@Ognl@isEmpty(orderField)">
+		order by crtime desc
+		</if>
+    </select>
+
+    
+    <select id="count"  parameterType="Map" resultType="Integer">
+        select count(1) from biz_vip
+        <include refid="sql_query_where"/>
+    </select>
+</mapper>

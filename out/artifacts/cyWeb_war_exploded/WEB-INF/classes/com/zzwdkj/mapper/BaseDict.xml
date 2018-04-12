@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BaseDict">
+    <resultMap id="result_base" type="BaseDict">
+        <id property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="type" column="type" jdbcType="VARCHAR"/>
+        <result property="code" column="code" jdbcType="VARCHAR"/>
+        <result property="val" column="val" jdbcType="VARCHAR"/>
+        <result property="seqs" column="seqs" jdbcType="TINYINT"/>
+        <result property="is_parent" column="is_parent" jdbcType="TINYINT"/>
+        <result property="descr" column="descr" jdbcType="VARCHAR"/>
+        <result property="createby" column="createby" jdbcType="VARCHAR"/>
+        <result property="updateby" column="updateby" jdbcType="VARCHAR"/>
+        <result property="createtime" column="createtime" jdbcType="TIMESTAMP"/>
+        <result property="updatetime" column="updatetime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <sql id="columns_without_id">
+        type, code, val, seqs, is_parent, descr, createby, updateby, createtime, updatetime
+    </sql>
+
+    <sql id="columns">
+        id,  type,  code,  val,  seqs,  is_parent,  descr,  createby,  updateby,  createtime,  updatetime
+    </sql>
+
+    <sql id="sql_query_where">
+        <where>
+            <if test="@Ognl@isNotEmpty(id)">AND id = #{id}</if>
+            <if test="@Ognl@isNotEmpty(type)">AND type = #{type}</if>
+            <if test="@Ognl@isNotEmpty(code)">AND code = #{code}</if>
+            <if test="@Ognl@isNotEmpty(val)">AND val = #{val}</if>
+            <if test="@Ognl@isNotEmpty(seqs)">AND seqs = #{seqs}</if>
+            <if test="@Ognl@isNotEmpty(is_parent)">AND is_parent = #{is_parent}</if>
+            <if test="@Ognl@isNotEmpty(descr)">AND descr = #{descr}</if>
+            <if test="@Ognl@isNotEmpty(createby)">AND createby = #{createby}</if>
+            <if test="@Ognl@isNotEmpty(updateby)">AND updateby = #{updateby}</if>
+            <if test="@Ognl@isNotEmpty(createtime)">AND createtime = #{createtime}</if>
+            <if test="@Ognl@isNotEmpty(updatetime)">AND updatetime = #{updatetime}</if>
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="BaseDict">
+        insert into base_dict(
+        <include refid="columns"/>
+        ) values(
+        #{id,jdbcType=VARCHAR },#{type,jdbcType=VARCHAR },#{code,jdbcType=VARCHAR },#{val,jdbcType=VARCHAR },#{seqs,jdbcType=TINYINT },#{is_parent,jdbcType=TINYINT },#{descr,jdbcType=VARCHAR },#{createby,jdbcType=VARCHAR },#{updateby,jdbcType=VARCHAR },#{createtime,jdbcType=TIMESTAMP },#{updatetime,jdbcType=TIMESTAMP }
+        )
+    </insert>
+
+    <update id="update" parameterType="BaseDict">
+        update base_dict
+        <set>
+            <if test="@Ognl@isNotEmpty(type)">
+                type= #{type,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(code)">
+                code= #{code,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(val)">
+                val= #{val,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(seqs)">
+                seqs= #{seqs,jdbcType=TINYINT },
+            </if>
+            <if test="@Ognl@isNotEmpty(is_parent)">
+                is_parent= #{is_parent,jdbcType=TINYINT },
+            </if>
+            <if test="@Ognl@isNotEmpty(descr)">
+                descr= #{descr,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(createby)">
+                createby= #{createby,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(updateby)">
+                updateby= #{updateby,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(createtime)">
+                createtime= #{createtime,jdbcType=TIMESTAMP },
+            </if>
+            <if test="@Ognl@isNotEmpty(updatetime)">
+                updatetime= #{updatetime,jdbcType=TIMESTAMP },
+            </if>
+        </set>
+        where id =#{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from base_dict 
+          where id =#{id}
+    </delete>
+
+    <select id="load" parameterType="java.lang.String" resultMap="result_base">
+        select * from base_dict 
+	          where id =#{id}
+    </select>
+
+    <select id="query" parameterType="map" resultMap="result_base">
+        select * from base_dict
+        <include refid="sql_query_where"/>
+        <if test="@Ognl@isNotEmpty(orderField)">
+            order by ${orderField} ${orderSeq}
+        </if>
+        <if test="@Ognl@isEmpty(orderField)">
+            order by seqs asc
+        </if>
+    </select>
+
+    <select id="selectBaseDictByDictType" parameterType="String" resultMap="result_base">
+         select * from base_dict where type = #{dictType} and is_parent = 0 order by seqs asc
+    </select>
+
+
+    <select id="count" parameterType="Map" resultType="Integer">
+        select count(1) from base_dict
+        <include refid="sql_query_where"/>
+    </select>
+</mapper>

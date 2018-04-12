@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- biz_wx: 商家_微信-->
+<mapper namespace="BizWx">
+    <resultMap id="result_base" type="BizWx">
+        <id property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="bizNo" column="biz_no" jdbcType="VARCHAR"/>
+        <result property="templateId" column="template_id" jdbcType="VARCHAR"/>
+        <result property="appId" column="app_id" jdbcType="VARCHAR"/>
+        <result property="appSkey" column="app_skey" jdbcType="VARCHAR"/>
+        <result property="pubAcctId" column="pub_acct_id" jdbcType="VARCHAR"/>
+        <result property="bizNum" column="biz_num" jdbcType="VARCHAR"/>
+        <result property="apiSkey" column="api_skey" jdbcType="VARCHAR"/>
+        <result property="apiCertSkey" column="api_cert_skey" jdbcType="VARCHAR"/>
+        <result property="giroFee" column="giro_fee" jdbcType="DECIMAL" />
+        <result property="giroQuota" column="giro_quota" jdbcType="DECIMAL" />
+        <result property="focus" column="focus" jdbcType="INTEGER"/>
+        <result property="state" column="state" jdbcType="INTEGER"/>
+        <result property="optor" column="optor" jdbcType="VARCHAR"/>
+        <result property="crtime" column="crtime" jdbcType="TIMESTAMP"/>
+        <result property="uptime" column="uptime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <sql id="columns">
+	     id,  biz_no,template_id,  app_id,  app_skey,  pub_acct_id,  biz_num,  api_skey,  api_cert,  api_cert_skey, giro_fee,  giro_quota, focus,  state,  optor,  crtime,  uptime
+	</sql>
+
+    <sql id="sql_query_where">
+        <where>
+            <if test="@Ognl@isNotEmpty(id)">AND id = #{id}</if>
+            <if test="@Ognl@isNotEmpty(bizNo)">AND biz_no = #{bizNo}</if>
+            <if test="@Ognl@isNotEmpty(templateId)">AND template_id = #{templateId}</if>
+            <if test="@Ognl@isNotEmpty(appId)">AND app_id = #{appId}</if>
+            <if test="@Ognl@isNotEmpty(appSkey)">AND app_skey = #{appSkey}</if>
+            <if test="@Ognl@isNotEmpty(pubAcctId)">AND pub_acct_id = #{pubAcctId}</if>
+            <if test="@Ognl@isNotEmpty(bizNum)">AND biz_num = #{bizNum}</if>
+            <if test="@Ognl@isNotEmpty(apiSkey)">AND api_skey = #{apiSkey}</if>
+            <if test="@Ognl@isNotEmpty(apiCert)">AND api_cert = #{apiCert}</if>
+            <if test="@Ognl@isNotEmpty(apiCertSkey)">AND api_cert_skey = #{apiCertSkey}</if>
+            <if test="@Ognl@isNotEmpty(giroFee)"> AND giro_fee  = #{giroFee} </if>
+            <if test="@Ognl@isNotEmpty(giroQuota)"> AND giro_quota  = #{giroQuota} </if>
+            <if test="@Ognl@isNotEmpty(focus)">AND focus = #{focus}</if>
+            <if test="@Ognl@isNotEmpty(state)">AND state = #{state}</if>
+            <if test="@Ognl@isNotEmpty(optor)">AND optor = #{optor}</if>
+            <if test="@Ognl@isNotEmpty(crtime)">AND crtime = #{crtime}</if>
+            <if test="@Ognl@isNotEmpty(uptime)">AND uptime = #{uptime}</if>
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="BizWx">
+        insert into biz_wx(
+        <include refid="columns"/>
+        ) values(
+        #{id,jdbcType=VARCHAR },#{bizNo,jdbcType=VARCHAR },#{templateId,jdbcType=VARCHAR },#{appId,jdbcType=VARCHAR },#{appSkey,jdbcType=VARCHAR },#{pubAcctId,jdbcType=VARCHAR },#{bizNum,jdbcType=VARCHAR },#{apiSkey,jdbcType=VARCHAR },#{apiCert,jdbcType=BLOB },#{apiCertSkey,jdbcType=VARCHAR },#{giroFee,jdbcType=DECIMAL },#{giroQuota,jdbcType=DECIMAL },#{focus,jdbcType=INTEGER },#{state,jdbcType=INTEGER },#{optor,jdbcType=VARCHAR },#{crtime,jdbcType=TIMESTAMP },#{uptime,jdbcType=TIMESTAMP }
+        )
+    </insert>
+
+    <update id="update" parameterType="BizWx">
+        update biz_wx
+        <set>
+            <if test="@Ognl@isNotEmpty(bizNo)">
+                biz_no= #{bizNo,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(templateId)">
+                template_id= #{templateId,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(appId)">
+                app_id= #{appId,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(appSkey)">
+                app_skey= #{appSkey,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(pubAcctId)">
+                pub_acct_id= #{pubAcctId,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(bizNum)">
+                biz_num= #{bizNum,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(apiSkey)">
+                api_skey= #{apiSkey,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(apiCert)">
+                api_cert= #{apiCert,jdbcType=BLOB },
+            </if>
+            <if test="@Ognl@isNotEmpty(apiCertSkey)">
+                api_cert_skey= #{apiCertSkey,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(giroFee)" >
+                giro_fee= #{giroFee,jdbcType=DECIMAL },
+            </if>
+            <if test="@Ognl@isNotEmpty(giroQuota)" >
+                giro_quota= #{giroQuota,jdbcType=DECIMAL },
+            </if>
+            <if test="@Ognl@isNotEmpty(focus)">
+                focus= #{focus,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(state)">
+                state= #{state,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(optor)">
+                optor= #{optor,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(crtime)">
+                crtime= #{crtime,jdbcType=TIMESTAMP },
+            </if>
+            <if test="@Ognl@isNotEmpty(uptime)">
+                uptime= #{uptime,jdbcType=TIMESTAMP },
+            </if>
+        </set>
+        where id =#{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from biz_wx 
+          where id =#{id}
+    </delete>
+
+    <update id="removeCertSkey" parameterType="string">
+        update biz_wx set api_cert = null, optor=#{acct}, uptime =now() where biz_no = #{bizNo}
+    </update>
+
+    <select id="load" parameterType="java.lang.String" resultMap="result_base">
+        select * from biz_wx 
+	          where id =#{id}
+    </select>
+
+    <select id="query" parameterType="map" resultMap="result_base">
+        select * from biz_wx
+        <include refid="sql_query_where"/>
+        <if test="@Ognl@isNotEmpty(orderField)">
+            order by ${orderField} ${orderSeq}
+        </if>
+        <if test="@Ognl@isEmpty(orderField)">
+            order by crtime desc
+        </if>
+    </select>
+
+    <select id="loadByOrdNo" parameterType="map" resultMap="result_base">
+        select * from biz_wx LEFT JOIN ord_pay_wx ON biz_wx.biz_num=ord_pay_wx.resv_acct
+        WHERE
+            ord_pay_wx.payno= #{ordno}
+    </select>
+
+
+    <select id="loadByBizNumAndBizNo" parameterType="map" resultMap="result_base">
+        select * from biz_wx
+        WHERE
+            biz_wx.biz_num= #{bizNum}
+            AND
+            biz_wx.biz_no= #{bizNo}
+    </select>
+
+    <select id="loadByGprsNo" parameterType="map" resultMap="result_base">
+        select * from biz_wx LEFT JOIN biz_gprs_bind ON biz_wx.biz_no=biz_gprs_bind.biz_no
+        WHERE
+        <if test="@Ognl@isNotEmpty(gprsNo)">
+            biz_gprs_bind.gprs_no= #{gprsNo,jdbcType=VARCHAR }
+        </if>
+        <if test="@Ognl@isNotEmpty(orderField)">
+            order by ${orderField} ${orderSeq}
+        </if>
+        <if test="@Ognl@isEmpty(orderField)">
+            order by biz_wx.crtime desc
+        </if>
+    </select>
+
+
+    <select id="count" parameterType="Map" resultType="Integer">
+        select count(1) from biz_wx
+        <include refid="sql_query_where"/>
+    </select>
+</mapper>

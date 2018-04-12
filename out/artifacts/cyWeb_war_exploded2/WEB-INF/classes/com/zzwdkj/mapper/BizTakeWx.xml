@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<!-- biz_take_wx: 商家_提现_微信自动转账-->
+<mapper namespace="BizTakeWx">
+    <resultMap id="result_base" type="BizTakeWx">
+         	<id property="id" column="id" jdbcType="VARCHAR"/>
+         	<result property="bizNo" column="biz_no" jdbcType="VARCHAR" />
+            <result property="nick" column="nick" jdbcType="VARCHAR" />
+         	<result property="openid" column="openid" jdbcType="VARCHAR" />
+            <result property="state" column="state" jdbcType="INTEGER"/>
+            <result property="crtime" column="crtime" jdbcType="TIMESTAMP" />
+         	<result property="uptime" column="uptime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+
+	<sql id="columns">
+	     id,  biz_no, nick, openid, state,crtime,  uptime
+	</sql>
+
+    <sql id="sql_query_where">
+		<where>
+            <if test="@Ognl@isNotEmpty(id)"> AND id  = #{id} </if>
+            <if test="@Ognl@isNotEmpty(bizNo)"> AND biz_no  = #{bizNo} </if>
+            <if test="@Ognl@isNotEmpty(nick)"> AND nick  = #{nick} </if>
+            <if test="@Ognl@isNotEmpty(openid)"> AND openid  = #{openid} </if>
+            <if test="@Ognl@isNotEmpty(state)">AND state = #{state}</if>
+            <if test="@Ognl@isNotEmpty(crtime)"> AND crtime  = #{crtime} </if>
+            <if test="@Ognl@isNotEmpty(uptime)"> AND uptime  = #{uptime} </if>
+        </where>
+    </sql>
+    
+    <insert id="insert" parameterType="BizTakeWx">
+        insert into biz_take_wx(
+         <include refid="columns"/>
+        ) values(
+	    #{id,jdbcType=VARCHAR },#{bizNo,jdbcType=VARCHAR },#{nick,jdbcType=VARCHAR },#{openid,jdbcType=VARCHAR },#{state,jdbcType=INTEGER },#{crtime,jdbcType=TIMESTAMP },#{uptime,jdbcType=TIMESTAMP }
+        )
+    </insert>
+
+    <update id="update" parameterType="BizTakeWx">
+        update biz_take_wx 
+        <set>
+           <if test="@Ognl@isNotEmpty(bizNo)" >
+            biz_no= #{bizNo,jdbcType=VARCHAR },
+           </if>
+            <if test="@Ognl@isNotEmpty(nick)" >
+                nick= #{nick,jdbcType=VARCHAR },
+            </if>
+           <if test="@Ognl@isNotEmpty(openid)" >
+            openid= #{openid,jdbcType=VARCHAR },
+           </if>
+            <if test="@Ognl@isNotEmpty(state)">
+                state= #{state,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(crtime)" >
+                crtime= #{crtime,jdbcType=TIMESTAMP },
+            </if>
+           <if test="@Ognl@isNotEmpty(uptime)" >
+            uptime= #{uptime,jdbcType=TIMESTAMP },
+           </if>
+       </set>
+          where id =#{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from biz_take_wx 
+          where id =#{id}
+    </delete>
+
+    <select id="load" parameterType="java.lang.String" resultMap="result_base">
+        select * from biz_take_wx 
+	          where id =#{id}
+    </select>
+
+    <select id="loadByBizNo" parameterType="java.lang.String" resultMap="result_base">
+        select * from biz_take_wx
+        where biz_no =#{bizNo}
+    </select>
+
+    <select id="query" parameterType="map" resultMap="result_base">
+        select * from biz_take_wx
+        <include refid="sql_query_where"/>
+		<if test="@Ognl@isNotEmpty(orderField)">
+		order by ${orderField} ${orderSeq}
+		</if>
+		<if test="@Ognl@isEmpty(orderField)">
+		order by crtime desc
+		</if>
+    </select>
+
+    
+    <select id="count"  parameterType="Map" resultType="Integer">
+        select count(1) from biz_take_wx
+        <include refid="sql_query_where"/>
+    </select>
+</mapper>

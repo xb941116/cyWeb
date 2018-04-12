@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<!-- mbr_pay: 客户_支付记录表-->
+<mapper namespace="MbrPay">
+    <resultMap id="result_base" type="MbrPay">
+         	<id property="id" column="id" jdbcType="VARCHAR"/>
+         	<result property="ordno" column="ordno" jdbcType="VARCHAR" />
+         	<result property="memberId" column="member_id" jdbcType="VARCHAR" />
+         	<result property="money" column="money" jdbcType="DECIMAL" />
+         	<result property="realMoney" column="real_money" jdbcType="DECIMAL" />
+         	<result property="time" column="time" jdbcType="TIMESTAMP" />
+         	<result property="payWay" column="pay_way" jdbcType="INTEGER" />
+         	<result property="payno" column="payno" jdbcType="VARCHAR" />
+         	<result property="crtime" column="crtime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+
+	<sql id="columns">
+	     id,  ordno,  member_id,  money,  real_money,  time,  pay_way,  payno,  crtime 
+	</sql>
+
+    <sql id="sql_query_where">
+		<where>
+            <if test="@Ognl@isNotEmpty(id)"> AND id  = #{id} </if>
+            <if test="@Ognl@isNotEmpty(ordno)"> AND ordno  = #{ordno} </if>
+            <if test="@Ognl@isNotEmpty(memberId)"> AND member_id  = #{memberId} </if>
+            <if test="@Ognl@isNotEmpty(money)"> AND money  = #{money} </if>
+            <if test="@Ognl@isNotEmpty(realMoney)"> AND real_money  = #{realMoney} </if>
+            <if test="@Ognl@isNotEmpty(time)"> AND time  = #{time} </if>
+            <if test="@Ognl@isNotEmpty(payWay)"> AND pay_way  = #{payWay} </if>
+            <if test="@Ognl@isNotEmpty(payno)"> AND payno  = #{payno} </if>
+            <if test="@Ognl@isNotEmpty(crtime)"> AND crtime  = #{crtime} </if>
+        </where>
+    </sql>
+    
+    <insert id="insert" parameterType="MbrPay">
+        insert into mbr_pay(
+         <include refid="columns"/>
+        ) values(
+	    #{id,jdbcType=VARCHAR },#{ordno,jdbcType=VARCHAR },#{memberId,jdbcType=VARCHAR },#{money,jdbcType=DECIMAL },#{realMoney,jdbcType=DECIMAL },#{time,jdbcType=TIMESTAMP },#{payWay,jdbcType=INTEGER },#{payno,jdbcType=VARCHAR },#{crtime,jdbcType=TIMESTAMP }
+        )
+    </insert>
+
+    <update id="update" parameterType="MbrPay">
+        update mbr_pay 
+        <set>
+           <if test="@Ognl@isNotEmpty(ordno)" >
+            ordno= #{ordno,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(memberId)" >
+            member_id= #{memberId,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(money)" >
+            money= #{money,jdbcType=DECIMAL },
+           </if>
+           <if test="@Ognl@isNotEmpty(realMoney)" >
+            real_money= #{realMoney,jdbcType=DECIMAL },
+           </if>
+           <if test="@Ognl@isNotEmpty(time)" >
+            time= #{time,jdbcType=TIMESTAMP },
+           </if>
+           <if test="@Ognl@isNotEmpty(payWay)" >
+            pay_way= #{payWay,jdbcType=INTEGER },
+           </if>
+           <if test="@Ognl@isNotEmpty(payno)" >
+            payno= #{payno,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(crtime)" >
+            crtime= #{crtime,jdbcType=TIMESTAMP },
+           </if>
+       </set>
+          where id =#{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from mbr_pay 
+          where id =#{id}
+    </delete>
+
+    <select id="load" parameterType="java.lang.String" resultMap="result_base">
+        select * from mbr_pay 
+	          where id =#{id}
+    </select>
+
+    <select id="query" parameterType="map" resultMap="result_base">
+        select * from mbr_pay
+        <include refid="sql_query_where"/>
+		<if test="@Ognl@isNotEmpty(orderField)">
+		order by ${orderField} ${orderSeq}
+		</if>
+		<if test="@Ognl@isEmpty(orderField)">
+		order by crtime desc
+		</if>
+    </select>
+
+    
+    <select id="count"  parameterType="Map" resultType="Integer">
+        select count(1) from mbr_pay
+        <include refid="sql_query_where"/>
+    </select>
+</mapper>

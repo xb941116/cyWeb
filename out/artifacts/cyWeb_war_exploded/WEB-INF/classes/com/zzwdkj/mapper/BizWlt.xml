@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<!-- plat_wlt: 商家_钱包-->
+<mapper namespace="BizWlt">
+    <resultMap id="result_base" type="BizWlt">
+        <id property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="bizNo" column="biz_no" jdbcType="VARCHAR"/>
+        <result property="cashPool" column="cash_pool" jdbcType="DECIMAL"/>
+        <result property="totalOut" column="total_out" jdbcType="DECIMAL"/>
+        <result property="take" column="take" jdbcType="DECIMAL"/>
+        <result property="crtime" column="crtime" jdbcType="TIMESTAMP"/>
+        <result property="uptime" column="uptime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <sql id="columns">
+	     id,  biz_no,  cash_pool,  total_out,take,  crtime,  uptime
+	</sql>
+
+    <sql id="sql_query_where">
+        <where>
+            <if test="@Ognl@isNotEmpty(id)">AND id = #{id}</if>
+            <if test="@Ognl@isNotEmpty(bizNo)">AND biz_no = #{bizNo}</if>
+            <if test="@Ognl@isNotEmpty(cashPool)">AND cash_pool = #{cashPool}</if>
+            <if test="@Ognl@isNotEmpty(totalOut)">AND total_out = #{totalOut}</if>
+            <if test="@Ognl@isNotEmpty(crtime)">AND crtime = #{crtime}</if>
+            <if test="@Ognl@isNotEmpty(uptime)">AND uptime = #{uptime}</if>
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="BizWlt">
+        insert into biz_wlt(
+        <include refid="columns"/>
+        ) values(
+        #{id,jdbcType=VARCHAR },#{bizNo,jdbcType=VARCHAR },#{cashPool,jdbcType=DECIMAL },#{totalOut,jdbcType=DECIMAL },#{cashPool,jdbcType=DECIMAL },#{crtime,jdbcType=TIMESTAMP },#{uptime,jdbcType=TIMESTAMP }
+        )
+    </insert>
+
+    <update id="update" parameterType="BizWlt">
+        update biz_wlt
+        <set>
+            <if test="@Ognl@isNotEmpty(bizNo)">
+                biz_no= #{bizNo,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(cashPool)">
+                cash_pool= #{cashPool,jdbcType=DECIMAL },
+            </if>
+            <if test="@Ognl@isNotEmpty(totalOut)">
+                total_out= #{totalOut,jdbcType=DECIMAL },
+            </if>
+            <if test="@Ognl@isNotEmpty(take)">
+                take = #{take,jdbcType=DECIMAL },
+            </if>
+            <if test="@Ognl@isNotEmpty(crtime)">
+                crtime= #{crtime,jdbcType=TIMESTAMP },
+            </if>
+            <if test="@Ognl@isNotEmpty(uptime)">
+                uptime= #{uptime,jdbcType=TIMESTAMP },
+            </if>
+        </set>
+        where id =#{id}
+    </update>
+
+    <update id="updateBizWltTakeAdd" parameterType="map">
+        update biz_wlt set cash_pool = cash_pool + #{take},take = take + #{take},uptime =now() where biz_no = #{bizNo}
+    </update>
+
+    <update id="updateBizWltAdd" parameterType="map">
+        update biz_wlt set cash_pool = cash_pool + #{take},uptime =now() where biz_no = #{bizNo}
+    </update>
+
+    <update id="updateBizWltTakeReduce" parameterType="map">
+        update biz_wlt set cash_pool = cash_pool - #{take},take = take - #{take},uptime =now() where biz_no = #{bizNo} and (take - #{take})>=0
+    </update>
+
+    <update id="updateTake" parameterType="map">
+        update biz_wlt set take = take - #{take},uptime =now() where biz_no = #{bizNo} and (take - #{take}-#{autoMoney})>=0
+    </update>
+
+    <update id="updateTakeAddTake" parameterType="map">
+        update biz_wlt set take = take + #{take},uptime =now() where biz_no = #{bizNo}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from biz_wlt 
+          where id =#{id}
+    </delete>
+
+    <select id="load" parameterType="java.lang.String" resultMap="result_base">
+        select * from biz_wlt 
+	          where id =#{id}
+    </select>
+
+    <select id="loadBizWltByBizNo" parameterType="string" resultMap="result_base">
+        select * from biz_wlt where biz_no = #{bizNo}
+    </select>
+
+    <select id="query" parameterType="map" resultMap="result_base">
+        select * from biz_wlt
+        <include refid="sql_query_where"/>
+        <if test="@Ognl@isNotEmpty(orderField)">
+            order by ${orderField} ${orderSeq}
+        </if>
+        <if test="@Ognl@isEmpty(orderField)">
+            order by crtime desc
+        </if>
+    </select>
+
+
+    <select id="count" parameterType="Map" resultType="Integer">
+        select count(1) from biz_wlt
+        <include refid="sql_query_where"/>
+    </select>
+</mapper>

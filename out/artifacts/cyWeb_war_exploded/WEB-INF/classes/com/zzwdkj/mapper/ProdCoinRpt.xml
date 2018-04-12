@@ -1,0 +1,492 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- prod_coin_rpt: 产品_投币上报表-->
+<mapper namespace="ProdCoinRpt">
+    <resultMap id="result_base" type="ProdCoinRpt">
+        <id property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="bizNo" column="biz_no" jdbcType="VARCHAR"/>
+        <result property="prodNo" column="prod_no" jdbcType="VARCHAR"/>
+        <result property="devType" column="dev_type" jdbcType="INTEGER"/>
+        <result property="money" column="money" jdbcType="DECIMAL"/>
+        <result property="totalMoney" column="total_money" jdbcType="DECIMAL"/>
+        <result property="isErrorRpt" column="is_error_rpt" jdbcType="TINYINT"/>
+        <result property="payWay" column="pay_way" jdbcType="INTEGER"/>
+        <result property="crtime" column="crtime" jdbcType="TIMESTAMP"/>
+        <result property="uptime" column="uptime" jdbcType="TIMESTAMP"/>
+        <result property="pos" column="pos" jdbcType="VARCHAR"/>
+        <result property="addr" column="addr" jdbcType="VARCHAR"/>
+        <result property="gprsNo" column="gprs_no" jdbcType="VARCHAR"/>
+        <result property="provName" column="prov_name" jdbcType="VARCHAR"/>
+        <result property="cityName" column="city_name" jdbcType="VARCHAR"/>
+        <result property="distName" column="dist_name" jdbcType="VARCHAR"/>
+
+        <result property="cardInc" column="cardInc" jdbcType="DECIMAL"/>
+        <result property="coinInc" column="coinInc" jdbcType="DECIMAL"/>
+
+    </resultMap>
+
+
+    <sql id="columns">
+	     id, biz_no, prod_no,dev_type,money,total_money,is_error_rpt, pay_way, crtime, uptime
+	</sql>
+
+    <sql id="sql_query_where">
+        <where>
+            <if test="@Ognl@isNotEmpty(id)">AND id = #{id}</if>
+            <if test="@Ognl@isNotEmpty(bizNo)">AND biz_no = #{bizNo}</if>
+            <if test="@Ognl@isNotEmpty(prodNo)">AND prod_no = #{prodNo}</if>
+            <if test="@Ognl@isNotEmpty(devType)">AND dev_type = #{devType}</if>
+            <if test="@Ognl@isNotEmpty(money)">AND money = #{money}</if>
+            <if test="@Ognl@isNotEmpty(payWay)">AND pay_way = #{payWay}</if>
+            <if test="@Ognl@isNotEmpty(crtime)">AND crtime = #{crtime}</if>
+            <if test="@Ognl@isNotEmpty(uptime)">AND uptime = #{uptime}</if>
+        </where>
+    </sql>
+    <select id="queryStaEveryTb" parameterType="string" resultMap="result_base">
+        select crtime,SUM(MONEY) as money from (select MONEY,BIZ_NO,CRTIME from  prod_coin_rpt   where DATE_SUB(CURDATE(), INTERVAL 29 DAY) &lt;= crtime AND PAY_WAY =5 group by crtime)  aa
+        where BIZ_NO = #{biz_no} and DATE_FORMAT(CRTIME,'%Y-%m-%d')
+        GROUP BY DATE_FORMAT(CRTIME,'%Y-%m-%d')
+    </select>
+
+    <select id="queryStaEverySk" parameterType="string" resultMap="result_base">
+        select crtime,SUM(MONEY) as money from (select MONEY,BIZ_NO,CRTIME from  prod_coin_rpt   where DATE_SUB(CURDATE(), INTERVAL 29 DAY) &lt;= crtime AND PAY_WAY =6 group by crtime)  aa
+        where BIZ_NO = #{biz_no} and DATE_FORMAT(CRTIME,'%Y-%m-%d')
+        GROUP BY DATE_FORMAT(CRTIME,'%Y-%m-%d')
+    </select>
+
+    <insert id="insert" parameterType="ProdCoinRpt">
+        insert into prod_coin_rpt(
+        <include refid="columns"/>
+        ) values(
+        #{id,jdbcType=VARCHAR },#{bizNo,jdbcType=VARCHAR },#{prodNo,jdbcType=VARCHAR },#{devType,jdbcType=INTEGER },#{money,jdbcType=DECIMAL },#{totalMoney,jdbcType=DECIMAL },#{isErrorRpt,jdbcType=TINYINT },#{payWay,jdbcType=INTEGER },#{crtime,jdbcType=TIMESTAMP },#{uptime,jdbcType=TIMESTAMP }
+        )
+    </insert>
+
+    <update id="update" parameterType="ProdCoinRpt">
+        update prod_coin_rpt
+        <set>
+            <if test="@Ognl@isNotEmpty(bizNo)">
+                biz_no = #{bizNo,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(prodNo)">
+                prod_no = #{prodNo,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(devType)">
+                dev_type = #{devType,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(money)">
+                money = #{money,jdbcType=DECIMAL },
+            </if>
+            <if test="@Ognl@isNotEmpty(totalMoney)">
+                total_money = #{totalMoney,jdbcType=DECIMAL },
+            </if>
+            <if test="@Ognl@isNotEmpty(isErrorRpt)">
+                is_error_rpt = #{isErrorRpt,jdbcType=TINYINT },
+            </if>
+            <if test="@Ognl@isNotEmpty(payWay)">
+                pay_way = #{payWay,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(crtime)">
+                crtime = #{crtime,jdbcType=TIMESTAMP },
+            </if>
+            <if test="@Ognl@isNotEmpty(uptime)">
+                uptime= #{uptime,jdbcType=TIMESTAMP },
+            </if>
+        </set>
+        where id =#{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from prod_coin_rpt
+          where id =#{id}
+    </delete>
+
+    <select id="load" parameterType="java.lang.String" resultMap="result_base">
+        select * from prod_coin_rpt
+	          where id =#{id}
+    </select>
+
+    <select id="query" parameterType="map" resultMap="result_base">
+        select * from prod_coin_rpt
+        <include refid="sql_query_where"/>
+        <if test="@Ognl@isNotEmpty(orderField)">
+            order by ${orderField} ${orderSeq}
+        </if>
+        <if test="@Ognl@isEmpty(orderField)">
+            order by crtime desc
+        </if>
+    </select>
+
+
+    <select id="queryProdCoinRpt" parameterType="map" resultMap="result_base">
+        select * from prod_coin_rpt where prod_no = #{prodNo} and biz_no = #{bizNo}
+    </select>
+
+    <select id="queryStaCoinInc" parameterType="string" resultMap="result_base">
+        select sum(money) as money from prod_coin_rpt where biz_no = #{bizNo} and pay_way =5
+        <if test="@Ognl@isNotEmpty(type)">
+            and dev_type = #{type}
+        </if>
+        group by biz_no
+    </select>
+
+    <select id="queryStaCoinIncByProdNo" parameterType="string" resultMap="result_base">
+        select sum(money) as money from prod_coin_rpt where prod_no = #{prodNo} and pay_way =5 group by prod_no
+    </select>
+
+    <!-- 刷卡统计-->
+    <select id="queryStaCardInc" parameterType="map" resultMap="result_base">
+        select sum(money) as money from prod_coin_rpt where biz_no = #{bizNo}
+        and pay_way =6
+        <if test="@Ognl@isNotEmpty(type)">
+            and dev_type = #{type}
+        </if>
+        group by biz_no
+    </select>
+
+    <select id="queryStaCardIncByProdNo" parameterType="string" resultMap="result_base">
+        select sum(money) as money from prod_coin_rpt where prod_no = #{prodNo} and pay_way =6 group by prod_no
+    </select>
+
+    <!-- 刷卡日统计-->
+    <select id="queryStaDayCardInc" parameterType="map" resultMap="result_base">
+        select sum(money) as money from prod_coin_rpt where biz_no = #{bizNo}
+        and TO_DAYS(uptime)= TO_DAYS(now()) and pay_way =6
+        <if test="@Ognl@isNotEmpty(type)">
+            and dev_type = #{type}
+        </if>
+        group by biz_no
+    </select>
+
+    <select id="queryStaDayCardIncByProdNo" parameterType="string" resultMap="result_base">
+        select sum(money) as money from prod_coin_rpt where prod_no = #{prodNo}
+        and TO_DAYS(uptime)= TO_DAYS(now()) and pay_way =6 group by prod_no
+    </select>
+
+    <!-- 刷卡周统计-->
+    <select id="queryStaWeekCardInc" parameterType="map" resultMap="result_base">
+        select sum(money) as money from prod_coin_rpt where biz_no = #{bizNo}
+        and TO_DAYS(uptime) &gt;= TO_DAYS(#{mondayOfThisWeek}) and pay_way =6
+        <if test="@Ognl@isNotEmpty(type)">
+            and dev_type = #{type}
+        </if>
+        group by biz_no
+    </select>
+
+    <select id="queryStaWeekCardIncByProdNo" parameterType="map" resultMap="result_base">
+        select sum(money) as money from prod_coin_rpt where prod_no = #{prodNo}
+        and  TO_DAYS(uptime) &gt;= TO_DAYS(#{mondayOfThisWeek}) and pay_way =6 group by prod_no
+    </select>
+
+    <!-- 刷卡月统计-->
+    <select id="queryStaMonthCardInc" parameterType="map" resultMap="result_base">
+        select sum(money) as money from prod_coin_rpt where biz_no = #{bizNo}
+        and DATE_FORMAT(uptime, '%Y%m') = DATE_FORMAT(CURDATE() , '%Y%m') and pay_way =6
+        <if test="@Ognl@isNotEmpty(type)">
+            and dev_type = #{type}
+        </if>
+        group by biz_no
+    </select>
+
+    <select id="queryStaMonthCardIncByProdNo" parameterType="string" resultMap="result_base">
+        select sum(money) as money from prod_coin_rpt where prod_no = #{prodNo}
+        and DATE_FORMAT(uptime, '%Y%m') = DATE_FORMAT(CURDATE() , '%Y%m') and pay_way =6 group by prod_no
+    </select>
+
+    <!-- 投币日统计-->
+    <select id="queryStaDayCoinInc" parameterType="map" resultMap="result_base">
+        select sum(money) as money from prod_coin_rpt where biz_no = #{bizNo}
+        and TO_DAYS(uptime)= TO_DAYS(now()) and pay_way =5
+        <if test="@Ognl@isNotEmpty(type)">
+            and dev_type = #{type}
+        </if>
+        group by biz_no
+    </select>
+
+    <select id="queryStaDayCoinIncByProdNo" parameterType="string" resultMap="result_base">
+        select sum(money) as money from prod_coin_rpt where prod_no = #{prodNo}
+        and TO_DAYS(uptime)= TO_DAYS(now()) and pay_way =5 group by prod_no
+    </select>
+    <!-- 投币周统计-->
+    <select id="queryStaWeekCoinInc" parameterType="map" resultMap="result_base">
+        select sum(money) as money from prod_coin_rpt where biz_no = #{bizNo}
+        and TO_DAYS(uptime) &gt;= TO_DAYS(#{mondayOfThisWeek}) and pay_way =5
+        <if test="@Ognl@isNotEmpty(type)">
+            and dev_type = #{type}
+        </if>
+        group by biz_no
+    </select>
+
+    <select id="queryStaWeekCoinIncByProdNo" parameterType="map" resultMap="result_base">
+        select sum(money) as money from prod_coin_rpt where prod_no = #{prodNo}
+        and TO_DAYS(uptime) &gt;= TO_DAYS(#{mondayOfThisWeek}) and pay_way =5 group by prod_no
+    </select>
+
+    <!-- 投币月统计-->
+    <select id="queryStaMonthCoinInc" parameterType="map" resultMap="result_base">
+        select sum(money) as money from prod_coin_rpt where biz_no = #{bizNo}
+        and DATE_FORMAT(uptime, '%Y%m') = DATE_FORMAT(CURDATE() , '%Y%m') and pay_way =5
+        <if test="@Ognl@isNotEmpty(type)">
+            and dev_type = #{type}
+        </if>
+        group by biz_no
+    </select>
+
+
+    <select id="queryStaMonthCoinIncByProdNo" parameterType="string" resultMap="result_base">
+        select sum(money) as money from prod_coin_rpt where prod_no = #{prodNo}
+        and DATE_FORMAT(uptime, '%Y%m') = DATE_FORMAT(CURDATE() , '%Y%m') and pay_way =5 group by prod_no
+    </select>
+
+    <select id="queryStaIncByProdNo" parameterType="string" resultMap="result_base">
+        select sum(money) as money from prod_coin_rpt where prod_no = #{prodNo} group by prod_no
+    </select>
+
+    <select id="queryStaPeriodCoinInc" parameterType="map" resultMap="result_base">
+        select sum(money) as money from prod_coin_rpt where biz_no = #{bizNo}
+        and DATE_FORMAT(uptime, '%Y%m%d') &gt;= #{beginDate} and DATE_FORMAT(uptime, '%Y%m%d') &lt;= #{endDate}
+        and pay_way =5
+        <if test="@Ognl@isNotEmpty(type)">
+            and dev_type = #{type}
+        </if>
+        group by biz_no
+    </select>
+
+    <select id="queryStaPeriodCoinIncByProdNo" parameterType="map" resultMap="result_base">
+        select sum(money) as money from prod_coin_rpt where prod_no = #{prodNo}
+        and DATE_FORMAT(uptime, '%Y%m%d') &gt;= #{beginDate} and DATE_FORMAT(uptime, '%Y%m%d') &lt;= #{endDate} and pay_way =5 group by prod_no
+    </select>
+
+    <select id="queryStaPeriodCardInc" parameterType="map" resultMap="result_base">
+        select sum(money) as money from prod_coin_rpt
+        where biz_no = #{bizNo}
+        and DATE_FORMAT(uptime, '%Y%m%d') &gt;= #{beginDate} and DATE_FORMAT(uptime, '%Y%m%d') &lt;= #{endDate}
+        and pay_way =6
+        <if test="@Ognl@isNotEmpty(type)">
+            and dev_type = #{type}
+        </if>
+        group by biz_no
+    </select>
+
+
+    <select id="loadLastedProdCoinRpt" parameterType="map" resultMap="result_base">
+        select * from prod_coin_rpt where prod_no =#{prodNo} and pay_way=#{payWay} and biz_no = #{bizNo} ORDER BY CRTIME desc limit 1
+    </select>
+
+    <select id="loadStaPeriodTotalIncWithPerPayWay" parameterType="map" resultMap="result_base">
+        SELECT
+        sum(
+        case pay_way when 5 then money else 0.00 end
+        ) AS coinInc,
+        sum(
+        case pay_way when 6 then money else 0.00 end
+        ) AS cardInc
+        from prod_coin_rpt
+        where biz_no = #{bizNo}
+        and DATE_FORMAT(uptime, '%Y%m%d') &gt;= #{beginDate} and DATE_FORMAT(uptime, '%Y%m%d') &lt;= #{endDate}
+        <if test="@Ognl@isNotEmpty(type)">
+            and dev_type = #{type}
+        </if>
+        group by biz_no
+    </select>
+
+    <select id="loadStaTotalIncWithPerPayWay" parameterType="map" resultMap="result_base">
+        SELECT
+        sum(
+        case pay_way when 5 then money else 0.00 end
+        ) AS coinInc,
+        sum(
+        case pay_way when 6 then money else 0.00 end
+        ) AS cardInc
+        from prod_coin_rpt
+        where biz_no = #{bizNo}
+        <if test="@Ognl@isNotEmpty(type)">
+            and dev_type = #{type}
+        </if>
+        group by biz_no
+    </select>
+
+    <select id="loadStaPeriodIncWithPerPayWayByProdNo" parameterType="map" resultMap="result_base">
+        SELECT
+        sum(
+        case pay_way when 5 then money else 0.00 end
+        ) AS coinInc,
+        sum(
+        case pay_way when 6 then money else 0.00 end
+        ) AS cardInc
+        from prod_coin_rpt
+        where  prod_no =  #{prodNo} and DATE_FORMAT(uptime, '%Y%m%d') &gt;= #{beginDate} and DATE_FORMAT(uptime, '%Y%m%d') &lt;= #{endDate}
+    </select>
+
+    <select id="loadStaIncWithPerPayWayByProdNo" parameterType="map" resultMap="result_base">
+        SELECT
+        sum(
+        case pay_way when 5 then money else 0.00 end
+        ) AS coinInc,
+        sum(
+        case pay_way when 6 then money else 0.00 end
+        ) AS cardInc
+        from prod_coin_rpt
+        where  prod_no =  #{prodNo}
+    </select>
+
+
+    <select id="loadStaDayIncWithPerPayWayByProdNo" parameterType="map" resultMap="result_base">
+        SELECT
+        sum(
+        case pay_way when 5 then money else 0.00 end
+        ) AS coinInc,
+        sum(
+        case pay_way when 6 then money else 0.00 end
+        ) AS cardInc
+        from prod_coin_rpt
+        where  prod_no =  #{prodNo}and TO_DAYS(uptime)= TO_DAYS(now())
+    </select>
+
+    <select id="loadStaDayTotalIncWithPerPayWay" parameterType="map" resultMap="result_base">
+        SELECT
+        sum(
+        case pay_way when 5 then money else 0.00 end
+        ) AS coinInc,
+        sum(
+        case pay_way when 6 then money else 0.00 end
+        ) AS cardInc
+        from prod_coin_rpt
+        where biz_no = #{bizNo} and TO_DAYS(uptime)= TO_DAYS(now())
+        <if test="@Ognl@isNotEmpty(type)">
+            and dev_type = #{type}
+        </if>
+        group by biz_no
+    </select>
+
+    <select id="loadStaWeekIncWithPerPayWayByProdNo" parameterType="map" resultMap="result_base">
+        SELECT
+        sum(
+        case pay_way when 5 then money else 0.00 end
+        ) AS coinInc,
+        sum(
+        case pay_way when 6 then money else 0.00 end
+        ) AS cardInc
+        from prod_coin_rpt
+        where  prod_no = #{prodNo} and TO_DAYS(uptime) &gt;= TO_DAYS(#{mondayOfThisWeek})
+    </select>
+
+    <select id="loadStaWeekTotalIncWithPerPayWay" parameterType="map" resultMap="result_base">
+        SELECT
+        sum(
+        case pay_way when 5 then money else 0.00 end
+        ) AS coinInc,
+        sum(
+        case pay_way when 6 then money else 0.00 end
+        ) AS cardInc
+        from prod_coin_rpt
+        where biz_no = #{bizNo} and TO_DAYS(uptime) &gt;= TO_DAYS(#{mondayOfThisWeek})
+        <if test="@Ognl@isNotEmpty(type)">
+            and dev_type = #{type}
+        </if>
+        group by biz_no
+    </select>
+
+    <select id="loadStaMonthTotalIncWithPerPayWay" parameterType="map" resultMap="result_base">
+        SELECT
+        sum(
+        case pay_way when 5 then money else 0.00 end
+        ) AS coinInc,
+        sum(
+        case pay_way when 6 then money else 0.00 end
+        ) AS cardInc
+        from prod_coin_rpt
+        where biz_no = #{bizNo} and DATE_FORMAT(uptime, '%Y%m') = DATE_FORMAT(CURDATE() , '%Y%m')
+        <if test="@Ognl@isNotEmpty(type)">
+            and dev_type = #{type}
+        </if>
+        group by biz_no
+    </select>
+
+    <select id="loadStaMonthIncWithPerPayWayByProdNo" parameterType="map" resultMap="result_base">
+        SELECT
+        sum(
+        case pay_way when 5 then money else 0.00 end
+        ) AS coinInc,
+        sum(
+        case pay_way when 6 then money else 0.00 end
+        ) AS cardInc
+        from prod_coin_rpt
+        where  prod_no = #{prodNo} and DATE_FORMAT(uptime, '%Y%m') = DATE_FORMAT(CURDATE() , '%Y%m')
+    </select>
+
+    <select id="queryStaPeriodCardIncByProdNo" parameterType="map" resultMap="result_base">
+        select sum(money) as money from prod_coin_rpt where prod_no = #{prodNo}
+        and DATE_FORMAT(uptime, '%Y%m%d') &gt;= #{beginDate} and DATE_FORMAT(uptime, '%Y%m%d') &lt;= #{endDate} and pay_way =6 group by prod_no
+    </select>
+
+    <select id="queryStaIncSort" parameterType="string" resultMap="result_base">
+        SELECT
+            d.prod_no,
+            (
+                (
+                    SELECT
+                      IFNULL(sum(t.money), 0)
+                    FROM
+                      prod_coin_rpt t
+                    WHERE
+                      t.prod_no = d.prod_no AND PAY_WAY &lt;&gt; 4
+                ) + (
+                    SELECT
+                      IFNULL(sum(o.PROD_PRICE), 0)
+                    FROM
+                      ord o
+                    WHERE
+                      o.prod_no = d.prod_no
+                      AND o.state = 2
+                )
+            ) AS money,
+            p.pos,
+            p.addr,
+            d.gprs_no,
+            p.prov_name,
+            p.city_name,
+            p.dist_name
+        FROM prod d
+            LEFT JOIN prod_instl_pos p ON p.prod_no = d.prod_no
+        WHERE
+            d.biz_no = #{bizNo}
+        GROUP BY
+            d.prod_no
+        ORDER BY
+            money DESC
+    </select>
+
+    <select id="countStaIncSort" parameterType="string" resultType="Integer">
+        SELECT count(1) from (
+            SELECT d.*
+                FROM prod d
+                LEFT JOIN prod_instl_pos p ON p.prod_no = d.prod_no
+                LEFT JOIN prod_coin_rpt t ON t.prod_no = d.prod_no
+                WHERE
+                    d.biz_no = #{bizNo}
+                GROUP BY
+                    d.prod_no
+            ) tb
+    </select>
+
+    <select id="queryStaIncSortWithoutJoin" parameterType="string" resultMap="result_base">
+        SELECT t.prod_no
+        FROM
+        prod_coin_rpt t
+        WHERE t.biz_no =  #{bizNo}
+        group by t.prod_no
+    </select>
+
+    <select id="count" parameterType="Map" resultType="Integer">
+        select count(1) from prod_coin_rpt
+        <include refid="sql_query_where"/>
+    </select>
+
+
+    <select id="queryCheckProdCoinRpt" parameterType="String" resultMap="result_base">
+        select * from prod_coin_rpt where PROD_NO =#{prodNo} and PAY_WAY=4 ORDER BY CRTIME asc
+    </select>
+
+
+</mapper>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<!-- mbr_oauth: 第三方账号关联表-->
+<mapper namespace="MbrOauth">
+    <resultMap id="result_base" type="MbrOauth">
+         	<id property="id" column="id" jdbcType="VARCHAR"/>
+         	<result property="memberId" column="member_id" jdbcType="VARCHAR" />
+         	<result property="openid" column="openid" jdbcType="VARCHAR" />
+         	<result property="tpb" column="tpb" jdbcType="INTEGER" />
+         	<result property="state" column="state" jdbcType="INTEGER" />
+         	<result property="crtime" column="crtime" jdbcType="TIMESTAMP" />
+         	<result property="uptime" column="uptime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+
+	<sql id="columns">
+	     id,  member_id,  openid,  tpb,  state,  crtime,  uptime 
+	</sql>
+
+    <sql id="sql_query_where">
+		<where>
+            <if test="@Ognl@isNotEmpty(id)"> AND id  = #{id} </if>
+            <if test="@Ognl@isNotEmpty(memberId)"> AND member_id  = #{memberId} </if>
+            <if test="@Ognl@isNotEmpty(openid)"> AND openid  = #{openid} </if>
+            <if test="@Ognl@isNotEmpty(tpb)"> AND tpb  = #{tpb} </if>
+            <if test="@Ognl@isNotEmpty(state)"> AND state  = #{state} </if>
+            <if test="@Ognl@isNotEmpty(crtime)"> AND crtime  = #{crtime} </if>
+            <if test="@Ognl@isNotEmpty(uptime)"> AND uptime  = #{uptime} </if>
+        </where>
+    </sql>
+    
+    <insert id="insert" parameterType="MbrOauth">
+        insert into mbr_oauth(
+         <include refid="columns"/>
+        ) values(
+	    #{id,jdbcType=VARCHAR },#{memberId,jdbcType=VARCHAR },#{openid,jdbcType=VARCHAR },#{tpb,jdbcType=INTEGER },#{state,jdbcType=INTEGER },#{crtime,jdbcType=TIMESTAMP },#{uptime,jdbcType=TIMESTAMP }
+        )
+    </insert>
+
+    <update id="update" parameterType="MbrOauth">
+        update mbr_oauth 
+        <set>
+           <if test="@Ognl@isNotEmpty(memberId)" >
+            member_id= #{memberId,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(openid)" >
+            openid= #{openid,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(tpb)" >
+            tpb= #{tpb,jdbcType=INTEGER },
+           </if>
+           <if test="@Ognl@isNotEmpty(state)" >
+            state= #{state,jdbcType=INTEGER },
+           </if>
+           <if test="@Ognl@isNotEmpty(crtime)" >
+            crtime= #{crtime,jdbcType=TIMESTAMP },
+           </if>
+           <if test="@Ognl@isNotEmpty(uptime)" >
+            uptime= #{uptime,jdbcType=TIMESTAMP },
+           </if>
+       </set>
+          where id =#{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from mbr_oauth 
+          where id =#{id}
+    </delete>
+
+    <select id="load" parameterType="java.lang.String" resultMap="result_base">
+        select * from mbr_oauth 
+	          where id =#{id}
+    </select>
+
+    <select id="query" parameterType="map" resultMap="result_base">
+        select * from mbr_oauth
+        <include refid="sql_query_where"/>
+		<if test="@Ognl@isNotEmpty(orderField)">
+		order by ${orderField} ${orderSeq}
+		</if>
+		<if test="@Ognl@isEmpty(orderField)">
+		order by crtime desc
+		</if>
+    </select>
+
+    
+    <select id="count"  parameterType="Map" resultType="Integer">
+        select count(1) from mbr_oauth
+        <include refid="sql_query_where"/>
+    </select>
+</mapper>

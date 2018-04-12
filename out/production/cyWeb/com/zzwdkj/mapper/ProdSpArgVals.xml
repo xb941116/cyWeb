@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<!-- prod_sp_arg_vals: 产品_特定参数值表-->
+<mapper namespace="ProdSpArgVals">
+    <resultMap id="result_base" type="ProdSpArgVals">
+         	<id property="id" column="id" jdbcType="VARCHAR"/>
+         	<result property="bizNo" column="biz_no" jdbcType="VARCHAR" />
+         	<result property="prodNo" column="prod_no" jdbcType="VARCHAR" />
+         	<result property="paramId" column="param_id" jdbcType="VARCHAR" />
+         	<result property="valEn" column="val_en" jdbcType="VARCHAR" />
+         	<result property="valCn" column="val_cn" jdbcType="VARCHAR" />
+         	<result property="crtime" column="crtime" jdbcType="TIMESTAMP" />
+         	<result property="uptime" column="uptime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+
+	<sql id="columns">
+	     id,  biz_no,  prod_no,  param_id,  val_en,  val_cn,  crtime,  uptime 
+	</sql>
+
+    <sql id="sql_query_where">
+		<where>
+            <if test="@Ognl@isNotEmpty(id)"> AND id  = #{id} </if>
+            <if test="@Ognl@isNotEmpty(bizNo)"> AND biz_no  = #{bizNo} </if>
+            <if test="@Ognl@isNotEmpty(prodNo)"> AND prod_no  = #{prodNo} </if>
+            <if test="@Ognl@isNotEmpty(paramId)"> AND param_id  = #{paramId} </if>
+            <if test="@Ognl@isNotEmpty(valEn)"> AND val_en  = #{valEn} </if>
+            <if test="@Ognl@isNotEmpty(valCn)"> AND val_cn  = #{valCn} </if>
+            <if test="@Ognl@isNotEmpty(crtime)"> AND crtime  = #{crtime} </if>
+            <if test="@Ognl@isNotEmpty(uptime)"> AND uptime  = #{uptime} </if>
+        </where>
+    </sql>
+    
+    <insert id="insert" parameterType="ProdSpArgVals">
+        insert into prod_sp_arg_vals(
+         <include refid="columns"/>
+        ) values(
+	    #{id,jdbcType=VARCHAR },#{bizNo,jdbcType=VARCHAR },#{prodNo,jdbcType=VARCHAR },#{paramId,jdbcType=VARCHAR },#{valEn,jdbcType=VARCHAR },#{valCn,jdbcType=VARCHAR },#{crtime,jdbcType=TIMESTAMP },#{uptime,jdbcType=TIMESTAMP }
+        )
+    </insert>
+
+    <update id="update" parameterType="ProdSpArgVals">
+        update prod_sp_arg_vals 
+        <set>
+           <if test="@Ognl@isNotEmpty(bizNo)" >
+            biz_no= #{bizNo,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(prodNo)" >
+            prod_no= #{prodNo,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(paramId)" >
+            param_id= #{paramId,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(valEn)" >
+            val_en= #{valEn,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(valCn)" >
+            val_cn= #{valCn,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(crtime)" >
+            crtime= #{crtime,jdbcType=TIMESTAMP },
+           </if>
+           <if test="@Ognl@isNotEmpty(uptime)" >
+            uptime= #{uptime,jdbcType=TIMESTAMP },
+           </if>
+       </set>
+          where id =#{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from prod_sp_arg_vals 
+          where id =#{id}
+    </delete>
+
+    <select id="load" parameterType="java.lang.String" resultMap="result_base">
+        select * from prod_sp_arg_vals 
+	          where id =#{id}
+    </select>
+
+    <select id="query" parameterType="map" resultMap="result_base">
+        select * from prod_sp_arg_vals
+        <include refid="sql_query_where"/>
+		<if test="@Ognl@isNotEmpty(orderField)">
+		order by ${orderField} ${orderSeq}
+		</if>
+		<if test="@Ognl@isEmpty(orderField)">
+		order by crtime desc
+		</if>
+    </select>
+
+    
+    <select id="count"  parameterType="Map" resultType="Integer">
+        select count(1) from prod_sp_arg_vals
+        <include refid="sql_query_where"/>
+    </select>
+</mapper>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<!-- biz_alipay: 商家_支付宝-->
+<mapper namespace="BizAlipay">
+    <resultMap id="result_base" type="BizAlipay">
+         	<id property="id" column="id" jdbcType="VARCHAR"/>
+         	<result property="bizNo" column="biz_no" jdbcType="VARCHAR" />
+         	<result property="partnerId" column="partner_id" jdbcType="VARCHAR" />
+         	<result property="bizSkey" column="biz_skey" jdbcType="VARCHAR" />
+         	<result property="alipayPkey" column="alipay_pkey" jdbcType="VARCHAR" />
+         	<result property="state" column="state" jdbcType="INTEGER" />
+         	<result property="optor" column="optor" jdbcType="VARCHAR" />
+         	<result property="crtime" column="crtime" jdbcType="TIMESTAMP" />
+         	<result property="uptime" column="uptime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+
+	<sql id="columns">
+	     id,  biz_no,  partner_id,  biz_skey,  alipay_pkey,  state,  optor,  crtime,  uptime 
+	</sql>
+
+    <sql id="sql_query_where">
+		<where>
+            <if test="@Ognl@isNotEmpty(id)"> AND id  = #{id} </if>
+            <if test="@Ognl@isNotEmpty(bizNo)"> AND biz_no  = #{bizNo} </if>
+            <if test="@Ognl@isNotEmpty(partnerId)"> AND partner_id  = #{partnerId} </if>
+            <if test="@Ognl@isNotEmpty(bizSkey)"> AND biz_skey  = #{bizSkey} </if>
+            <if test="@Ognl@isNotEmpty(alipayPkey)"> AND alipay_pkey  = #{alipayPkey} </if>
+            <if test="@Ognl@isNotEmpty(state)"> AND state  = #{state} </if>
+            <if test="@Ognl@isNotEmpty(optor)"> AND optor  = #{optor} </if>
+            <if test="@Ognl@isNotEmpty(crtime)"> AND crtime  = #{crtime} </if>
+            <if test="@Ognl@isNotEmpty(uptime)"> AND uptime  = #{uptime} </if>
+        </where>
+    </sql>
+    
+    <insert id="insert" parameterType="BizAlipay">
+        insert into biz_alipay(
+         <include refid="columns"/>
+        ) values(
+	    #{id,jdbcType=VARCHAR },#{bizNo,jdbcType=VARCHAR },#{partnerId,jdbcType=VARCHAR },#{bizSkey,jdbcType=VARCHAR },#{alipayPkey,jdbcType=VARCHAR },#{state,jdbcType=INTEGER },#{optor,jdbcType=VARCHAR },#{crtime,jdbcType=TIMESTAMP },#{uptime,jdbcType=TIMESTAMP }
+        )
+    </insert>
+
+    <update id="update" parameterType="BizAlipay">
+        update biz_alipay 
+        <set>
+           <if test="@Ognl@isNotEmpty(bizNo)" >
+            biz_no= #{bizNo,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(partnerId)" >
+            partner_id= #{partnerId,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(bizSkey)" >
+            biz_skey= #{bizSkey,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(alipayPkey)" >
+            alipay_pkey= #{alipayPkey,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(state)" >
+            state= #{state,jdbcType=INTEGER },
+           </if>
+           <if test="@Ognl@isNotEmpty(optor)" >
+            optor= #{optor,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(crtime)" >
+            crtime= #{crtime,jdbcType=TIMESTAMP },
+           </if>
+           <if test="@Ognl@isNotEmpty(uptime)" >
+            uptime= #{uptime,jdbcType=TIMESTAMP },
+           </if>
+       </set>
+          where id =#{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from biz_alipay 
+          where id =#{id}
+    </delete>
+
+    <select id="load" parameterType="java.lang.String" resultMap="result_base">
+        select * from biz_alipay 
+	          where id =#{id}
+    </select>
+
+    <select id="query" parameterType="map" resultMap="result_base">
+        select * from biz_alipay
+        <include refid="sql_query_where"/>
+		<if test="@Ognl@isNotEmpty(orderField)">
+		order by ${orderField} ${orderSeq}
+		</if>
+		<if test="@Ognl@isEmpty(orderField)">
+		order by crtime desc
+		</if>
+    </select>
+
+    
+    <select id="count"  parameterType="Map" resultType="Integer">
+        select count(1) from biz_alipay
+        <include refid="sql_query_where"/>
+    </select>
+</mapper>

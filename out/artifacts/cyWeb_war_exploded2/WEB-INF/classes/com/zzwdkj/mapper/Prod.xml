@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- prod: 产品表-->
+<mapper namespace="Prod">
+    <resultMap id="result_base" type="Prod">
+        <id property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="prodNo" column="prod_no" jdbcType="VARCHAR"/>
+        <result property="prodName" column="prod_name" jdbcType="VARCHAR"/>
+        <result property="bizNo" column="biz_no" jdbcType="VARCHAR"/>
+        <result property="bizName" column="biz_name" jdbcType="VARCHAR"/>
+        <result property="prodModNo" column="prod_mod_no" jdbcType="VARCHAR"/>
+        <result property="gprsNo" column="gprs_no" jdbcType="VARCHAR"/>
+        <result property="logo" column="logo" jdbcType="VARCHAR"/>
+        <result property="type" column="type" jdbcType="INTEGER"/>
+        <result property="price" column="price" jdbcType="DECIMAL"/>
+        <result property="prodCv" column="prod_cv" jdbcType="INTEGER"/>
+        <result property="otherMoneyState" column="other_money_state" jdbcType="INTEGER"/>
+        <result property="otherMoneyOption" column="other_money_option" jdbcType="VARCHAR"/>
+        <result property="perCt" column="per_ct" jdbcType="INTEGER"/>
+        <result property="giftCt" column="gift_ct" jdbcType="INTEGER"/>
+        <result property="firstFree" column="first_free" jdbcType="INTEGER"/>
+        <result property="spoId" column="spo_id" jdbcType="VARCHAR"/>
+        <result property="runTime" column="run_time" jdbcType="INTEGER" />
+        <result property="state" column="state" jdbcType="INTEGER"/>
+        <result property="onlinePay" column="online_pay" jdbcType="INTEGER"/>
+        <result property="qrGened" column="gr_gened" jdbcType="INTEGER"/>
+        <result property="crtime" column="crtime" jdbcType="TIMESTAMP"/>
+        <result property="uptime" column="uptime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <sql id="columns">
+        id, prod_no, prod_name, biz_no, biz_name, prod_mod_no, gprs_no, logo, type, price,prod_cv, other_money_state, other_money_option, per_ct, gift_ct, first_free,
+        spo_id,run_time, state, online_pay, qr_gened, crtime, uptime
+    </sql>
+
+    <sql id="sql_query_where">
+        <where>
+            <if test="@Ognl@isNotEmpty(id)">AND id = #{id}</if>
+            <if test="@Ognl@isNotEmpty(prodNo)">AND prod_no = #{prodNo}</if>
+            <if test="@Ognl@isNotEmpty(prodName)">AND prod_name = #{prodName}</if>
+            <if test="@Ognl@isNotEmpty(bizNo)">AND biz_no = #{bizNo}</if>
+            <if test="@Ognl@isNotEmpty(bizName)">AND biz_name = #{bizName}</if>
+            <if test="@Ognl@isNotEmpty(prodModNo)">AND prod_mod_no = #{prodModNo}</if>
+            <if test="@Ognl@isNotEmpty(gprsNo)">AND gprs_no = #{gprsNo}</if>
+            <if test="@Ognl@isNotEmpty(type)">AND type = #{type}</if>
+            <if test="@Ognl@isNotEmpty(price)">AND price = #{price}</if>
+            <if test="@Ognl@isNotEmpty(prodCv)"> AND prod_cv  = #{prodCv} </if>
+            <if test="@Ognl@isNotEmpty(otherMoneyState)">AND other_money_state = #{otherMoneyState}</if>
+            <if test="@Ognl@isNotEmpty(otherMoneyOption)">AND other_money_option = #{otherMoneyOption}</if>
+            <if test="@Ognl@isNotEmpty(perCt)">AND per_ct = #{perCt}</if>
+            <if test="@Ognl@isNotEmpty(giftCt)">AND gift_ct = #{giftCt}</if>
+            <if test="@Ognl@isNotEmpty(firstFree)">AND first_free = #{firstFree}</if>
+            <if test="@Ognl@isNotEmpty(spoId)">AND spo_id = #{spoId}</if>
+            <if test="@Ognl@isNotEmpty(runTime)"> AND run_time  = #{runTime} </if>
+            <if test="@Ognl@isNotEmpty(state)">AND state = #{state}</if>
+            <if test="@Ognl@isNotEmpty(onlinePay)">AND online_pay = #{onlinePay}</if>
+            <if test="@Ognl@isNotEmpty(crtime)">AND crtime = #{crtime}</if>
+            <if test="@Ognl@isNotEmpty(uptime)">AND uptime = #{uptime}</if>
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="Prod">
+        insert into prod(
+        <include refid="columns"/>
+        ) values(
+        #{id,jdbcType=VARCHAR },#{prodNo,jdbcType=VARCHAR },#{prodName,jdbcType=VARCHAR },#{bizNo,jdbcType=VARCHAR },#{bizName,jdbcType=VARCHAR },#{prodModNo,jdbcType=VARCHAR },#{gprsNo,jdbcType=VARCHAR },#{logo,jdbcType=VARCHAR },#{type,jdbcType=INTEGER },#{price,jdbcType=DECIMAL },#{prodCv,jdbcType=INTEGER },#{otherMoneyState,jdbcType=INTEGER },#{otherMoneyOption,jdbcType=VARCHAR },#{perCt,jdbcType=INTEGER },#{giftCt,jdbcType=INTEGER },#{firstFree,jdbcType=INTEGER },#{spoId,jdbcType=VARCHAR },#{runTime,jdbcType=INTEGER },#{state,jdbcType=INTEGER },#{onlinePay,jdbcType=INTEGER },#{qrGened,jdbcType=INTEGER },#{crtime,jdbcType=TIMESTAMP },#{uptime,jdbcType=TIMESTAMP }
+        )
+    </insert>
+
+
+    <update id="updateProdByGprsNo" parameterType="Prod">
+        update prod
+        <set>
+            <if test="@Ognl@isNotEmpty(prodNo)">
+                prod_no= #{prodNo,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(prodName)">
+                prod_name= #{prodName,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(bizNo)">
+                biz_no= #{bizNo,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(bizName)">
+                biz_name= #{bizName,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(prodModNo)">
+                prod_mod_no= #{prodModNo,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(gprsNo)">
+                gprs_no= #{gprsNo,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(logo)">
+                logo= #{logo,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(type)">
+                type= #{type,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(price)">
+                price= #{price,jdbcType=DECIMAL },
+            </if>
+            <if test="@Ognl@isNotEmpty(prodCv)" >
+                prod_cv= #{prodCv,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(otherMoneyState)">
+                other_money_state= #{otherMoneyState,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(otherMoneyOption)">
+                other_money_option= #{otherMoneyOption,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(perCt)">
+                per_ct= #{perCt,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(giftCt)">
+                gift_ct= #{giftCt,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(firstFree)">
+                first_free= #{firstFree,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(spoId)">
+                spo_id= #{spoId,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(runTime)" >
+                run_time= #{runTime,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(state)">
+                state= #{state,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(onlinePay)">
+                online_pay= #{onlinePay,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(qrGened)">
+                qr_gened= #{qrGened,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(crtime)">
+                crtime= #{crtime,jdbcType=TIMESTAMP },
+            </if>
+            <if test="@Ognl@isNotEmpty(uptime)">
+                uptime= #{uptime,jdbcType=TIMESTAMP },
+            </if>
+        </set>
+        where gprs_no =#{gprsNo}
+    </update>
+
+    <update id="update" parameterType="Prod">
+        update prod
+        <set>
+            <if test="@Ognl@isNotEmpty(prodNo)">
+                prod_no= #{prodNo,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(prodName)">
+                prod_name= #{prodName,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(bizNo)">
+                biz_no= #{bizNo,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(bizName)">
+                biz_name= #{bizName,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(prodModNo)">
+                prod_mod_no= #{prodModNo,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(gprsNo)">
+                gprs_no= #{gprsNo,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(logo)">
+                logo= #{logo,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(type)">
+                type= #{type,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(price)">
+                price= #{price,jdbcType=DECIMAL },
+            </if>
+            <if test="@Ognl@isNotEmpty(prodCv)" >
+                prod_cv= #{prodCv,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(otherMoneyState)">
+                other_money_state= #{otherMoneyState,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(otherMoneyOption)">
+                other_money_option= #{otherMoneyOption,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(perCt)">
+                per_ct= #{perCt,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(giftCt)">
+                gift_ct= #{giftCt,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(firstFree)">
+                first_free= #{firstFree,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(spoId)">
+                spo_id= #{spoId,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(runTime)" >
+                run_time= #{runTime,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(state)">
+                state= #{state,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(onlinePay)">
+                online_pay= #{onlinePay,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(qrGened)">
+                qr_gened= #{qrGened,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(crtime)">
+                crtime= #{crtime,jdbcType=TIMESTAMP },
+            </if>
+            <if test="@Ognl@isNotEmpty(uptime)">
+                uptime= #{uptime,jdbcType=TIMESTAMP },
+            </if>
+        </set>
+        where id =#{id}
+    </update>
+
+    <update id="updateProdQrSt" parameterType="map">
+        UPDATE prod set qr_gened = #{qrGened},uptime = now() where biz_no = #{bizNo} and gprs_no = #{gprsNo}
+    </update>
+
+    <update id="updateProdBizBind" parameterType="map">
+        UPDATE prod set biz_no = #{parBizNo}, uptime = now() where biz_no = #{bizNo} and gprs_no = #{gprsNo}
+    </update>
+
+    <update id="updateProdBizUnBind" parameterType="map">
+        UPDATE prod set gprs_no = null,state = 0,uptime = now() where biz_no = #{bizNo} and gprs_no = #{gprsNo}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from prod where id =#{id}
+    </delete>
+
+    <select id="load" parameterType="java.lang.String" resultMap="result_base">
+        select * from prod where id =#{id}
+    </select>
+
+    <select id="loadByGprsNo" parameterType="java.lang.String" resultMap="result_base">
+        select prod.*,base_dict.val as typeStr from prod LEFT JOIN base_dict ON prod.type=base_dict.code AND base_dict.type='70012'  where prod.gprs_no =#{gprsNo}
+    </select>
+
+
+    <select id="query" parameterType="map" resultMap="result_base">
+        select * from prod
+        <include refid="sql_query_where"/>
+        <if test="@Ognl@isNotEmpty(orderField)">
+            order by ${orderField} ${orderSeq}
+        </if>
+        <if test="@Ognl@isEmpty(orderField)">
+            order by crtime desc
+        </if>
+    </select>
+
+
+    <select id="queryProd" parameterType="map" resultMap="result_base">
+        select
+        p.id, p.prod_no, p.prod_name, p.biz_no, p.biz_name, p.prod_mod_no, p.logo, p.type, p.price, p.per_ct, p.gift_ct,
+        p.first_free,
+        p.spo_id, p.state, p.online_pay, p.qr_gened, p.crtime, p.uptime,
+        b.gprs_no,b.prod_set from biz_gprs_bind b left join prod p on b.gprs_no = p.gprs_no
+        where b.bind =1 and b.BIZ_NO = #{bizNo}
+        <if test="@Ognl@isNotEmpty(gprsNo)">
+            and p.gprs_no = #{gprsNo}
+        </if>
+        <if test="@Ognl@isNotEmpty(type)">
+            and p.type = #{type}
+        </if>
+        <if test="@Ognl@isNotEmpty(prodSet)">
+            and b.prod_set = #{prodSet}
+        </if>
+        <if test="@Ognl@isNotEmpty(gprsType)">
+            AND p.gprs_no like CONCAT(#{gprsType},'%')
+        </if>
+        order by b.CRTIME asc
+    </select>
+
+    <select id="queryProdWithInstlPos" parameterType="map" resultMap="result_base">
+        select
+        p.id, p.prod_no, p.prod_name, p.biz_no, p.biz_name, p.prod_mod_no, p.logo, p.type, p.price, p.per_ct, p.gift_ct,
+        p.first_free,p.spo_id, p.state, p.online_pay, p.qr_gened, p.crtime, p.uptime,
+        b.gprs_no,b.prod_set,t.pos,t.addr,t.prov_name,t.city_name,t.dist_name
+        FROM
+        biz_gprs_bind b
+        LEFT JOIN prod p ON b.gprs_no = p.gprs_no
+        LEFT JOIN prod_instl_pos t ON t.prod_no = p.prod_no
+        WHERE b.bind = 1 AND b.BIZ_NO  = #{bizNo}
+        <if test="@Ognl@isNotEmpty(gprsNo)">
+            and p.gprs_no = #{gprsNo}
+        </if>
+        <if test="@Ognl@isNotEmpty(type)">
+            and p.type = #{type}
+        </if>
+        <if test="@Ognl@isNotEmpty(prodSet)">
+            and b.prod_set = #{prodSet}
+        </if>
+        order by b.CRTIME asc
+    </select>
+
+    <select id="countProd" parameterType="map" resultType="Integer">
+        select count(1) from biz_gprs_bind b left join prod p on b.gprs_no = p.gprs_no
+        where b.bind =1 and b.BIZ_NO = #{bizNo}
+        <if test="@Ognl@isNotEmpty(gprsNo)">
+            and p.gprs_no = #{gprsNo}
+        </if>
+        <if test="@Ognl@isNotEmpty(type)">
+            and p.type = #{type}
+        </if>
+        <if test="@Ognl@isNotEmpty(prodSet)">
+            and b.prod_set = #{prodSet}
+        </if>
+        <if test="@Ognl@isNotEmpty(gprsType)">
+            AND p.gprs_no like CONCAT(#{gprsType},'%')
+        </if>
+        order by b.CRTIME asc
+    </select>
+
+    <select id="countProdByOrdBizNo" parameterType="map" resultType="Integer">
+        select count(1) from  prod
+        where prod.BIZ_NO = #{bizNo}
+        <if test="@Ognl@isNotEmpty(gprsNo)">
+            and prod.gprs_no = #{gprsNo}
+        </if>
+        <if test="@Ognl@isNotEmpty(type)">
+            and prod.type = #{type}
+        </if>
+        <if test="@Ognl@isNotEmpty(gprsType)">
+            AND prod.gprs_no like CONCAT(#{gprsType},'%')
+        </if>
+    </select>
+
+    <select id="count" parameterType="Map" resultType="Integer">
+        select count(1) from prod
+        <include refid="sql_query_where"/>
+    </select>
+
+    <select id="queryProdOnlineByBizNo" parameterType="string" resultMap="result_base">
+        SELECT
+        p.*
+        FROM
+        prod_onl_log o
+        LEFT JOIN prod p ON o.PROD_NO = p.PROD_NO
+        where o.state = 1 and p.state = 1 and o.biz_no = #{bizNo}
+    </select>
+
+    <select id="queryProdByOrdBizNo" parameterType="map" resultMap="result_base">
+        select * from  prod
+        where prod.BIZ_NO = #{bizNo}
+        <if test="@Ognl@isNotEmpty(gprsNo)">
+            and prod.gprs_no = #{gprsNo}
+        </if>
+        <if test="@Ognl@isNotEmpty(type)">
+            and prod.type = #{type}
+        </if>
+        <if test="@Ognl@isNotEmpty(gprsType)">
+            AND prod.gprs_no like CONCAT(#{gprsType},'%')
+        </if>
+        order by prod.CRTIME asc
+    </select>
+
+    <select id="queryProdOnline" parameterType="map" resultMap="result_base">
+        SELECT
+        p.*
+        FROM
+        prod_onl_log o
+        LEFT JOIN prod p ON o.PROD_NO = p.PROD_NO
+        where o.state = 1 and p.state = 1 and o.biz_no = #{bizNo}
+        <if test="@Ognl@isNotEmpty(gprsNo)">
+            and o.gpno = #{gprsNo}
+        </if>
+        order by o.off_line_time asc
+    </select>
+
+    <select id="queryOnlineProdByGprsType" parameterType="map" resultMap="result_base">
+        SELECT
+        p.*
+        FROM prod p
+        LEFT JOIN prod_onl_log o ON o.PROD_NO = p.PROD_NO
+        where o.state = 1 and p.state = 1 and p.biz_no = #{bizNo}
+            AND p.gprs_no like CONCAT(#{gprsType},'%')
+        order by p.CRTIME asc
+    </select>
+
+    <select id="countProdOnline" parameterType="map" resultType="Integer">
+        SELECT
+        count(1)
+        FROM
+        prod_onl_log o
+        LEFT JOIN prod p ON o.PROD_NO = p.PROD_NO
+        where o.state = 1 and p.state = 1 and o.biz_no = #{bizNo}
+        <if test="@Ognl@isNotEmpty(gprsNo)">
+            and o.gpno = #{gprsNo}
+        </if>
+    </select>
+
+    <select id="queryProdBugRpt" parameterType="map" resultMap="result_base">
+        SELECT
+        p.*,c.val as typeStr
+        FROM
+        prod p left JOIN prod_bug_rpt rt ON  p.prod_no=rt.prod_no
+        LEFT JOIN base_dict c ON p.type=c.code AND c.type='70012'
+        where  p.biz_no = #{bizNo} AND (rt.result not in ('00102030405060708090','00000'))
+          AND p.gprs_no is not null
+        <if test="@Ognl@isNotEmpty(gprsNo)">
+            and p.gprs_no = #{gprsNo}
+        </if>
+        <if test="@Ognl@isNotEmpty(type)">
+            and p.type = #{type}
+        </if>
+        <if test="@Ognl@isNotEmpty(gprsType)">
+            AND p.gprs_no like CONCAT(#{gprsType},'%')
+        </if>
+    </select>
+
+    <select id="countProdBugRpt" parameterType="map" resultType="Integer">
+        SELECT
+          count(1)
+        FROM
+        prod p left JOIN prod_bug_rpt rt ON  p.prod_no=rt.prod_no
+        where  p.biz_no = #{bizNo} AND (rt.result not in ('00102030405060708090','00000'))
+          AND p.gprs_no is not null
+        <if test="@Ognl@isNotEmpty(gprsNo)">
+            and p.gprs_no = #{gprsNo}
+        </if>
+        <if test="@Ognl@isNotEmpty(type)">
+            and p.type = #{type}
+        </if>
+        <if test="@Ognl@isNotEmpty(gprsType)">
+            AND p.gprs_no like CONCAT(#{gprsType},'%')
+        </if>
+    </select>
+</mapper>

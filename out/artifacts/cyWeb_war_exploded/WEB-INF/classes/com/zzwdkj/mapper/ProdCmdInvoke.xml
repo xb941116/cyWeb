@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<!-- prod_cmd_invoke: 产品_高级命令下发表-->
+<mapper namespace="ProdCmdInvoke">
+    <resultMap id="result_base" type="ProdCmdInvoke">
+         	<id property="id" column="id" jdbcType="VARCHAR"/>
+         	<result property="bizNo" column="biz_no" jdbcType="VARCHAR" />
+         	<result property="prodNo" column="prod_no" jdbcType="VARCHAR" />
+         	<result property="code" column="code" jdbcType="VARCHAR" />
+         	<result property="cmd" column="cmd" jdbcType="VARCHAR" />
+         	<result property="param" column="param" jdbcType="VARCHAR" />
+         	<result property="name" column="name" jdbcType="VARCHAR" />
+         	<result property="respCode" column="resp_code" jdbcType="VARCHAR" />
+         	<result property="optor" column="optor" jdbcType="VARCHAR" />
+         	<result property="crtime" column="crtime" jdbcType="TIMESTAMP" />
+         	<result property="uptime" column="uptime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+
+	<sql id="columns">
+	     id,  biz_no,  prod_no,  code,  cmd,  param,  name,  resp_code,  optor,  crtime,  uptime 
+	</sql>
+
+    <sql id="sql_query_where">
+		<where>
+            <if test="@Ognl@isNotEmpty(id)"> AND id  = #{id} </if>
+            <if test="@Ognl@isNotEmpty(bizNo)"> AND biz_no  = #{bizNo} </if>
+            <if test="@Ognl@isNotEmpty(prodNo)"> AND prod_no  = #{prodNo} </if>
+            <if test="@Ognl@isNotEmpty(code)"> AND code  = #{code} </if>
+            <if test="@Ognl@isNotEmpty(cmd)"> AND cmd  = #{cmd} </if>
+            <if test="@Ognl@isNotEmpty(param)"> AND param  = #{param} </if>
+            <if test="@Ognl@isNotEmpty(name)"> AND name  = #{name} </if>
+            <if test="@Ognl@isNotEmpty(respCode)"> AND resp_code  = #{respCode} </if>
+            <if test="@Ognl@isNotEmpty(optor)"> AND optor  = #{optor} </if>
+            <if test="@Ognl@isNotEmpty(crtime)"> AND crtime  = #{crtime} </if>
+            <if test="@Ognl@isNotEmpty(uptime)"> AND uptime  = #{uptime} </if>
+        </where>
+    </sql>
+    
+    <insert id="insert" parameterType="ProdCmdInvoke">
+        insert into prod_cmd_invoke(
+         <include refid="columns"/>
+        ) values(
+	    #{id,jdbcType=VARCHAR },#{bizNo,jdbcType=VARCHAR },#{prodNo,jdbcType=VARCHAR },#{code,jdbcType=VARCHAR },#{cmd,jdbcType=VARCHAR },#{param,jdbcType=VARCHAR },#{name,jdbcType=VARCHAR },#{respCode,jdbcType=VARCHAR },#{optor,jdbcType=VARCHAR },#{crtime,jdbcType=TIMESTAMP },#{uptime,jdbcType=TIMESTAMP }
+        )
+    </insert>
+
+    <update id="update" parameterType="ProdCmdInvoke">
+        update prod_cmd_invoke 
+        <set>
+           <if test="@Ognl@isNotEmpty(bizNo)" >
+            biz_no= #{bizNo,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(prodNo)" >
+            prod_no= #{prodNo,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(code)" >
+            code= #{code,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(cmd)" >
+            cmd= #{cmd,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(param)" >
+            param= #{param,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(name)" >
+            name= #{name,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(respCode)" >
+            resp_code= #{respCode,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(optor)" >
+            optor= #{optor,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(crtime)" >
+            crtime= #{crtime,jdbcType=TIMESTAMP },
+           </if>
+           <if test="@Ognl@isNotEmpty(uptime)" >
+            uptime= #{uptime,jdbcType=TIMESTAMP },
+           </if>
+       </set>
+          where id =#{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from prod_cmd_invoke 
+          where id =#{id}
+    </delete>
+
+    <select id="load" parameterType="java.lang.String" resultMap="result_base">
+        select * from prod_cmd_invoke 
+	          where id =#{id}
+    </select>
+
+    <select id="query" parameterType="map" resultMap="result_base">
+        select * from prod_cmd_invoke
+        <include refid="sql_query_where"/>
+		<if test="@Ognl@isNotEmpty(orderField)">
+		order by ${orderField} ${orderSeq}
+		</if>
+		<if test="@Ognl@isEmpty(orderField)">
+		order by crtime desc
+		</if>
+    </select>
+
+    
+    <select id="count"  parameterType="Map" resultType="Integer">
+        select count(1) from prod_cmd_invoke
+        <include refid="sql_query_where"/>
+    </select>
+</mapper>

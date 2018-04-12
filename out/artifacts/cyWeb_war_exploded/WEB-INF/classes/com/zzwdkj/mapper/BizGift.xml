@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<!-- biz_gift: 满赠活动-->
+<mapper namespace="BizGift">
+    <resultMap id="result_base" type="BizGift">
+         	<id property="id" column="id" jdbcType="VARCHAR"/>
+         	<result property="bizNo" column="biz_no" jdbcType="VARCHAR" />
+            <result property="content" column="content" jdbcType="VARCHAR" />
+         	<result property="coin" column="coin" jdbcType="INTEGER" />
+         	<result property="money" column="money" jdbcType="INTEGER" />
+         	<result property="totalMbr" column="total_mbr" jdbcType="INTEGER" />
+         	<result property="totalAll" column="total_all" jdbcType="INTEGER" />
+         	<result property="stockAll" column="stock_all" jdbcType="INTEGER" />
+         	<result property="state" column="state" jdbcType="INTEGER" />
+            <result property="sort" column="sort" jdbcType="INTEGER"/>
+         	<result property="startDate" column="start_date" jdbcType="TIMESTAMP" />
+         	<result property="overDate" column="over_date" jdbcType="TIMESTAMP" />
+         	<result property="crtime" column="crtime" jdbcType="TIMESTAMP" />
+         	<result property="uptime" column="uptime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+
+	<sql id="columns">
+	     id,  biz_no, content, coin, money, total_mbr, total_all,  stock_all,  state,sort,  start_date,  over_date,  crtime,  uptime
+	</sql>
+
+    <sql id="sql_query_where">
+		<where>
+            <if test="@Ognl@isNotEmpty(id)"> AND id  = #{id} </if>
+            <if test="@Ognl@isNotEmpty(bizNo)"> AND biz_no  = #{bizNo} </if>
+            <if test="@Ognl@isNotEmpty(content)"> AND content  = #{content} </if>
+            <if test="@Ognl@isNotEmpty(coin)"> AND coin  = #{coin} </if>
+            <if test="@Ognl@isNotEmpty(money)"> AND money  = #{money} </if>
+            <if test="@Ognl@isNotEmpty(totalMbr)"> AND total_mbr  = #{totalMbr} </if>
+            <if test="@Ognl@isNotEmpty(totalAll)"> AND total_all  = #{totalAll} </if>
+            <if test="@Ognl@isNotEmpty(stockAll)"> AND stock_all  = #{stockAll} </if>
+            <if test="@Ognl@isNotEmpty(state)"> AND state  = #{state} </if>
+            <if test="@Ognl@isNotEmpty(sort)"> AND sort  = #{sort} </if>
+            <if test="@Ognl@isNotEmpty(startDate)"> AND start_date  = #{startDate} </if>
+            <if test="@Ognl@isNotEmpty(overDate)"> AND over_date  = #{overDate} </if>
+            <if test="@Ognl@isNotEmpty(crtime)"> AND crtime  = #{crtime} </if>
+            <if test="@Ognl@isNotEmpty(uptime)"> AND uptime  = #{uptime} </if>
+        </where>
+    </sql>
+    
+    <insert id="insert" parameterType="BizGift">
+        insert into biz_gift(
+         <include refid="columns"/>
+        ) values(
+	    #{id,jdbcType=VARCHAR },#{bizNo,jdbcType=VARCHAR },#{content,jdbcType=VARCHAR },#{coin,jdbcType=INTEGER },#{money,jdbcType=INTEGER },#{totalMbr,jdbcType=INTEGER },#{totalAll,jdbcType=INTEGER },#{stockAll,jdbcType=INTEGER },#{state,jdbcType=INTEGER },#{sort,jdbcType=INTEGER },#{startDate,jdbcType=TIMESTAMP },#{overDate,jdbcType=TIMESTAMP },#{crtime,jdbcType=TIMESTAMP },#{uptime,jdbcType=TIMESTAMP }
+        )
+    </insert>
+
+    <update id="update" parameterType="BizGift">
+        update biz_gift 
+        <set>
+           <if test="@Ognl@isNotEmpty(bizNo)" >
+            biz_no= #{bizNo,jdbcType=VARCHAR },
+           </if>
+            <if test="@Ognl@isNotEmpty(content)" >
+                content= #{content,jdbcType=VARCHAR },
+            </if>
+           <if test="@Ognl@isNotEmpty(coin)" >
+            coin= #{coin,jdbcType=INTEGER },
+           </if>
+           <if test="@Ognl@isNotEmpty(money)" >
+               money= #{money,jdbcType=INTEGER },
+           </if>
+           <if test="@Ognl@isNotEmpty(totalMbr)" >
+            total_mbr= #{totalMbr,jdbcType=INTEGER },
+           </if>
+           <if test="@Ognl@isNotEmpty(totalAll)" >
+            total_all= #{totalAll,jdbcType=INTEGER },
+           </if>
+           <if test="@Ognl@isNotEmpty(stockAll)" >
+               stock_all= #{stockAll,jdbcType=INTEGER },
+           </if>
+           <if test="@Ognl@isNotEmpty(state)" >
+            state= #{state,jdbcType=INTEGER },
+           </if>
+           <if test="@Ognl@isNotEmpty(sort)" >
+               sort= #{sort,jdbcType=INTEGER },
+           </if>
+           <if test="@Ognl@isNotEmpty(startDate)" >
+            start_date= #{startDate,jdbcType=TIMESTAMP },
+           </if>
+           <if test="@Ognl@isNotEmpty(overDate)" >
+            over_date= #{overDate,jdbcType=TIMESTAMP },
+           </if>
+           <if test="@Ognl@isNotEmpty(crtime)" >
+            crtime= #{crtime,jdbcType=TIMESTAMP },
+           </if>
+           <if test="@Ognl@isNotEmpty(uptime)" >
+            uptime= #{uptime,jdbcType=TIMESTAMP },
+           </if>
+       </set>
+          where id =#{id}
+    </update>
+
+
+    <update id="updateStockAll" parameterType="Map">
+        update biz_gift set stock_all=stock_all-1 WHERE  stock_all &gt; 1 AND id=#{id}
+
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from biz_gift 
+          where id =#{id}
+    </delete>
+
+    <select id="load" parameterType="java.lang.String" resultMap="result_base">
+        select * from biz_gift 
+	          where id =#{id}
+    </select>
+
+    <select id="queryByCoinAndBizNo" parameterType="Map" resultMap="result_base">
+        select * from biz_gift where coin &lt;= #{coin} AND biz_no=#{bizNo} AND state=1 order by  money desc
+    </select>
+
+    <select id="query" parameterType="map" resultMap="result_base">
+        select * from biz_gift
+        <include refid="sql_query_where"/>
+		<if test="@Ognl@isNotEmpty(orderField)">
+		order by ${orderField} ${orderSeq}
+		</if>
+		<if test="@Ognl@isEmpty(orderField)">
+		order by crtime desc
+		</if>
+    </select>
+
+    <select id="queryOrderBySort" parameterType="map" resultMap="result_base">
+        select * from biz_gift
+        <include refid="sql_query_where"/>
+		<if test="@Ognl@isNotEmpty(orderField)">
+		order by ${orderField} ${orderSeq}
+		</if>
+		<if test="@Ognl@isEmpty(orderField)">
+		order by sort asc
+		</if>
+    </select>
+
+    
+    <select id="count"  parameterType="Map" resultType="Integer">
+        select count(1) from biz_gift
+        <include refid="sql_query_where"/>
+    </select>
+
+    <select id="queryBizGiftTotalByMemberId"  parameterType="Map" resultType="Integer">
+        select count(1) from mbr_recharge
+        where gift_id =#{giftId} AND member_id =#{memberId}
+    </select>
+
+    <select id="queryBizGiftTotalByALL"  parameterType="Map" resultType="Integer">
+        select count(1) from mbr_recharge
+        where gift_id =#{giftId}
+    </select>
+</mapper>

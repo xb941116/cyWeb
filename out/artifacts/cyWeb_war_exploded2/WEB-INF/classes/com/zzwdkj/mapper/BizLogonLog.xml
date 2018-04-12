@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<!-- biz_logon_log: 商家_登录_日志-->
+<mapper namespace="BizLogonLog">
+    <resultMap id="result_base" type="BizLogonLog">
+         	<id property="id" column="id" jdbcType="VARCHAR"/>
+         	<result property="bizId" column="biz_id" jdbcType="VARCHAR" />
+         	<result property="ip" column="ip" jdbcType="VARCHAR" />
+         	<result property="city" column="city" jdbcType="VARCHAR" />
+         	<result property="device" column="device" jdbcType="VARCHAR" />
+         	<result property="crtime" column="crtime" jdbcType="TIMESTAMP" />
+         	<result property="uptime" column="uptime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+
+	<sql id="columns">
+	     id,  biz_id,  ip,  city,  device,  crtime,  uptime 
+	</sql>
+
+    <sql id="sql_query_where">
+		<where>
+            <if test="@Ognl@isNotEmpty(id)"> AND id  = #{id} </if>
+            <if test="@Ognl@isNotEmpty(bizId)"> AND biz_id  = #{bizId} </if>
+            <if test="@Ognl@isNotEmpty(ip)"> AND ip  = #{ip} </if>
+            <if test="@Ognl@isNotEmpty(city)"> AND city  = #{city} </if>
+            <if test="@Ognl@isNotEmpty(device)"> AND device  = #{device} </if>
+            <if test="@Ognl@isNotEmpty(crtime)"> AND crtime  = #{crtime} </if>
+            <if test="@Ognl@isNotEmpty(uptime)"> AND uptime  = #{uptime} </if>
+        </where>
+    </sql>
+    
+    <insert id="insert" parameterType="BizLogonLog">
+        insert into biz_logon_log(
+         <include refid="columns"/>
+        ) values(
+	    #{id,jdbcType=VARCHAR },#{bizId,jdbcType=VARCHAR },#{ip,jdbcType=VARCHAR },#{city,jdbcType=VARCHAR },#{device,jdbcType=VARCHAR },#{crtime,jdbcType=TIMESTAMP },#{uptime,jdbcType=TIMESTAMP }
+        )
+    </insert>
+
+    <update id="update" parameterType="BizLogonLog">
+        update biz_logon_log 
+        <set>
+           <if test="@Ognl@isNotEmpty(bizId)" >
+            biz_id= #{bizId,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(ip)" >
+            ip= #{ip,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(city)" >
+            city= #{city,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(device)" >
+            device= #{device,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(crtime)" >
+            crtime= #{crtime,jdbcType=TIMESTAMP },
+           </if>
+           <if test="@Ognl@isNotEmpty(uptime)" >
+            uptime= #{uptime,jdbcType=TIMESTAMP },
+           </if>
+       </set>
+          where id =#{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from biz_logon_log 
+          where id =#{id}
+    </delete>
+
+    <select id="load" parameterType="java.lang.String" resultMap="result_base">
+        select * from biz_logon_log 
+	          where id =#{id}
+    </select>
+
+    <select id="query" parameterType="map" resultMap="result_base">
+        select * from biz_logon_log
+        <include refid="sql_query_where"/>
+		<if test="@Ognl@isNotEmpty(orderField)">
+		order by ${orderField} ${orderSeq}
+		</if>
+		<if test="@Ognl@isEmpty(orderField)">
+		order by crtime desc
+		</if>
+    </select>
+
+    
+    <select id="count"  parameterType="Map" resultType="Integer">
+        select count(1) from biz_logon_log
+        <include refid="sql_query_where"/>
+    </select>
+</mapper>

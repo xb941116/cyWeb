@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<!-- prod_bug_rpt: 产品_故障_报告-->
+<mapper namespace="ProdBugRpt">
+    <resultMap id="result_base" type="ProdBugRpt">
+         	<id property="id" column="id" jdbcType="VARCHAR"/>
+         	<result property="bizNo" column="biz_no" jdbcType="VARCHAR" />
+         	<result property="prodNo" column="prod_no" jdbcType="VARCHAR" />
+         	<result property="result" column="result" jdbcType="VARCHAR" />
+         	<result property="crtime" column="crtime" jdbcType="TIMESTAMP" />
+         	<result property="uptime" column="uptime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+
+	<sql id="columns">
+	     id,  biz_no,  prod_no,  result,  crtime,  uptime 
+	</sql>
+
+    <sql id="sql_query_where">
+		<where>
+            <if test="@Ognl@isNotEmpty(id)"> AND id  = #{id} </if>
+            <if test="@Ognl@isNotEmpty(bizNo)"> AND biz_no  = #{bizNo} </if>
+            <if test="@Ognl@isNotEmpty(prodNo)"> AND prod_no  = #{prodNo} </if>
+            <if test="@Ognl@isNotEmpty(result)"> AND result  = #{result} </if>
+            <if test="@Ognl@isNotEmpty(crtime)"> AND crtime  = #{crtime} </if>
+            <if test="@Ognl@isNotEmpty(uptime)"> AND uptime  = #{uptime} </if>
+        </where>
+    </sql>
+    
+    <insert id="insert" parameterType="ProdBugRpt">
+        insert into prod_bug_rpt(
+         <include refid="columns"/>
+        ) values(
+	    #{id,jdbcType=VARCHAR },#{bizNo,jdbcType=VARCHAR },#{prodNo,jdbcType=VARCHAR },#{result,jdbcType=VARCHAR },#{crtime,jdbcType=TIMESTAMP },#{uptime,jdbcType=TIMESTAMP }
+        )
+    </insert>
+
+    <update id="update" parameterType="ProdBugRpt">
+        update prod_bug_rpt 
+        <set>
+           <if test="@Ognl@isNotEmpty(bizNo)" >
+            biz_no= #{bizNo,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(prodNo)" >
+            prod_no= #{prodNo,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(result)" >
+            result= #{result,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(crtime)" >
+            crtime= #{crtime,jdbcType=TIMESTAMP },
+           </if>
+           <if test="@Ognl@isNotEmpty(uptime)" >
+            uptime= #{uptime,jdbcType=TIMESTAMP },
+           </if>
+       </set>
+          where id =#{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from prod_bug_rpt 
+          where id =#{id}
+    </delete>
+
+    <delete id="deleteProdBugRpt" parameterType="java.lang.String">
+        delete from prod_bug_rpt where prod_no = #{prodNo}
+    </delete>
+
+    <select id="load" parameterType="java.lang.String" resultMap="result_base">
+        select * from prod_bug_rpt 
+	          where id =#{id}
+    </select>
+
+    <select id="loadProdBugRpt" parameterType="java.lang.String" resultMap="result_base">
+        select * from prod_bug_rpt
+        where prod_no = #{prodNo}
+    </select>
+
+    <select id="query" parameterType="map" resultMap="result_base">
+        select * from prod_bug_rpt
+        <include refid="sql_query_where"/>
+		<if test="@Ognl@isNotEmpty(orderField)">
+		order by ${orderField} ${orderSeq}
+		</if>
+		<if test="@Ognl@isEmpty(orderField)">
+		order by crtime desc
+		</if>
+    </select>
+
+    
+    <select id="count"  parameterType="Map" resultType="Integer">
+        select count(1) from prod_bug_rpt
+        <include refid="sql_query_where"/>
+    </select>
+</mapper>

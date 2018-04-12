@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<!-- prod_model: 产品_销售__模板表-->
+<mapper namespace="ProdModel">
+    <resultMap id="result_base" type="ProdModel">
+         	<id property="id" column="id" jdbcType="VARCHAR"/>
+         	<result property="bizNo" column="biz_no" jdbcType="VARCHAR" />
+         	<result property="bizName" column="biz_name" jdbcType="VARCHAR" />
+         	<result property="prodMdlNo" column="prod_mdl_no" jdbcType="VARCHAR" />
+         	<result property="prodMdlName" column="prod_mdl_name" jdbcType="VARCHAR" />
+         	<result property="logo" column="logo" jdbcType="VARCHAR" />
+         	<result property="sku" column="sku" jdbcType="VARCHAR" />
+         	<result property="type" column="type" jdbcType="INTEGER" />
+         	<result property="price" column="price" jdbcType="DECIMAL" />
+            <result property="prodCv" column="prod_cv" jdbcType="INTEGER"/>
+            <result property="otherMoneyState" column="other_money_state" jdbcType="INTEGER"/>
+            <result property="otherMoneyOption" column="other_money_option" jdbcType="VARCHAR"/>
+         	<result property="perCt" column="per_ct" jdbcType="INTEGER" />
+         	<result property="giftCt" column="gift_ct" jdbcType="INTEGER" />
+         	<result property="firstFree" column="first_free" jdbcType="INTEGER" />
+         	<result property="spoId" column="spo_id" jdbcType="VARCHAR" />
+         	<result property="runTime" column="run_time" jdbcType="INTEGER" />
+         	<result property="state" column="state" jdbcType="INTEGER" />
+         	<result property="crtime" column="crtime" jdbcType="TIMESTAMP" />
+         	<result property="uptime" column="uptime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+
+	<sql id="columns">
+	     id,  biz_no,  biz_name,  prod_mdl_no,  prod_mdl_name,  logo,  sku,  type,  price,prod_cv, other_money_state, other_money_option,  per_ct,  gift_ct,  first_free,  spo_id, run_time, state,  crtime,  uptime
+	</sql>
+
+    <sql id="sql_query_where">
+		<where>
+            <if test="@Ognl@isNotEmpty(id)"> AND id  = #{id} </if>
+            <if test="@Ognl@isNotEmpty(bizNo)"> AND biz_no  = #{bizNo} </if>
+            <if test="@Ognl@isNotEmpty(bizName)"> AND biz_name  = #{bizName} </if>
+            <if test="@Ognl@isNotEmpty(prodMdlNo)"> AND prod_mdl_no  = #{prodMdlNo} </if>
+            <if test="@Ognl@isNotEmpty(prodMdlName)"> AND prod_mdl_name  = #{prodMdlName} </if>
+            <if test="@Ognl@isNotEmpty(logo)"> AND logo  = #{logo} </if>
+            <if test="@Ognl@isNotEmpty(sku)"> AND sku  = #{sku} </if>
+            <if test="@Ognl@isNotEmpty(type)"> AND type  = #{type} </if>
+            <if test="@Ognl@isNotEmpty(price)"> AND price  = #{price} </if>
+            <if test="@Ognl@isNotEmpty(prodCv)"> AND prod_cv  = #{prodCv} </if>
+            <if test="@Ognl@isNotEmpty(otherMoneyState)">AND other_money_state = #{otherMoneyState}</if>
+            <if test="@Ognl@isNotEmpty(otherMoneyOption)">AND other_money_option = #{otherMoneyOption}</if>
+            <if test="@Ognl@isNotEmpty(perCt)"> AND per_ct  = #{perCt} </if>
+            <if test="@Ognl@isNotEmpty(giftCt)"> AND gift_ct  = #{giftCt} </if>
+            <if test="@Ognl@isNotEmpty(firstFree)"> AND first_free  = #{firstFree} </if>
+            <if test="@Ognl@isNotEmpty(spoId)"> AND spo_id  = #{spoId} </if>
+            <if test="@Ognl@isNotEmpty(runTime)"> AND run_time  = #{runTime} </if>
+            <if test="@Ognl@isNotEmpty(state)"> AND state  = #{state} </if>
+            <if test="@Ognl@isNotEmpty(crtime)"> AND crtime  = #{crtime} </if>
+            <if test="@Ognl@isNotEmpty(uptime)"> AND uptime  = #{uptime} </if>
+        </where>
+    </sql>
+    
+    <insert id="insert" parameterType="ProdModel">
+        insert into prod_model(
+         <include refid="columns"/>
+        ) values(
+	    #{id,jdbcType=VARCHAR },#{bizNo,jdbcType=VARCHAR },#{bizName,jdbcType=VARCHAR },#{prodMdlNo,jdbcType=VARCHAR },#{prodMdlName,jdbcType=VARCHAR },#{logo,jdbcType=VARCHAR },#{sku,jdbcType=VARCHAR },#{type,jdbcType=INTEGER },#{price,jdbcType=DECIMAL },#{prodCv,jdbcType=INTEGER },#{otherMoneyState,jdbcType=INTEGER },#{otherMoneyOption,jdbcType=VARCHAR },#{perCt,jdbcType=INTEGER },#{giftCt,jdbcType=INTEGER },#{firstFree,jdbcType=INTEGER },#{spoId,jdbcType=VARCHAR },#{runTime,jdbcType=INTEGER },#{state,jdbcType=INTEGER },#{crtime,jdbcType=TIMESTAMP },#{uptime,jdbcType=TIMESTAMP }
+        )
+    </insert>
+
+    <update id="update" parameterType="ProdModel">
+        update prod_model 
+        <set>
+           <if test="@Ognl@isNotEmpty(bizNo)" >
+            biz_no= #{bizNo,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(bizName)" >
+            biz_name= #{bizName,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(prodMdlNo)" >
+            prod_mdl_no= #{prodMdlNo,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(prodMdlName)" >
+            prod_mdl_name= #{prodMdlName,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(logo)" >
+            logo= #{logo,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(sku)" >
+            sku= #{sku,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(type)" >
+            type= #{type,jdbcType=INTEGER },
+           </if>
+           <if test="@Ognl@isNotEmpty(price)" >
+            price= #{price,jdbcType=DECIMAL },
+           </if>
+           <if test="@Ognl@isNotEmpty(prodCv)" >
+               prod_cv= #{prodCv,jdbcType=INTEGER },
+           </if>
+           <if test="@Ognl@isNotEmpty(otherMoneyState)">
+                other_money_state= #{otherMoneyState,jdbcType=INTEGER },
+           </if>
+           <if test="@Ognl@isNotEmpty(otherMoneyOption)">
+                other_money_option= #{otherMoneyOption,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(perCt)" >
+            per_ct= #{perCt,jdbcType=INTEGER },
+           </if>
+           <if test="@Ognl@isNotEmpty(giftCt)" >
+            gift_ct= #{giftCt,jdbcType=INTEGER },
+           </if>
+           <if test="@Ognl@isNotEmpty(firstFree)" >
+            first_free= #{firstFree,jdbcType=INTEGER },
+           </if>
+           <if test="@Ognl@isNotEmpty(spoId)" >
+            spo_id= #{spoId,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(state)" >
+            state= #{state,jdbcType=INTEGER },
+           </if>
+           <if test="@Ognl@isNotEmpty(runTime)" >
+               run_time= #{runTime,jdbcType=INTEGER },
+           </if>
+           <if test="@Ognl@isNotEmpty(crtime)" >
+            crtime= #{crtime,jdbcType=TIMESTAMP },
+           </if>
+           <if test="@Ognl@isNotEmpty(uptime)" >
+            uptime= #{uptime,jdbcType=TIMESTAMP },
+           </if>
+       </set>
+          where id =#{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from prod_model 
+          where id =#{id}
+    </delete>
+
+    <select id="load" parameterType="java.lang.String" resultMap="result_base">
+        select * from prod_model 
+	          where id =#{id}
+    </select>
+
+    <select id="query" parameterType="map" resultMap="result_base">
+        select * from prod_model
+        <include refid="sql_query_where"/>
+		<if test="@Ognl@isNotEmpty(orderField)">
+		order by ${orderField} ${orderSeq}
+		</if>
+		<if test="@Ognl@isEmpty(orderField)">
+		order by crtime desc
+		</if>
+    </select>
+
+    
+    <select id="count"  parameterType="Map" resultType="Integer">
+        select count(1) from prod_model
+        <include refid="sql_query_where"/>
+    </select>
+</mapper>

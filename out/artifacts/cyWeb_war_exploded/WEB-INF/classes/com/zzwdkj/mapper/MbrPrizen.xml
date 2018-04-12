@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<!-- mbr_prizen: 会员奖励记录表-->
+<mapper namespace="MbrPrizen">
+    <resultMap id="result_base" type="MbrPrizen">
+         	<id property="id" column="id" jdbcType="VARCHAR"/>
+         	<result property="memberId" column="member_id" jdbcType="VARCHAR" />
+         	<result property="money" column="money" jdbcType="INTEGER" />
+         	<result property="reason" column="reason" jdbcType="VARCHAR" />
+         	<result property="crtime" column="crtime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+
+	<sql id="columns">
+	     id,  member_id,  money,  reason,  crtime 
+	</sql>
+
+    <sql id="sql_query_where">
+		<where>
+            <if test="@Ognl@isNotEmpty(id)"> AND id  = #{id} </if>
+            <if test="@Ognl@isNotEmpty(memberId)"> AND member_id  = #{memberId} </if>
+            <if test="@Ognl@isNotEmpty(money)"> AND money  = #{money} </if>
+            <if test="@Ognl@isNotEmpty(reason)"> AND reason  = #{reason} </if>
+            <if test="@Ognl@isNotEmpty(crtime)"> AND crtime  = #{crtime} </if>
+        </where>
+    </sql>
+    
+    <insert id="insert" parameterType="MbrPrizen">
+        insert into mbr_prizen(
+         <include refid="columns"/>
+        ) values(
+	    #{id,jdbcType=VARCHAR },#{memberId,jdbcType=VARCHAR },#{money,jdbcType=INTEGER },#{reason,jdbcType=VARCHAR },#{crtime,jdbcType=TIMESTAMP }
+        )
+    </insert>
+
+    <update id="update" parameterType="MbrPrizen">
+        update mbr_prizen 
+        <set>
+           <if test="@Ognl@isNotEmpty(memberId)" >
+            member_id= #{memberId,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(money)" >
+            money= #{money,jdbcType=INTEGER },
+           </if>
+           <if test="@Ognl@isNotEmpty(reason)" >
+            reason= #{reason,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(crtime)" >
+            crtime= #{crtime,jdbcType=TIMESTAMP },
+           </if>
+       </set>
+          where id =#{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from mbr_prizen 
+          where id =#{id}
+    </delete>
+
+    <select id="load" parameterType="java.lang.String" resultMap="result_base">
+        select * from mbr_prizen 
+	          where id =#{id}
+    </select>
+
+    <select id="query" parameterType="map" resultMap="result_base">
+        select * from mbr_prizen
+        <include refid="sql_query_where"/>
+		<if test="@Ognl@isNotEmpty(orderField)">
+		order by ${orderField} ${orderSeq}
+		</if>
+		<if test="@Ognl@isEmpty(orderField)">
+		order by crtime desc
+		</if>
+    </select>
+
+    
+    <select id="count"  parameterType="Map" resultType="Integer">
+        select count(1) from mbr_prizen
+        <include refid="sql_query_where"/>
+    </select>
+</mapper>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<!-- ord_item: 订单_客户_订单商品项-->
+<mapper namespace="OrdItem">
+    <resultMap id="result_base" type="OrdItem">
+         	<id property="id" column="id" jdbcType="VARCHAR"/>
+         	<result property="ordno" column="ordno" jdbcType="VARCHAR" />
+         	<result property="prodName" column="prod_name" jdbcType="VARCHAR" />
+         	<result property="originalPrice" column="original_price" jdbcType="DECIMAL" />
+         	<result property="price" column="price" jdbcType="DECIMAL" />
+         	<result property="amount" column="amount" jdbcType="INTEGER" />
+         	<result property="gift" column="gift" jdbcType="INTEGER" />
+         	<result property="crtime" column="crtime" jdbcType="TIMESTAMP" />
+         	<result property="uptime" column="uptime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+
+	<sql id="columns">
+	     id,  ordno,  prod_name,  original_price,  price,  amount,  gift,  crtime,  uptime 
+	</sql>
+
+    <sql id="sql_query_where">
+		<where>
+            <if test="@Ognl@isNotEmpty(id)"> AND id  = #{id} </if>
+            <if test="@Ognl@isNotEmpty(ordno)"> AND ordno  = #{ordno} </if>
+            <if test="@Ognl@isNotEmpty(prodName)"> AND prod_name  = #{prodName} </if>
+            <if test="@Ognl@isNotEmpty(originalPrice)"> AND original_price  = #{originalPrice} </if>
+            <if test="@Ognl@isNotEmpty(price)"> AND price  = #{price} </if>
+            <if test="@Ognl@isNotEmpty(amount)"> AND amount  = #{amount} </if>
+            <if test="@Ognl@isNotEmpty(gift)"> AND gift  = #{gift} </if>
+            <if test="@Ognl@isNotEmpty(crtime)"> AND crtime  = #{crtime} </if>
+            <if test="@Ognl@isNotEmpty(uptime)"> AND uptime  = #{uptime} </if>
+        </where>
+    </sql>
+    
+    <insert id="insert" parameterType="OrdItem">
+        insert into ord_item(
+         <include refid="columns"/>
+        ) values(
+	    #{id,jdbcType=VARCHAR },#{ordno,jdbcType=VARCHAR },#{prodName,jdbcType=VARCHAR },#{originalPrice,jdbcType=DECIMAL },#{price,jdbcType=DECIMAL },#{amount,jdbcType=INTEGER },#{gift,jdbcType=INTEGER },#{crtime,jdbcType=TIMESTAMP },#{uptime,jdbcType=TIMESTAMP }
+        )
+    </insert>
+
+    <update id="update" parameterType="OrdItem">
+        update ord_item 
+        <set>
+           <if test="@Ognl@isNotEmpty(ordno)" >
+            ordno= #{ordno,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(prodName)" >
+            prod_name= #{prodName,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(originalPrice)" >
+            original_price= #{originalPrice,jdbcType=DECIMAL },
+           </if>
+           <if test="@Ognl@isNotEmpty(price)" >
+            price= #{price,jdbcType=DECIMAL },
+           </if>
+           <if test="@Ognl@isNotEmpty(amount)" >
+            amount= #{amount,jdbcType=INTEGER },
+           </if>
+           <if test="@Ognl@isNotEmpty(gift)" >
+            gift= #{gift,jdbcType=INTEGER },
+           </if>
+           <if test="@Ognl@isNotEmpty(crtime)" >
+            crtime= #{crtime,jdbcType=TIMESTAMP },
+           </if>
+           <if test="@Ognl@isNotEmpty(uptime)" >
+            uptime= #{uptime,jdbcType=TIMESTAMP },
+           </if>
+       </set>
+          where id =#{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from ord_item 
+          where id =#{id}
+    </delete>
+
+    <select id="load" parameterType="java.lang.String" resultMap="result_base">
+        select * from ord_item 
+	          where id =#{id}
+    </select>
+
+    <select id="query" parameterType="map" resultMap="result_base">
+        select * from ord_item
+        <include refid="sql_query_where"/>
+		<if test="@Ognl@isNotEmpty(orderField)">
+		order by ${orderField} ${orderSeq}
+		</if>
+		<if test="@Ognl@isEmpty(orderField)">
+		order by crtime desc
+		</if>
+    </select>
+
+    
+    <select id="count"  parameterType="Map" resultType="Integer">
+        select count(1) from ord_item
+        <include refid="sql_query_where"/>
+    </select>
+</mapper>

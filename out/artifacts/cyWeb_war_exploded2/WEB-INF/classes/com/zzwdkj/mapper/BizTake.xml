@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- biz_take: 商家_提现-->
+<mapper namespace="BizTake">
+    <resultMap id="result_base" type="BizTake">
+        <id property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="reqno" column="reqno" jdbcType="VARCHAR"/>
+        <result property="bizId" column="biz_id" jdbcType="VARCHAR"/>
+        <result property="bizNo" column="biz_no" jdbcType="VARCHAR"/>
+        <result property="parBizNo" column="par_biz_no" jdbcType="VARCHAR"/>
+        <result property="tsno" column="tsno" jdbcType="VARCHAR"/>
+        <result property="amount" column="amount" jdbcType="DECIMAL"/>
+        <result property="realAmount" column="real_amount" jdbcType="DECIMAL"/>
+        <result property="mtcCost" column="mtc_cost" jdbcType="DECIMAL"/>
+        <result property="takeWay" column="take_way" jdbcType="INTEGER"/>
+        <result property="state" column="state" jdbcType="INTEGER"/>
+        <result property="expln" column="expln" jdbcType="VARCHAR"/>
+        <result property="doneDate" column="done_date" jdbcType="TIMESTAMP"/>
+        <result property="optor" column="optor" jdbcType="VARCHAR"/>
+        <result property="crtime" column="crtime" jdbcType="TIMESTAMP"/>
+        <result property="uptime" column="uptime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <sql id="columns">
+	     id,  reqno,  biz_id, biz_no, par_biz_no, tsno,  amount,  real_amount,  mtc_cost,  take_way,  state,  expln,  done_date,  optor,  crtime,  uptime
+	</sql>
+
+    <sql id="sql_query_where">
+        <where>
+            <if test="@Ognl@isNotEmpty(id)">AND biz_take.id = #{id}</if>
+            <if test="@Ognl@isNotEmpty(reqno)">AND biz_take.reqno = #{reqno}</if>
+            <if test="@Ognl@isNotEmpty(bizId)">AND biz_take.biz_id = #{bizId}</if>
+            <if test="@Ognl@isNotEmpty(bizNo)">AND biz_take.biz_no = #{bizNo}</if>
+            <if test="@Ognl@isNotEmpty(parBizNo)">AND biz_take.par_biz_no = #{parBizNo}</if>
+            <if test="@Ognl@isNotEmpty(tsno)">AND biz_take.tsno = #{tsno}</if>
+            <if test="@Ognl@isNotEmpty(amount)">AND biz_take.amount = #{amount}</if>
+            <if test="@Ognl@isNotEmpty(realAmount)">AND biz_take.real_amount = #{realAmount}</if>
+            <if test="@Ognl@isNotEmpty(mtcCost)">AND biz_take.mtc_cost = #{mtcCost}</if>
+            <if test="@Ognl@isNotEmpty(takeWayWX)">AND biz_take.take_way in (2,3)</if>
+            <if test="@Ognl@isNotEmpty(takeWay)">AND biz_take.take_way = #{takeWay}</if>
+            <if test="@Ognl@isNotEmpty(state)">AND biz_take.state = #{state}</if>
+            <if test="@Ognl@isNotEmpty(expln)">AND biz_take.expln = #{expln}</if>
+            <if test="@Ognl@isNotEmpty(doneDate)">AND biz_take.done_date = #{doneDate}</if>
+            <if test="@Ognl@isNotEmpty(optor)">AND biz_take.optor = #{optor}</if>
+            <if test="@Ognl@isNotEmpty(crtime)">AND biz_take.crtime = #{crtime}</if>
+            <if test="@Ognl@isNotEmpty(uptime)">AND biz_take.uptime = #{uptime}</if>
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="BizTake">
+        insert into biz_take(
+        <include refid="columns"/>
+        ) values(
+        #{id,jdbcType=VARCHAR },#{reqno,jdbcType=VARCHAR },#{bizId,jdbcType=VARCHAR },#{bizNo,jdbcType=VARCHAR },#{parBizNo,jdbcType=VARCHAR },#{tsno,jdbcType=VARCHAR },#{amount,jdbcType=DECIMAL },#{realAmount,jdbcType=DECIMAL },#{mtcCost,jdbcType=DECIMAL },#{takeWay,jdbcType=INTEGER },#{state,jdbcType=INTEGER },#{expln,jdbcType=VARCHAR },#{doneDate,jdbcType=TIMESTAMP },#{optor,jdbcType=VARCHAR },#{crtime,jdbcType=TIMESTAMP },#{uptime,jdbcType=TIMESTAMP }
+        )
+    </insert>
+
+    <update id="update" parameterType="BizTake">
+        update biz_take
+        <set>
+            <if test="@Ognl@isNotEmpty(reqno)">
+                reqno= #{reqno,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(bizId)">
+                biz_id= #{bizId,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(bizNo)">
+                biz_no= #{bizNo,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(parBizNo)">
+                par_biz_no= #{parBizNo,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(tsno)">
+                tsno= #{tsno,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(amount)">
+                amount= #{amount,jdbcType=DECIMAL },
+            </if>
+            <if test="@Ognl@isNotEmpty(realAmount)">
+                real_amount= #{realAmount,jdbcType=DECIMAL },
+            </if>
+            <if test="@Ognl@isNotEmpty(mtcCost)">
+                mtc_cost= #{mtcCost,jdbcType=DECIMAL },
+            </if>
+            <if test="@Ognl@isNotEmpty(takeWay)">
+                take_way= #{takeWay,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(state)">
+                state= #{state,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(expln)">
+                expln= #{expln,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(doneDate)">
+                done_date= #{doneDate,jdbcType=TIMESTAMP },
+            </if>
+            <if test="@Ognl@isNotEmpty(optor)">
+                optor= #{optor,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(crtime)">
+                crtime= #{crtime,jdbcType=TIMESTAMP },
+            </if>
+            <if test="@Ognl@isNotEmpty(uptime)">
+                uptime= #{uptime,jdbcType=TIMESTAMP },
+            </if>
+        </set>
+        where id =#{id}
+    </update>
+
+    <update id="updateByReqno" parameterType="BizTake">
+        update biz_take
+        <set>
+            <if test="@Ognl@isNotEmpty(bizId)">
+                biz_id= #{bizId,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(bizNo)">
+                biz_no= #{bizNo,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(parBizNo)">
+                par_biz_no= #{parBizNo,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(tsno)">
+                tsno= #{tsno,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(amount)">
+                amount= #{amount,jdbcType=DECIMAL },
+            </if>
+            <if test="@Ognl@isNotEmpty(realAmount)">
+                real_amount= #{realAmount,jdbcType=DECIMAL },
+            </if>
+            <if test="@Ognl@isNotEmpty(mtcCost)">
+                mtc_cost= #{mtcCost,jdbcType=DECIMAL },
+            </if>
+            <if test="@Ognl@isNotEmpty(takeWay)">
+                take_way= #{takeWay,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(state)">
+                state= #{state,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(expln)">
+                expln= #{expln,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(doneDate)">
+                done_date= #{doneDate,jdbcType=TIMESTAMP },
+            </if>
+            <if test="@Ognl@isNotEmpty(optor)">
+                optor= #{optor,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(crtime)">
+                crtime= #{crtime,jdbcType=TIMESTAMP },
+            </if>
+            <if test="@Ognl@isNotEmpty(uptime)">
+                uptime= #{uptime,jdbcType=TIMESTAMP },
+            </if>
+        </set>
+        where reqno =#{reqno}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from biz_take 
+          where id =#{id}
+    </delete>
+
+    <select id="load" parameterType="java.lang.String" resultMap="result_base">
+        select * from biz_take 
+	          where id =#{id}
+    </select>
+
+    <select id="loadByReqno" parameterType="map" resultMap="result_base">
+        select * from biz_take
+	          where reqno =#{reqno}
+    </select>
+
+    <select id="query" parameterType="map" resultMap="result_base">
+        select * from biz_take
+        <include refid="sql_query_where"/>
+        <if test="@Ognl@isNotEmpty(orderField)">
+            order by ${orderField} ${orderSeq}
+        </if>
+        <if test="@Ognl@isEmpty(orderField)">
+            order by crtime desc
+        </if>
+    </select>
+
+    <select id="queryJoinBiz" parameterType="map" resultMap="result_base">
+        select * from biz_take
+        <include refid="sql_query_where"/>
+        <if test="@Ognl@isNotEmpty(orderField)">
+            order by ${orderField} ${orderSeq}
+        </if>
+        <if test="@Ognl@isEmpty(orderField)">
+            order by biz_take.crtime desc
+        </if>
+    </select>
+
+    <select id="countJoinBiz" parameterType="Map" resultType="Integer">
+        select count(1) from biz_take
+        <include refid="sql_query_where"/>
+
+        <if test="@Ognl@isNotEmpty(orderField)">
+            order by ${orderField} ${orderSeq}
+        </if>
+        <if test="@Ognl@isEmpty(orderField)">
+            order by biz_take.crtime desc
+        </if>
+    </select>
+
+
+    <select id="count" parameterType="Map" resultType="Integer">
+        select count(1) from biz_take
+        <include refid="sql_query_where"/>
+    </select>
+</mapper>

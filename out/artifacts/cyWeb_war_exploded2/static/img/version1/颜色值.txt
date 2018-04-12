@@ -1,0 +1,76 @@
+分页颜色
+color="#cae8fc"
+
+豆腐块（个人中心）
+color="#a4cf27"
+color="#03bcc6"
+color="#daa618"
+color="#00af3a"
+color="#019fa8"
+color="#00af84"
+个人中心
+充值收入 #1674cb
+月收入 #358b07
+周收入 #ff7e20
+日收入 #1d53ae
+
+导航栏(背景)
+
+color="#52ade7"
+
+导航栏（选中色）
+color="#004175"
+
+
+标题栏
+color="#03b6a3"
+
+统计报表（当日、当周等背景）
+color="#d7d5d5"
+统计报表（选中当日、当周等背景）
+color="#03b6a3"
+字体颜色
+color="#000000"
+标题栏（商家、网络收入、）
+color="#b9b9b9"
+
+
+豆腐块（商家管理）
+color="#a4cf27"
+color="#04bcc6"
+color="#daa517"
+color="#00af3a"
+color="#0cdf52"
+color="#019fa8"
+
+豆腐块（管理中心）
+color="#a4cf27"
+color="#03bcc6"
+color="#daa618"
+color="#00af3a"
+color="#019fa8" 
+color="#00af84"
+
+首页按钮颜色
+color="#ebf4f9"
+首页文本框
+color="#f2f9fd"
+首页文本框失败
+color="#f0eaf4"
+首页LOGO边框颜色
+color="#bce5f7"
+
+营收比例
+投币图形效果 color="#36defb"
+刷卡图形效果 color="#6ccb33"
+微信图形效果 color="#fecf07"
+钱包图形效果 color="#fe4b85"
+营收比例tab字体颜色
+color="#064679"
+营收比例刷卡、投币等字体颜色
+color="#050505"
+
+
+充值界面
+color="#58b431" 按钮
+color="#f08300"

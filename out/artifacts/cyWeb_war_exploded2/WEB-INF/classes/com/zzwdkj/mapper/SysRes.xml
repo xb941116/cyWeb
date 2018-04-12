@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- sys_res: 权限_系统资源-->
+<mapper namespace="SysRes">
+    <resultMap id="result_base" type="SysRes">
+        <id property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="logo" column="logo" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="code" column="code" jdbcType="VARCHAR"/>
+        <result property="uri" column="uri" jdbcType="VARCHAR"/>
+        <result property="type" column="type" jdbcType="INTEGER"/>
+        <result property="pcode" column="pcode" jdbcType="VARCHAR"/>
+        <result property="sort" column="sort" jdbcType="INTEGER"/>
+        <result property="state" column="state" jdbcType="INTEGER"/>
+        <result property="admin" column="admin" jdbcType="INTEGER"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="crtime" column="crtime" jdbcType="TIMESTAMP"/>
+        <result property="uptime" column="uptime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <sql id="columns">
+	     id,  logo,  name,  code,  uri,  type,  pcode,  sort,  state,admin,  remark,  crtime,  uptime
+	</sql>
+
+    <sql id="sql_query_where">
+        <where>
+            <if test="@Ognl@isNotEmpty(id)">AND id = #{id}</if>
+            <if test="@Ognl@isNotEmpty(logo)">AND logo = #{logo}</if>
+            <if test="@Ognl@isNotEmpty(name)">AND name = #{name}</if>
+            <if test="@Ognl@isNotEmpty(code)">AND code = #{code}</if>
+            <if test="@Ognl@isNotEmpty(uri)">AND uri = #{uri}</if>
+            <if test="@Ognl@isNotEmpty(type)">AND type = #{type}</if>
+            <if test="@Ognl@isNotEmpty(pcode)">AND pcode = #{pcode}</if>
+            <if test="@Ognl@isNotEmpty(sort)">AND sort = #{sort}</if>
+            <if test="@Ognl@isNotEmpty(state)">AND state = #{state}</if>
+            <if test="@Ognl@isNotEmpty(admin)">AND admin = #{admin}</if>
+            <if test="@Ognl@isNotEmpty(remark)">AND remark = #{remark}</if>
+            <if test="@Ognl@isNotEmpty(crtime)">AND crtime = #{crtime}</if>
+            <if test="@Ognl@isNotEmpty(uptime)">AND uptime = #{uptime}</if>
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="SysRes">
+        insert into sys_res(
+        <include refid="columns"/>
+        ) values(
+        #{id,jdbcType=VARCHAR },#{logo,jdbcType=VARCHAR },#{name,jdbcType=VARCHAR },#{code,jdbcType=VARCHAR },#{uri,jdbcType=VARCHAR },#{type,jdbcType=INTEGER },#{pcode,jdbcType=VARCHAR },#{sort,jdbcType=INTEGER },#{state,jdbcType=INTEGER },#{admin,jdbcType=INTEGER },#{remark,jdbcType=VARCHAR },#{crtime,jdbcType=TIMESTAMP },#{uptime,jdbcType=TIMESTAMP }
+        )
+    </insert>
+
+    <update id="update" parameterType="SysRes">
+        update sys_res
+        <set>
+            <if test="@Ognl@isNotEmpty(logo)">
+                logo= #{logo,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(name)">
+                name= #{name,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(code)">
+                code= #{code,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(uri)">
+                uri= #{uri,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(type)">
+                type= #{type,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(pcode)">
+                pcode= #{pcode,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(sort)">
+                sort= #{sort,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(state)">
+                state= #{state,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(admin)">
+                admin= #{admin,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(remark)">
+                remark= #{remark,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(crtime)">
+                crtime= #{crtime,jdbcType=TIMESTAMP },
+            </if>
+            <if test="@Ognl@isNotEmpty(uptime)">
+                uptime= #{uptime,jdbcType=TIMESTAMP },
+            </if>
+        </set>
+        where id =#{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from sys_res 
+          where id =#{id}
+    </delete>
+
+    <select id="load" parameterType="java.lang.String" resultMap="result_base">
+        select * from sys_res 
+	          where id =#{id}
+    </select>
+
+    <select id="query" parameterType="map" resultMap="result_base">
+        select * from sys_res
+        <include refid="sql_query_where"/>
+        <if test="@Ognl@isNotEmpty(orderField)">
+            order by ${orderField} ${orderSeq}
+        </if>
+        <if test="@Ognl@isEmpty(orderField)">
+            order by crtime desc
+        </if>
+    </select>
+
+    <select id="querySysResByAcct" parameterType="string" resultMap="result_base">
+         SELECT
+            *
+        FROM
+            sys_res r
+        WHERE
+            EXISTS (
+                SELECT
+                    1
+                FROM
+                    sys_acct_res a
+                WHERE
+                    a.res_code = r. CODE
+                AND a.acct = #{acct}
+            )
+        ORDER BY
+            r.sort asc
+    </select>
+
+    <select id="querySysRes" parameterType="map" resultMap="result_base">
+         SELECT
+            *
+        FROM
+            sys_res r
+        WHERE
+            EXISTS (
+                SELECT
+                    1
+                FROM
+                    sys_acct_res a
+                WHERE
+                    a.res_code = r. CODE
+                AND a.acct = #{acct}
+            )
+            AND r.pcode = #{parResCode}
+        ORDER BY
+            r.sort asc
+    </select>
+
+    <select id="count" parameterType="Map" resultType="Integer">
+        select count(1) from sys_res
+        <include refid="sql_query_where"/>
+    </select>
+</mapper>

@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- biz: 商家-->
+<mapper namespace="Biz">
+    <resultMap id="result_base" type="Biz">
+        <id property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="bizPushUrl" column="biz_push_url" jdbcType="VARCHAR"/>
+        <result property="bizKey" column="biz_key" jdbcType="VARCHAR"/>
+        <result property="bizNo" column="biz_no" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="parBizNo" column="par_biz_no" jdbcType="VARCHAR"/>
+        <result property="parBizName" column="par_biz_name" jdbcType="VARCHAR"/>
+        <result property="grade" column="grade" jdbcType="INTEGER"/>
+        <result property="mobile" column="mobile" jdbcType="VARCHAR"/>
+        <result property="tel" column="tel" jdbcType="VARCHAR"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="webSite" column="web_site" jdbcType="VARCHAR"/>
+        <result property="addr" column="addr" jdbcType="VARCHAR"/>
+        <result property="logo" column="logo" jdbcType="VARCHAR"/>
+        <result property="useWxLg" column="use_wx_lg" jdbcType="INTEGER"/>
+        <result property="wxLogo" column="wx_logo" jdbcType="VARCHAR"/>
+        <result property="state" column="state" jdbcType="INTEGER"/>
+        <result property="takeSet" column="take_set" jdbcType="DECIMAL"/>
+        <result property="crtime" column="crtime" jdbcType="TIMESTAMP"/>
+        <result property="uptime" column="uptime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <sql id="columns">
+	     id,biz_push_url, biz_key, biz_no,  name,  par_biz_no,  par_biz_name,  grade,  mobile,  tel,  email,  web_site,  addr,  logo,  use_wx_lg,  wx_logo,  state, take_set,   crtime,  uptime
+	</sql>
+
+    <sql id="sql_query_where">
+        <where>
+            <if test="@Ognl@isNotEmpty(id)">AND biz.id = #{id}</if>
+            <if test="@Ognl@isNotEmpty(bizPushUrl)">AND biz.biz_push_url = #{bizPushUrl}</if>
+            <if test="@Ognl@isNotEmpty(bizKey)">AND biz.biz_key = #{bizKey}</if>
+            <if test="@Ognl@isNotEmpty(bizNo)">AND biz.biz_no = #{bizNo}</if>
+            <if test="@Ognl@isNotEmpty(name)">AND biz.name = #{name}</if>
+            <if test="@Ognl@isNotEmpty(likeName)"> AND biz.name like CONCAT('%',#{likeName},'%')</if>
+            <if test="@Ognl@isNotEmpty(parBizNo)">AND biz.par_biz_no = #{parBizNo}</if>
+            <if test="@Ognl@isNotEmpty(parBizName)">AND biz.par_biz_name = #{parBizName}</if>
+            <if test="@Ognl@isNotEmpty(grade)">AND biz.grade = #{grade}</if>
+            <if test="@Ognl@isNotEmpty(mobile)">AND biz.mobile = #{mobile}</if>
+            <if test="@Ognl@isNotEmpty(tel)">AND biz.tel = #{tel}</if>
+            <if test="@Ognl@isNotEmpty(email)">AND biz.email = #{email}</if>
+            <if test="@Ognl@isNotEmpty(webSite)">AND biz.web_site = #{webSite}</if>
+            <if test="@Ognl@isNotEmpty(addr)">AND biz.addr = #{addr}</if>
+            <if test="@Ognl@isNotEmpty(logo)">AND biz.logo = #{logo}</if>
+            <if test="@Ognl@isNotEmpty(useWxLg)">AND biz.use_wx_lg = #{useWxLg}</if>
+            <if test="@Ognl@isNotEmpty(wxLogo)">AND biz.wx_logo = #{wxLogo}</if>
+            <if test="@Ognl@isNotEmpty(state)">AND biz.state = #{state}</if>
+            <if test="@Ognl@isNotEmpty(crtime)">AND biz.crtime = #{crtime}</if>
+            <if test="@Ognl@isNotEmpty(uptime)">AND biz.uptime = #{uptime}</if>
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="Biz">
+        insert into biz(
+        <include refid="columns"/>
+        ) values(
+        #{id,jdbcType=VARCHAR },#{bizPushUrl,jdbcType=VARCHAR },#{bizKey,jdbcType=VARCHAR },#{bizNo,jdbcType=VARCHAR },#{name,jdbcType=VARCHAR },#{parBizNo,jdbcType=VARCHAR },#{parBizName,jdbcType=VARCHAR },#{grade,jdbcType=INTEGER },#{mobile,jdbcType=VARCHAR },#{tel,jdbcType=VARCHAR },#{email,jdbcType=VARCHAR },#{webSite,jdbcType=VARCHAR },#{addr,jdbcType=VARCHAR },#{logo,jdbcType=VARCHAR },#{useWxLg,jdbcType=INTEGER },#{wxLogo,jdbcType=VARCHAR },#{state,jdbcType=INTEGER },#{takeSet,jdbcType=DECIMAL },#{crtime,jdbcType=TIMESTAMP },#{uptime,jdbcType=TIMESTAMP }
+        )
+    </insert>
+
+    <update id="update" parameterType="Biz">
+        update biz
+        <set>
+            <if test="@Ognl@isNotEmpty(bizPushUrl)">
+                biz_push_url= #{bizPushUrl,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(bizKey)">
+                biz_key= #{bizKey,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(bizNo)">
+                biz_no= #{bizNo,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(name)">
+                name= #{name,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(parBizNo)">
+                par_biz_no= #{parBizNo,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(parBizName)">
+                par_biz_name= #{parBizName,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(grade)">
+                grade= #{grade,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(mobile)">
+                mobile= #{mobile,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(tel)">
+                tel= #{tel,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(email)">
+                email= #{email,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(webSite)">
+                web_site= #{webSite,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(addr)">
+                addr= #{addr,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(logo)">
+                logo= #{logo,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(useWxLg)">
+                use_wx_lg= #{useWxLg,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(wxLogo)">
+                wx_logo= #{wxLogo,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(state)">
+                state= #{state,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(takeSet)">
+                take_set= #{takeSet,jdbcType=DECIMAL },
+            </if>
+            <if test="@Ognl@isNotEmpty(crtime)">
+                crtime= #{crtime,jdbcType=TIMESTAMP },
+            </if>
+            <if test="@Ognl@isNotEmpty(uptime)">
+                uptime= #{uptime,jdbcType=TIMESTAMP },
+            </if>
+        </set>
+        where id =#{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from biz 
+          where id =#{id}
+    </delete>
+
+    <select id="load" parameterType="java.lang.String" resultMap="result_base">
+        select * from biz 
+	          where id =#{id}
+    </select>
+
+    <select id="loadBizByMobile" parameterType="java.lang.String" resultMap="result_base">
+        select * from biz
+        where mobile =#{mobile}
+    </select>
+
+    <select id="loadBizByName" parameterType="java.lang.String" resultMap="result_base">
+        select * from biz
+        where name =#{name}
+    </select>
+
+    <select id="loadBizByEmail" parameterType="java.lang.String" resultMap="result_base">
+        select * from biz
+        where email =#{email}
+    </select>
+
+    <select id="loadBizByBizNo" parameterType="java.lang.String" resultMap="result_base">
+        select * from biz where biz_no =#{bizNo}
+    </select>
+
+    <select id="query" parameterType="map" resultMap="result_base">
+        select * from biz
+        <include refid="sql_query_where"/>
+        <if test="@Ognl@isNotEmpty(orderField)">
+            order by ${orderField} ${orderSeq}
+        </if>
+        <if test="@Ognl@isEmpty(orderField)">
+            order by biz.crtime asc
+        </if>
+    </select>
+
+    <select id="queryBizJoinAcct" parameterType="map" resultMap="result_base">
+        select biz.*,sys_acct.acct as acct from biz LEFT JOIN sys_acct ON biz.biz_no=sys_acct.biz_no AND sys_acct.main_acct=1
+        <include refid="sql_query_where"/>
+        <if test="@Ognl@isNotEmpty(orderField)">
+            order by ${orderField} ${orderSeq}
+        </if>
+        <if test="@Ognl@isEmpty(orderField)">
+            order by biz.crtime asc
+        </if>
+    </select>
+
+    <select id="queryBizUnder" parameterType="map" resultMap="result_base">
+        SELECT
+            *
+        FROM
+            biz b
+        WHERE
+            b.biz_no = #{bizNo}
+        union all
+        SELECT
+            *
+        FROM
+            biz b
+        WHERE
+            b.par_biz_no = #{bizNo}
+    </select>
+
+    <select id="count" parameterType="Map" resultType="Integer">
+        select count(1) from biz
+        <include refid="sql_query_where"/>
+    </select>
+
+    <select id="countBizJoinAcct" parameterType="Map" resultType="Integer">
+        select count(1) from biz LEFT JOIN sys_acct ON biz.biz_no=sys_acct.biz_no AND sys_acct.main_acct=1
+        <include refid="sql_query_where"/>
+    </select>
+</mapper>

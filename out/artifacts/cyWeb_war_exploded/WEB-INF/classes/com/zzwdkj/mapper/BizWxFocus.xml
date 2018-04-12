@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- biz_wx_focus: 商家_微信_强制关注-->
+<mapper namespace="BizWxFocus">
+    <resultMap id="result_base" type="BizWxFocus">
+        <id property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="bizNo" column="biz_no" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="appId" column="app_id" jdbcType="VARCHAR"/>
+        <result property="appSkey" column="app_skey" jdbcType="VARCHAR"/>
+        <result property="pubAcctId" column="pub_acct_id" jdbcType="VARCHAR"/>
+        <result property="optor" column="optor" jdbcType="VARCHAR"/>
+        <result property="crtime" column="crtime" jdbcType="TIMESTAMP"/>
+        <result property="uptime" column="uptime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <sql id="columns">
+	     id,  biz_no,  name,  app_id,  app_skey,  pub_acct_id,  optor,  crtime,  uptime 
+	</sql>
+
+    <sql id="sql_query_where">
+        <where>
+            <if test="@Ognl@isNotEmpty(id)">AND id = #{id}</if>
+            <if test="@Ognl@isNotEmpty(bizNo)">AND biz_no = #{bizNo}</if>
+            <if test="@Ognl@isNotEmpty(name)">AND name = #{name}</if>
+            <if test="@Ognl@isNotEmpty(appId)">AND app_id = #{appId}</if>
+            <if test="@Ognl@isNotEmpty(appSkey)">AND app_skey = #{appSkey}</if>
+            <if test="@Ognl@isNotEmpty(pubAcctId)">AND pub_acct_id = #{pubAcctId}</if>
+            <if test="@Ognl@isNotEmpty(optor)">AND optor = #{optor}</if>
+            <if test="@Ognl@isNotEmpty(crtime)">AND crtime = #{crtime}</if>
+            <if test="@Ognl@isNotEmpty(uptime)">AND uptime = #{uptime}</if>
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="BizWxFocus">
+        insert into biz_wx_focus(
+        <include refid="columns"/>
+        ) values(
+        #{id,jdbcType=VARCHAR },#{bizNo,jdbcType=VARCHAR },#{name,jdbcType=VARCHAR },#{appId,jdbcType=VARCHAR },#{appSkey,jdbcType=VARCHAR },#{pubAcctId,jdbcType=VARCHAR },#{optor,jdbcType=VARCHAR },#{crtime,jdbcType=TIMESTAMP },#{uptime,jdbcType=TIMESTAMP }
+        )
+    </insert>
+
+    <update id="update" parameterType="BizWxFocus">
+        update biz_wx_focus
+        <set>
+            <if test="@Ognl@isNotEmpty(bizNo)">
+                biz_no= #{bizNo,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(name)">
+                name= #{name,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(appId)">
+                app_id= #{appId,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(appSkey)">
+                app_skey= #{appSkey,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(pubAcctId)">
+                pub_acct_id= #{pubAcctId,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(optor)">
+                optor= #{optor,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(crtime)">
+                crtime= #{crtime,jdbcType=TIMESTAMP },
+            </if>
+            <if test="@Ognl@isNotEmpty(uptime)">
+                uptime= #{uptime,jdbcType=TIMESTAMP },
+            </if>
+        </set>
+        where id =#{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from biz_wx_focus 
+          where id =#{id}
+    </delete>
+
+    <select id="load" parameterType="java.lang.String" resultMap="result_base">
+        select * from biz_wx_focus 
+	          where id =#{id}
+    </select>
+
+
+    <select id="loadBizWxFocusByBizNo" parameterType="string" resultMap="result_base">
+        select * from biz_wx_focus
+	          where biz_no =#{bizNo}
+    </select>
+
+    <select id="query" parameterType="map" resultMap="result_base">
+        select * from biz_wx_focus
+        <include refid="sql_query_where"/>
+        <if test="@Ognl@isNotEmpty(orderField)">
+            order by ${orderField} ${orderSeq}
+        </if>
+        <if test="@Ognl@isEmpty(orderField)">
+            order by crtime desc
+        </if>
+    </select>
+
+
+    <select id="count" parameterType="Map" resultType="Integer">
+        select count(1) from biz_wx_focus
+        <include refid="sql_query_where"/>
+    </select>
+</mapper>

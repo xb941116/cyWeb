@@ -1,0 +1,723 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- ord: 订单_订单表-->
+<mapper namespace="Ord">
+    <resultMap id="result_base" type="Ord">
+        <id property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="memberId" column="member_id" jdbcType="VARCHAR"/>
+        <result property="ordOpenid" column="ord_openid" jdbcType="VARCHAR"/>
+        <result property="bizNo" column="biz_no" jdbcType="VARCHAR"/>
+        <result property="bizName" column="biz_name" jdbcType="VARCHAR"/>
+        <result property="prodNo" column="prod_no" jdbcType="VARCHAR"/>
+        <result property="prodName" column="prod_name" jdbcType="VARCHAR"/>
+        <result property="gprsNo" column="gprs_no" jdbcType="VARCHAR"/>
+        <result property="ordno" column="ordno" jdbcType="VARCHAR"/>
+        <result property="devType" column="dev_type" jdbcType="INTEGER"/>
+        <result property="channel" column="channel" jdbcType="INTEGER"/>
+        <result property="totalTime" column="total_time" jdbcType="INTEGER"/>
+        <result property="perPrice" column="per_price" jdbcType="DECIMAL"/>
+        <result property="wallet" column="wallet" jdbcType="DECIMAL"/><!--修改人：sfn；时间：12.7-->
+        <result property="coins" column="coins" jdbcType="DECIMAL"/><!--修改人：sfn；时间：12.7-->
+        <result property="prodQt" column="prod_qt" jdbcType="INTEGER"/>
+        <result property="prodPrice" column="prod_price" jdbcType="DECIMAL"/>
+        <result property="giveQt" column="give_qt" jdbcType="INTEGER"/>
+        <result property="pulse" column="pulse" jdbcType="INTEGER"/>
+        <result property="payWay" column="pay_way" jdbcType="INTEGER"/>
+        <result property="state" column="state" jdbcType="INTEGER"/>
+        <result property="otpCode" column="otp_code" jdbcType="VARCHAR"/>
+        <result property="succ" column="succ" jdbcType="INTEGER"/>
+        <result property="transfersIs" column="transfers_is" jdbcType="INTEGER"/>
+        <result property="transfersState" column="transfers_state" jdbcType="INTEGER"/>
+        <result property="crtime" column="crtime" jdbcType="TIMESTAMP"/>
+        <result property="uptime" column="uptime" jdbcType="TIMESTAMP"/>
+        <result property="beginTime" column="beginTime" jdbcType="VARCHAR"/>
+        <result property="endTime" column="endTime" jdbcType="VARCHAR"/>
+        <result property="aliInc" column="aliInc" jdbcType="DECIMAL"/>
+        <result property="wxInc" column="wxInc" jdbcType="DECIMAL"/>
+        <result property="wltInc" column="wltInc" jdbcType="DECIMAL"/>
+
+    </resultMap>
+
+
+    <sql id="columns"><!--修改人：sfn；时间：12.7-->
+	     id,  member_id, ord_openid, biz_no, biz_name,  prod_no,prod_name,  gprs_no,  ordno,dev_type, channel,  total_time,  per_price, prod_qt,  prod_price, wallet,coins, give_qt,  pulse,  pay_way, succ,  transfers_is,  transfers_state,  state,otp_code,  crtime,  uptime
+	</sql>
+
+    <sql id="sql_query_where">
+        <where>
+            <if test="@Ognl@isNotEmpty(id)">AND ord.id = #{id}</if>
+            <if test="@Ognl@isNotEmpty(memberId)">AND ord.member_id = #{memberId}</if>
+            <if test="@Ognl@isNotEmpty(ordOpenid)">AND ord.ord_openid = #{ordOpenid}</if>
+            <if test="@Ognl@isNotEmpty(bizNo)">AND ord.biz_no = #{bizNo}</if>
+            <if test="@Ognl@isNotEmpty(prodNo)">AND ord.prod_no = #{prodNo}</if>
+            <if test="@Ognl@isNotEmpty(prodName)">AND ord.prod_name = #{prodName}</if>
+            <if test="@Ognl@isNotEmpty(gprsNo)">AND ord.gprs_no = #{gprsNo}</if>
+            <if test="@Ognl@isNotEmpty(devType)">AND ord.dev_type = #{devType}</if>
+            <if test="@Ognl@isNotEmpty(channel)">AND ord.channel = #{channel}</if>
+            <if test="@Ognl@isNotEmpty(totalTime)">AND ord.total_time = #{totalTime}</if>
+            <if test="@Ognl@isNotEmpty(ordno)">AND ord.ordno = #{ordno}</if>
+            <if test="@Ognl@isNotEmpty(openid)">AND ord_pay_wx.openid = #{openid}</if>
+            <if test="@Ognl@isNotEmpty(payWay)">AND ord.pay_way = #{payWay}</if>
+            <if test="@Ognl@isNotEmpty(succ)">AND ord.succ = #{succ}</if>
+            <if test="@Ognl@isNotEmpty(transfersIs)">AND ord.transfers_is = #{transfersIs}</if>
+            <if test="@Ognl@isNotEmpty(transfersState)">AND ord.transfers_state = #{transfersState}</if>
+            <if test="@Ognl@isNotEmpty(transfersStateAuto)">AND ord.transfers_state in (0,1)</if>
+            <if test="@Ognl@isNotEmpty(state)">AND ord.state = #{state}</if>
+            <if test="@Ognl@isNotEmpty(otpCode)">AND ord.otp_code = #{otpCode}</if>
+            <if test="@Ognl@isNotEmpty(beginTime)">AND DATE_FORMAT(ord.crtime,'%Y-%m-%d') &gt;= #{beginTime}</if>
+            <if test="@Ognl@isNotEmpty(endTime)">AND DATE_FORMAT(ord.crtime,'%Y-%m-%d') &lt;= #{endTime}</if>
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="Ord"><!--修改人：sfn；时间：12.7-->
+        insert into ord(
+        <include refid="columns"/>
+        ) values(
+        #{id,jdbcType=VARCHAR },#{memberId,jdbcType=VARCHAR },#{ordOpenid,jdbcType=VARCHAR },#{bizNo,jdbcType=VARCHAR },#{bizName,jdbcType=VARCHAR },#{prodNo,jdbcType=VARCHAR },#{prodName,jdbcType=VARCHAR },#{gprsNo,jdbcType=VARCHAR },#{ordno,jdbcType=VARCHAR },#{devType,jdbcType=INTEGER },#{channel,jdbcType=INTEGER },#{totalTime,jdbcType=INTEGER },#{perPrice,jdbcType=DECIMAL },#{prodQt,jdbcType=INTEGER },#{prodPrice,jdbcType=DECIMAL },#{wallet,jdbcType=DECIMAL },#{coins,jdbcType=DECIMAL },#{giveQt,jdbcType=INTEGER },#{pulse,jdbcType=INTEGER },#{payWay,jdbcType=INTEGER },#{succ,jdbcType=INTEGER },#{transfersIs,jdbcType=INTEGER },#{transfersState,jdbcType=INTEGER },#{state,jdbcType=INTEGER },#{otpCode,jdbcType=VARCHAR },#{crtime,jdbcType=TIMESTAMP },#{uptime,jdbcType=TIMESTAMP }
+        )
+    </insert>
+
+    <update id="update" parameterType="Ord">
+        update ord
+        <set>
+            <if test="@Ognl@isNotEmpty(memberId)">
+                member_id= #{memberId,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(ordOpenid)">
+                ord_openid= #{ordOpenid,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(bizNo)">
+                biz_no= #{bizNo,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(bizName)">
+                biz_name= #{bizName,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(prodNo)">
+                prod_no= #{prodNo,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(gprsNo)">
+                gprs_no= #{gprsNo,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(ordno)">
+                ordno= #{ordno,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(channel)">
+                channel= #{channel,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(totalTime)">
+                total_time= #{totalTime,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(perPrice)">
+                per_price= #{perPrice,jdbcType=DECIMAL },
+            </if>
+            <if test="@Ognl@isNotEmpty(prodQt)">
+                prod_qt= #{prodQt,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(prodPrice)">
+                prod_price= #{prodPrice,jdbcType=DECIMAL },
+            </if>
+            <if test="@Ognl@isNotEmpty(wallet)">
+                wallet= #{wallet,jdbcType=DECIMAL },<!--修改人：sfn；时间：12.7-->
+            </if>
+            <if test="@Ognl@isNotEmpty(coins)">
+                coins= #{coins,jdbcType=DECIMAL },<!--修改人：sfn；时间：12.7-->
+            </if>
+            <if test="@Ognl@isNotEmpty(giveQt)">
+                give_qt= #{giveQt,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(pulse)">
+                pulse= #{pulse,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(payWay)">
+                pay_way= #{payWay,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(succ)">
+                succ= #{succ,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(transfersIs)">
+                transfers_is= #{transfersIs,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(transfersState)">
+                transfers_state= #{transfersState,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(state)">
+                state= #{state,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(otpCode)">
+                otp_code= #{otpCode,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(crtime)">
+                crtime= #{crtime,jdbcType=TIMESTAMP },
+            </if>
+            <if test="@Ognl@isNotEmpty(uptime)">
+                uptime= #{uptime,jdbcType=TIMESTAMP },
+            </if>
+        </set>
+        where id =#{id}
+    </update>
+
+    <update id="updateOrdSt" parameterType="map">
+        update ord set state = #{state} ,succ = #{succ},uptime = now()
+        <if test="@Ognl@isNotEmpty(channel)">
+            ,channel= #{channel,jdbcType=INTEGER }
+        </if>
+        <if test="@Ognl@isNotEmpty(totalTime)">
+            ,total_time= #{totalTime,jdbcType=INTEGER }
+        </if>
+        where ordno =#{ordno}
+    </update>
+
+
+    <update id="updateOrdPaySt" parameterType="map">
+        update ord set state = #{state} ,uptime = now() where ordno =#{ordno}
+    </update>
+
+
+    <update id="updateAllTransfersOrd" parameterType="map">
+        update ord set transfers_state = 1 ,uptime = now()
+          where transfers_is=1 AND transfers_state=0 AND TO_DAYS(ord.CRTIME) &lt; TO_DAYS(NOW())
+    </update>
+
+
+    <update id="updateTransfersOrdSucess" parameterType="map">
+        update ord set transfers_state = 2 ,uptime = now()
+        where transfers_is=1 AND transfers_state=1
+            AND biz_no= #{bizNo}
+    </update>
+
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from ord 
+          where id =#{id}
+    </delete>
+
+    <select id="load" parameterType="java.lang.String" resultMap="result_base">
+        select * from ord 
+	          where id =#{id}
+    </select>
+    <!--修改人苏方宁   时间18-03.15-->
+    <select id="queryStaDailyInc" parameterType="string" resultMap="result_base">
+        select sum(prod_price) as prod_price from ord where biz_no = #{bizNo} and TO_DAYS(crtime) = TO_DAYS(now())and pay_way = 2  and state =2 group by biz_no
+    </select>
+    <select id="queryStaDailyWltInc" parameterType="string" resultMap="result_base">
+        select sum(wallet) as wallet from ord where biz_no = #{bizNo} and TO_DAYS(crtime) = TO_DAYS(now())and pay_way = 3  and state =2 group by biz_no
+    </select>
+    <select id="queryStaDailyCoinsInc" parameterType="string" resultMap="result_base">
+        select sum(coins) as coins from ord where biz_no = #{bizNo} and TO_DAYS(crtime) = TO_DAYS(now())and pay_way = 3  and state =2 group by biz_no
+    </select>
+    <!--修改人苏方宁   时间18-03.15-->
+    <select id="queryStaEveryInc" parameterType="string" resultMap="result_base">
+        select SUM(wallet) as wallet from (select wallet,biz_no,CRTIME from  ord   where DATE_SUB(CURDATE(), INTERVAL 29 DAY) &lt;= crtime AND STATE =2 AND pay_way=3 group by crtime)  aa
+        where biz_no = #{bizNo} and DATE_FORMAT(CRTIME,'%Y-%m-%d')
+        GROUP BY DATE_FORMAT(CRTIME,'%Y-%m-%d');
+    </select>
+
+    <select id="queryStaEveryCoin" parameterType="string" resultMap="result_base">
+        select SUM(coins) as coins from (select coins,biz_no,CRTIME from  ord   where DATE_SUB(CURDATE(), INTERVAL 29 DAY) &lt;= crtime AND STATE =2 AND pay_way=3 group by crtime)  aa
+        where biz_no = #{bizNo} and DATE_FORMAT(CRTIME,'%Y-%m-%d')
+        GROUP BY DATE_FORMAT(CRTIME,'%Y-%m-%d');
+    </select>
+
+    <select id="queryStaEveryWx" parameterType="string" resultMap="result_base">
+        select SUM(prod_price) as prod_price from (select prod_price,biz_no,CRTIME from  ord   where DATE_SUB(CURDATE(), INTERVAL 29 DAY) &lt;= crtime AND STATE =2 AND pay_way=2 group by crtime)  aa
+        where biz_no = #{bizNo} and DATE_FORMAT(CRTIME,'%Y-%m-%d')
+        GROUP BY DATE_FORMAT(CRTIME,'%Y-%m-%d');
+    </select>
+
+    <select id="queryStaDailyIncByPayWay" parameterType="map" resultMap="result_base">
+        select sum(prod_price) as prod_price from ord where biz_no = #{bizNo} and pay_way =#{payWay} and
+        TO_DAYS(crtime)= TO_DAYS(now()) and state =2
+        <if test="@Ognl@isNotEmpty(type)">
+            and dev_type = #{type}
+        </if>
+        group by biz_no
+    </select>
+
+    <select id="queryStaDailyIncByProdNo" parameterType="string" resultMap="result_base">
+        select sum(prod_price) as prod_price from ord where prod_no = #{prodNo} and TO_DAYS(crtime) = TO_DAYS(now()) and state =2 group by prod_no
+    </select>
+
+    <select id="queryStaDailyIncByProdNoAndPayWay" parameterType="map" resultMap="result_base">
+        select sum(prod_price) as prod_price from ord where prod_no = #{prodNo} and pay_way = #{payWay} and TO_DAYS(crtime) = TO_DAYS(now()) and state =2 group by prod_no
+    </select>
+    <!--修改人苏方宁   时间18-03.15-->
+    <select id="queryStaWeekInc" parameterType="map" resultMap="result_base">
+        select sum(prod_price) as prod_price from ord where biz_no = #{bizNo} and TO_DAYS(crtime) &gt;= TO_DAYS(#{mondayOfWeek}) and pay_way = 2 and state =2 group by biz_no
+    </select>
+    <select id="queryStaWeekWltInc" parameterType="map" resultMap="result_base">
+        select sum(wallet) as wallet from ord where biz_no = #{bizNo} and TO_DAYS(crtime) &gt;= TO_DAYS(#{mondayOfWeek}) and pay_way = 3 and state =2 group by biz_no
+    </select>
+    <select id="queryStaWeekCoinsInc" parameterType="map" resultMap="result_base">
+        select sum(coins) as coins from ord where biz_no = #{bizNo} and TO_DAYS(crtime) &gt;= TO_DAYS(#{mondayOfWeek}) and pay_way = 3 and state =2 group by biz_no
+    </select>
+
+
+    <select id="queryStaWeekIncByPayWay" parameterType="map" resultMap="result_base">
+        select sum(prod_price) as prod_price from ord where biz_no = #{bizNo} and pay_way = #{payWay} and
+        TO_DAYS(crtime) &gt;= TO_DAYS(#{mondayOfWeek}) and state =2
+        <if test="@Ognl@isNotEmpty(type)">
+            and dev_type = #{type}
+        </if>
+        group by biz_no
+    </select>
+
+
+    <select id="queryStaWeekIncByProdNo" parameterType="map" resultMap="result_base">
+        select sum(prod_price) as prod_price from ord where prod_no = #{prodNo} and  TO_DAYS(crtime) &gt;= TO_DAYS(#{mondayOfWeek}) and state =2 group by prod_no
+    </select>
+
+    <select id="queryStaWeekIncByProdNoAndPayWay" parameterType="map" resultMap="result_base">
+        select sum(prod_price) as prod_price from ord where prod_no = #{prodNo} and pay_way=#{payWay} and  TO_DAYS(crtime) &gt;= TO_DAYS(#{mondayOfWeek}) and state =2 group by prod_no
+    </select>
+
+    <select id="loadStaDailyIncWithPerPayWayByProdNo" parameterType="map" resultMap="result_base">
+        SELECT
+        sum(
+        case pay_way when 1 then prod_price else 0.00 end
+        ) AS aliInc,
+        sum(
+        case pay_way when 2 then prod_price else 0.00 end
+        ) AS wxInc,
+        sum(
+        case pay_way when 3 then prod_price else 0.00 end
+        ) AS wltInc
+        FROM ord  WHERE prod_no =  #{prodNo} and TO_DAYS(crtime) = TO_DAYS(now())  AND state = 2
+    </select>
+
+    <select id="loadStaWeekIncWithPerPayWayByProdNo" parameterType="map" resultMap="result_base">
+        SELECT
+        sum(
+        case pay_way when 1 then prod_price else 0.00 end
+        ) AS aliInc,
+        sum(
+        case pay_way when 2 then prod_price else 0.00 end
+        ) AS wxInc,
+        sum(
+        case pay_way when 3 then prod_price else 0.00 end
+        ) AS wltInc
+        FROM	ord  WHERE ord.prod_no =  #{prodNo} AND TO_DAYS(ord.crtime)  &gt;= TO_DAYS(#{mondayOfWeek}) AND ord.state = 2
+
+    </select>
+
+    <select id="loadStaDilayIncWithPerPayWayByProdNo" parameterType="map" resultMap="result_base">
+        SELECT
+        sum(
+        case pay_way when 1 then prod_price else 0.00 end
+        ) AS aliInc,
+        sum(
+        case pay_way when 2 then prod_price else 0.00 end
+        ) AS wxInc,
+        sum(
+        case pay_way when 3 then prod_price else 0.00 end
+        ) AS wltInc
+        FROM	ord  WHERE ord.prod_no =  #{prodNo} AND TO_DAYS(ord.crtime)  &gt;= TO_DAYS(#{mondayOfWeek}) AND ord.state = 2
+
+    </select>
+
+    <select id="loadStaMonthIncWithPerPayWayByProdNo" parameterType="map" resultMap="result_base">
+        SELECT
+        sum(
+        case pay_way when 1 then prod_price else 0.00 end
+        ) AS aliInc,
+        sum(
+        case pay_way when 2 then prod_price else 0.00 end
+        ) AS wxInc,
+        sum(
+        case pay_way when 3 then prod_price else 0.00 end
+        ) AS wltInc
+        FROM	ord  WHERE prod_no =  #{prodNo}  and DATE_FORMAT(crtime, '%Y%m') = DATE_FORMAT(now(), '%Y%m') AND state = 2
+
+    </select>
+
+    <select id="loadStaPeriodIncWithPerPayWayByProdNo" parameterType="map" resultMap="result_base">
+        SELECT
+        sum(
+        case pay_way when 1 then prod_price else 0.00 end
+        ) AS aliInc,
+        sum(
+        case pay_way when 2 then prod_price else 0.00 end
+        ) AS wxInc,
+        sum(
+        case pay_way when 3 then prod_price else 0.00 end
+        ) AS wltInc
+        FROM	ord  WHERE prod_no =  #{prodNo}  and DATE_FORMAT(crtime, '%Y%m%d') &gt;= #{beginDate} and DATE_FORMAT(crtime, '%Y%m%d') &lt;= #{endDate} AND state = 2
+
+    </select>
+
+    <select id="loadStaPeriodIncWithPerPayWayByGprsNo" parameterType="map" resultMap="result_base">
+        SELECT
+        sum(
+        case pay_way when 1 then prod_price else 0.00 end
+        ) AS aliInc,
+        sum(
+        case pay_way when 2 then prod_price else 0.00 end
+        ) AS wxInc,
+        sum(
+        case pay_way when 3 then prod_price else 0.00 end
+        ) AS wltInc
+        FROM	ord  WHERE biz_no= #{bizNo}
+        and DATE_FORMAT(crtime, '%Y%m%d') &gt;= #{beginDate}
+        and DATE_FORMAT(crtime, '%Y%m%d') &lt;= #{endDate}
+        AND state = 2
+        and gprs_no=#{gprsNo}
+        GROUP BY prod_no
+    </select>
+
+    <select id="loadStaNetIncWithPerPayWayByProdNo" parameterType="map" resultMap="result_base">
+        SELECT
+        sum(
+        case pay_way when 1 then prod_price else 0.00 end
+        ) AS aliInc,
+        sum(
+        case pay_way when 2 then prod_price else 0.00 end
+        ) AS wxInc,
+        sum(
+        case pay_way when 3 then prod_price else 0.00 end
+        ) AS wltInc
+        FROM	ord  WHERE prod_no =  #{prodNo}  AND state = 2
+
+    </select>
+
+    <select id="loadStaPeriodTotalIncWithPerPayWay" parameterType="map" resultMap="result_base">
+        SELECT
+        sum(
+        case pay_way when 1 then prod_price else 0.00 end
+        ) AS aliInc,
+        sum(
+        case pay_way when 2 then prod_price else 0.00 end
+        ) AS wxInc,
+        sum(
+        case pay_way when 3 then prod_price else 0.00 end
+        ) AS wltInc
+        FROM	ord  WHERE  biz_no = #{bizNo}  and
+        DATE_FORMAT(crtime, '%Y%m%d') &gt;= #{beginDate} and DATE_FORMAT(crtime, '%Y%m%d') &lt;= #{endDate}
+        and state =2
+        <if test="@Ognl@isNotEmpty(type)">
+            and dev_type = #{type}
+        </if>
+        group by biz_no
+    </select>
+
+    <select id="loadStaTotalIncWithPerPayWay" parameterType="map" resultMap="result_base">
+        SELECT
+        sum(
+        case pay_way when 1 then prod_price else 0.00 end
+        ) AS aliInc,
+        sum(
+        case pay_way when 2 then prod_price else 0.00 end
+        ) AS wxInc,
+        sum(
+        case pay_way when 3 then prod_price else 0.00 end
+        ) AS wltInc
+        FROM	ord  WHERE  biz_no = #{bizNo}  and state =2
+        <if test="@Ognl@isNotEmpty(type)">
+            and dev_type = #{type}
+        </if>
+        group by biz_no
+    </select>
+
+    <select id="loadStaDailyTotalIncWithPerPayWay" parameterType="map" resultMap="result_base">
+        SELECT
+        sum(
+        case pay_way when 1 then prod_price else 0.00 end
+        ) AS aliInc,
+        sum(
+        case pay_way when 2 then prod_price else 0.00 end
+        ) AS wxInc,
+        sum(
+        case pay_way when 3 then prod_price else 0.00 end
+        ) AS wltInc
+        FROM	ord  WHERE  biz_no = #{bizNo}  and TO_DAYS(crtime) = TO_DAYS(now()) and state =2
+        <if test="@Ognl@isNotEmpty(type)">
+            and dev_type = #{type}
+        </if>
+        group by biz_no
+    </select>
+
+    <select id="loadStaDailyTotalIncWithPerPayWayTransfers" parameterType="map" resultMap="result_base">
+        SELECT
+        sum(
+        case pay_way when 1 then prod_price else 0.00 end
+        ) AS aliInc,
+        sum(
+        case pay_way when 2 then prod_price else 0.00 end
+        ) AS wxInc,
+        sum(
+        case pay_way when 3 then prod_price else 0.00 end
+        ) AS wltInc
+        FROM	ord  WHERE  biz_no = #{bizNo}  and TO_DAYS(crtime) = (TO_DAYS(now())-1) and state =2
+        <if test="@Ognl@isNotEmpty(type)">
+            and dev_type = #{type}
+        </if>
+        group by biz_no
+    </select>
+
+    <select id="loadStaMonthTotalIncWithPerPayWay" parameterType="map" resultMap="result_base">
+        SELECT
+        sum(
+        case pay_way when 1 then prod_price else 0.00 end
+        ) AS aliInc,
+        sum(
+        case pay_way when 2 then prod_price else 0.00 end
+        ) AS wxInc,
+        sum(
+        case pay_way when 3 then prod_price else 0.00 end
+        ) AS wltInc
+        FROM	ord  WHERE  biz_no = #{bizNo} and DATE_FORMAT(crtime, '%Y%m') = DATE_FORMAT(now(), '%Y%m') and state =2
+        <if test="@Ognl@isNotEmpty(type)">
+            and dev_type = #{type}
+        </if>
+        group by biz_no
+    </select>
+
+
+    <select id="loadStaNetIncPerPayWayByProdNo" parameterType="map" resultMap="result_base">
+        SELECT
+        sum(
+        case pay_way when 1 then prod_price else 0.00 end
+        ) AS aliInc,
+        sum(
+        case pay_way when 2 then prod_price else 0.00 end
+        ) AS wxInc,
+        sum(
+        case pay_way when 3 then prod_price else 0.00 end
+        ) AS wltInc
+        FROM	ord
+        where  prod_no = #{prodNo} and state =2
+
+    </select>
+
+    <select id="loadStaWeekTotalIncWithPerPayWay" parameterType="map" resultMap="result_base">
+        SELECT
+        sum(
+        case pay_way when 1 then prod_price else 0.00 end
+        ) AS aliInc,
+        sum(
+        case pay_way when 2 then prod_price else 0.00 end
+        ) AS wxInc,
+        sum(
+        case pay_way when 3 then prod_price else 0.00 end
+        ) AS wltInc
+        FROM	ord  WHERE  biz_no = #{bizNo} and TO_DAYS(crtime) &gt;= TO_DAYS(#{mondayOfWeek}) and state =2
+        <if test="@Ognl@isNotEmpty(type)">
+            and dev_type = #{type}
+        </if>
+        group by biz_no
+    </select>
+    <!--修改人苏方宁  修改时间：18-03-13-->
+    <select id="queryStaMonthInc" parameterType="string" resultMap="result_base">
+        select sum(prod_price) as prod_price from ord where biz_no = #{bizNo} and DATE_FORMAT(crtime, '%Y%m') = DATE_FORMAT(now(), '%Y%m')  and pay_way = 2 and state =2 group by biz_no
+    </select>
+    <select id="queryStaMonthWltInc" parameterType="string" resultMap="result_base">
+        select sum(wallet) as wallet from ord where biz_no = #{bizNo} and DATE_FORMAT(crtime, '%Y%m') = DATE_FORMAT(now(), '%Y%m')  and pay_way = 3 and state =2 group by biz_no
+    </select>
+    <select id="queryStaMonthCoinsInc" parameterType="string" resultMap="result_base">
+        select sum(coins) as coins from ord where biz_no = #{bizNo} and DATE_FORMAT(crtime, '%Y%m') = DATE_FORMAT(now(), '%Y%m')  and pay_way = 3 and state =2 group by biz_no
+    </select>
+
+
+    <select id="queryStaIncByProdNo" parameterType="string" resultMap="result_base">
+        select sum(prod_price) as prod_price from ord where prod_no = #{prodNo} group by prod_no
+    </select>
+
+    <select id="queryStaMonthIncByPayWay" parameterType="map" resultMap="result_base">
+        select sum(prod_price) as prod_price from ord where biz_no = #{bizNo} and pay_way = #{payWay} and
+        DATE_FORMAT(crtime, '%Y%m') = DATE_FORMAT(now(), '%Y%m') and state =2
+        <if test="@Ognl@isNotEmpty(type)">
+            and dev_type = #{type}
+        </if>
+        group by biz_no
+    </select>
+
+
+    <select id="queryStaMonthIncByProdNo" parameterType="string" resultMap="result_base">
+        select sum(prod_price) as prod_price from ord where prod_no = #{prodNo} and DATE_FORMAT(crtime, '%Y%m') = DATE_FORMAT(now(), '%Y%m')  and state =2 group by prod_no
+    </select>
+
+    <select id="queryStaMonthIncByProdNoAndPayWay" parameterType="map" resultMap="result_base">
+        select sum(prod_price) as prod_price from ord where prod_no = #{prodNo} and pay_way = #{payWay} and DATE_FORMAT(crtime, '%Y%m') = DATE_FORMAT(now(), '%Y%m')  and state =2 group by prod_no
+    </select>
+
+    <select id="queryStaNetInc" parameterType="string" resultMap="result_base">
+        select sum(prod_price) as prod_price from ord where biz_no = #{bizNo} and pay_way = 2 and state =2 group by biz_no
+    </select>
+    <!--修改人苏方宁  修改时间：18-03-13-->
+    <select id="queryStaWltInc" parameterType="string" resultMap="result_base">
+        select sum(wallet) as wallet from ord where biz_no = #{bizNo} and pay_way = 3 and state =2 group by biz_no
+    </select>
+    <select id="queryStaCoinsInc" parameterType="string" resultMap="result_base">
+        select sum(coins) as coins from ord where biz_no = #{bizNo} and pay_way = 3 and state =2 group by biz_no
+    </select>
+    <!--修改人苏方宁  修改时间：18-03-13-->
+
+    <select id="queryStaNetIncByProdNo" parameterType="string" resultMap="result_base">
+        select sum(prod_price) as prod_price from ord where prod_no = #{prodNo} and state =2 group by prod_no
+    </select>
+
+    <select id="queryStaNetIncByProdNoAndPayWay" parameterType="map" resultMap="result_base">
+        select sum(prod_price) as prod_price from ord where prod_no = #{prodNo} and pay_way=#{payWay} and state =2 group by prod_no
+    </select>
+
+
+    <select id="queryStaPeriodInc" parameterType="map" resultMap="result_base">
+        select sum(prod_price) as prod_price from ord where biz_no = #{bizNo} and DATE_FORMAT(crtime, '%Y%m%d') &gt;= #{beginDate} and DATE_FORMAT(crtime, '%Y%m%d') &lt;= #{endDate} and pay_way = 2 and state =2 group by biz_no
+    </select>
+    <!--修改人苏方宁  修改时间：18-03-13-->
+    <select id="queryStaPeriodWltInc" parameterType="map" resultMap="result_base">
+        select sum(wallet) as wallet from ord where biz_no = #{bizNo} and DATE_FORMAT(crtime, '%Y%m%d') &gt;= #{beginDate} and DATE_FORMAT(crtime, '%Y%m%d') &lt;= #{endDate} and pay_way = 3 and state =2 group by biz_no
+    </select>
+    <!--修改人苏方宁  修改时间：18-03-13-->
+
+    <select id="queryStaPeriodCoinsInc" parameterType="map" resultMap="result_base">
+        select sum(coins) as coins from ord where biz_no = #{bizNo} and DATE_FORMAT(crtime, '%Y%m%d') &gt;= #{beginDate} and DATE_FORMAT(crtime, '%Y%m%d') &lt;= #{endDate} and pay_way = 3 and state =2 group by biz_no
+    </select>
+    <!--修改人苏方宁  修改时间：18-03-13-->
+
+    <select id="queryStaPeriodIncByPayWay" parameterType="map" resultMap="result_base">
+        select sum(prod_price) as prod_price from ord where biz_no = #{bizNo} and pay_way =#{payWay} and
+        DATE_FORMAT(crtime, '%Y%m%d') &gt;= #{beginDate} and DATE_FORMAT(crtime, '%Y%m%d') &lt;= #{endDate}
+        and state =2
+        <if test="@Ognl@isNotEmpty(type)">
+            and dev_type = #{type}
+        </if>
+        group by biz_no
+    </select>
+
+    <select id="queryStaIncByPayWay" parameterType="map" resultMap="result_base">
+        select sum(prod_price) as prod_price from ord where biz_no = #{bizNo} and pay_way =#{payWay} and state =2
+        <if test="@Ognl@isNotEmpty(type)">
+            and dev_type = #{type}
+        </if>
+        group by biz_no
+    </select>
+
+    <select id="queryStaPeriodIncByProdNo" parameterType="map" resultMap="result_base">
+        select sum(prod_price) as prod_price from ord where prod_no = #{prodNo} and DATE_FORMAT(crtime, '%Y%m%d') &gt;= #{beginDate} and DATE_FORMAT(crtime, '%Y%m%d') &lt;= #{endDate} and state =2 group by prod_no
+    </select>
+
+    <select id="queryStaPeriodIncByProdNoAndPayWay" parameterType="map" resultMap="result_base">
+        select sum(prod_price) as prod_price from ord where prod_no = #{prodNo} and pay_way = #{payWay} and DATE_FORMAT(crtime, '%Y%m%d') &gt;= #{beginDate} and DATE_FORMAT(crtime, '%Y%m%d') &lt;= #{endDate} and state =2 group by prod_no
+    </select>
+
+    <select id="query" parameterType="map" resultMap="result_base">
+        select * from ord
+        <include refid="sql_query_where"/>
+        <if test="@Ognl@isNotEmpty(orderField)">
+            order by ${orderField} ${orderSeq}
+        </if>
+        <if test="@Ognl@isEmpty(orderField)">
+            order by crtime desc
+        </if>
+    </select>
+
+
+    <select id="queryOrdJoinOrdPayWx" parameterType="map" resultMap="result_base">
+        select * from ord LEFT JOIN ord_pay_wx ON ord.ordno=ord_pay_wx.payno
+        <include refid="sql_query_where"/>
+        <if test="@Ognl@isNotEmpty(orderField)">
+            order by ${orderField} ${orderSeq}
+        </if>
+        <if test="@Ognl@isEmpty(orderField)">
+            order by ord.crtime desc
+        </if>
+    </select>
+
+    <select id="queryOrdLasted" parameterType="java.lang.String" resultMap="result_base">
+        select * from ord where gprs_no = #{gprsNo} and state = 1 order by crtime desc limit 1
+    </select>
+
+    <select id="loadByOrdNo" parameterType="Map" resultMap="result_base">
+        select * from ord  WHERE ordno= #{ordno,jdbcType=VARCHAR }
+    </select>
+
+    <select id="queryFailOrd" parameterType="Map" resultType="Map">
+        SELECT
+            ord.*, ord_pay_wx.resv_acct AS bizNum,ord_pay_wx.resv_biz_no as resvBizNo
+        FROM
+            ord
+        LEFT JOIN ord_pay_wx ON ord.ORDNO = ord_pay_wx.PAYNO
+        WHERE
+            ord.pay_way = #{payWay}
+        AND (ord.state =1 or ord.state =3)
+        AND (ord.succ = 0 or ord.succ is null)
+        AND NOW()> DATE_ADD(ord.crtime,INTERVAL 10 MINUTE)
+        ORDER BY CRTIME ASC
+    </select>
+
+    <select id="queryTakeOrd" parameterType="Map" resultType="Map">
+        SELECT
+            ord.BIZ_NO AS bizNo ,
+            ord_pay_wx.RESV_BIZ_NO AS resvBizNo ,
+            ord_pay_wx.RESV_ACCT AS bizNum ,
+            biz_take_wx.OPENID AS openid ,
+            biz_take_wx.NICK AS nick ,
+            SUM(ord.PROD_PRICE) AS money
+        FROM
+            ord
+        LEFT JOIN biz_take_wx ON ord.BIZ_NO = biz_take_wx.BIZ_NO
+        LEFT JOIN ord_pay_wx ON ord.ORDNO = ord_pay_wx.PAYNO
+        WHERE
+            ord.TRANSFERS_IS = 1
+        AND ord.TRANSFERS_STATE = 1
+        AND ord.PAY_WAY = 2
+        AND ord.succ=1
+        GROUP BY
+            ord.BIZ_NO ,
+            ord_pay_wx.RESV_ACCT
+    </select>
+
+    <select id="count" parameterType="Map" resultType="Integer">
+        select count(1) from ord
+        <include refid="sql_query_where"/>
+    </select>
+
+    <select id="countOrdJoinOrdPayWx" parameterType="Map" resultType="Integer">
+        select count(1) from ord LEFT JOIN ord_pay_wx ON ord.ordno=ord_pay_wx.payno
+        <include refid="sql_query_where"/>
+    </select>
+
+    <select id="queryAutoMoney" parameterType="Map" resultType="Integer">
+        select sum(prod_price) from ord
+        <include refid="sql_query_where"/>
+    </select>
+
+
+    <select id="quryTodayOrd" parameterType="Map" resultType="Map">
+        select sum(prod_price) from ord
+        <include refid="sql_query_where"/>
+    </select>
+
+
+    <select id="loadMapOrdByOrdNo" parameterType="Map" resultType="Map">
+        select
+          prod_no as prodNo,  gprs_no as gprsNo,  ordno as ordNo, prod_price as Moeny,  pulse as pulse, succ,  state, crtime, uptime
+        from ord  WHERE ordno= #{ordNo} and  biz_no= #{bizNo}
+    </select>
+
+
+    <select id="quryTodayMapOrd" parameterType="java.lang.String" resultType="Map">
+        select
+            prod_no as prodNo,  gprs_no as gprsNo,  ordno as ordNo, prod_price as Moeny,  pulse as pulse, succ,  state, crtime, uptime
+        from ord
+        WHERE biz_no= #{bizNo} and TO_DAYS(crtime) = TO_DAYS(now())
+    </select>
+
+
+    <select id="queryMbrAllOrd" parameterType="map" resultMap="result_base">
+        select * from ord
+        <include refid="sql_query_where"/>
+
+        <if test="@Ognl@isNotEmpty(orderField)">
+            order by ${orderField} ${orderSeq}
+        </if>
+        <if test="@Ognl@isEmpty(orderField)">
+            order by ord.crtime desc
+        </if>
+    </select>
+
+    <select id="countMbrAllOrd" parameterType="Map" resultType="Integer">
+        select count(1) from ord
+        <include refid="sql_query_where"/>
+    </select>
+
+</mapper>

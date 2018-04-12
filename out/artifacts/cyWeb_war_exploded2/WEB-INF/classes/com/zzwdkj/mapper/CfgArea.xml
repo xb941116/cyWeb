@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<!-- cfg_area: 区域字典表-->
+<mapper namespace="CfgArea">
+    <resultMap id="result_base" type="CfgArea">
+         	<id property="id" column="id" jdbcType="VARCHAR"/>
+         	<result property="no" column="no" jdbcType="VARCHAR" />
+         	<result property="areaName" column="area_name" jdbcType="VARCHAR" />
+         	<result property="topno" column="topno" jdbcType="VARCHAR" />
+         	<result property="areaCode" column="area_code" jdbcType="VARCHAR" />
+         	<result property="areaLevel" column="area_level" jdbcType="VARCHAR" />
+         	<result property="typeName" column="type_name" jdbcType="VARCHAR" />
+    </resultMap>
+
+
+	<sql id="columns">
+	     id,  no,  area_name,  topno,  area_code,  area_level,  type_name 
+	</sql>
+
+    <sql id="sql_query_where">
+		<where>
+            <if test="@Ognl@isNotEmpty(id)"> AND id  = #{id} </if>
+            <if test="@Ognl@isNotEmpty(no)"> AND no  = #{no} </if>
+            <if test="@Ognl@isNotEmpty(areaName)"> AND area_name  = #{areaName} </if>
+            <if test="@Ognl@isNotEmpty(topno)"> AND topno  = #{topno} </if>
+            <if test="@Ognl@isNotEmpty(areaCode)"> AND area_code  = #{areaCode} </if>
+            <if test="@Ognl@isNotEmpty(areaLevel)"> AND area_level  = #{areaLevel} </if>
+            <if test="@Ognl@isNotEmpty(typeName)"> AND type_name  = #{typeName} </if>
+        </where>
+    </sql>
+    
+    <insert id="insert" parameterType="CfgArea">
+        insert into cfg_area(
+         <include refid="columns"/>
+        ) values(
+	    #{id,jdbcType=VARCHAR },#{no,jdbcType=VARCHAR },#{areaName,jdbcType=VARCHAR },#{topno,jdbcType=VARCHAR },#{areaCode,jdbcType=VARCHAR },#{areaLevel,jdbcType=VARCHAR },#{typeName,jdbcType=VARCHAR }
+        )
+    </insert>
+
+    <update id="update" parameterType="CfgArea">
+        update cfg_area 
+        <set>
+           <if test="@Ognl@isNotEmpty(no)" >
+            no= #{no,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(areaName)" >
+            area_name= #{areaName,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(topno)" >
+            topno= #{topno,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(areaCode)" >
+            area_code= #{areaCode,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(areaLevel)" >
+            area_level= #{areaLevel,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(typeName)" >
+            type_name= #{typeName,jdbcType=VARCHAR },
+           </if>
+       </set>
+          where id =#{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from cfg_area 
+          where id =#{id}
+    </delete>
+
+    <select id="load" parameterType="java.lang.String" resultMap="result_base">
+        select * from cfg_area 
+	          where id =#{id}
+    </select>
+
+    <select id="query" parameterType="map" resultMap="result_base">
+        select * from cfg_area
+        <include refid="sql_query_where"/>
+		<if test="@Ognl@isNotEmpty(orderField)">
+		order by ${orderField} ${orderSeq}
+		</if>
+		<if test="@Ognl@isEmpty(orderField)">
+		order by no asc
+		</if>
+    </select>
+
+    
+    <select id="count"  parameterType="Map" resultType="Integer">
+        select count(1) from cfg_area
+        <include refid="sql_query_where"/>
+    </select>
+</mapper>

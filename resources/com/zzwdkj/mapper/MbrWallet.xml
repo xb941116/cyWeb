@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<!-- mbr_wallet: 会员钱包-->
+<mapper namespace="MbrWallet">
+    <resultMap id="result_base" type="MbrWallet">
+         	<id property="id" column="id" jdbcType="VARCHAR"/>
+         	<result property="memberId" column="member_id" jdbcType="VARCHAR" />
+         	<result property="money" column="money" jdbcType="DECIMAL" />
+         	<result property="state" column="state" jdbcType="INTEGER" />
+         	<result property="paypwd" column="paypwd" jdbcType="VARCHAR" />
+         	<result property="crtime" column="crtime" jdbcType="TIMESTAMP" />
+         	<result property="uptime" column="uptime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+
+	<sql id="columns">
+	     id,  member_id,  money,  state,  paypwd,  crtime,  uptime 
+	</sql>
+
+    <sql id="sql_query_where">
+		<where>
+            <if test="@Ognl@isNotEmpty(id)"> AND id  = #{id} </if>
+            <if test="@Ognl@isNotEmpty(memberId)"> AND member_id  = #{memberId} </if>
+            <if test="@Ognl@isNotEmpty(money)"> AND money  = #{money} </if>
+            <if test="@Ognl@isNotEmpty(state)"> AND state  = #{state} </if>
+            <if test="@Ognl@isNotEmpty(paypwd)"> AND paypwd  = #{paypwd} </if>
+            <if test="@Ognl@isNotEmpty(crtime)"> AND crtime  = #{crtime} </if>
+            <if test="@Ognl@isNotEmpty(uptime)"> AND uptime  = #{uptime} </if>
+        </where>
+    </sql>
+    
+    <insert id="insert" parameterType="MbrWallet">
+        insert into mbr_wallet(
+         <include refid="columns"/>
+        ) values(
+	    #{id,jdbcType=VARCHAR },#{memberId,jdbcType=VARCHAR },#{money,jdbcType=DECIMAL },#{state,jdbcType=INTEGER },#{paypwd,jdbcType=VARCHAR },#{crtime,jdbcType=TIMESTAMP },#{uptime,jdbcType=TIMESTAMP }
+        )
+    </insert>
+
+    <update id="update" parameterType="MbrWallet">
+        update mbr_wallet 
+        <set>
+           <if test="@Ognl@isNotEmpty(memberId)" >
+            member_id= #{memberId,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(money)" >
+            money= #{money,jdbcType=DECIMAL },
+           </if>
+           <if test="@Ognl@isNotEmpty(state)" >
+            state= #{state,jdbcType=INTEGER },
+           </if>
+           <if test="@Ognl@isNotEmpty(paypwd)" >
+            paypwd= #{paypwd,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(crtime)" >
+            crtime= #{crtime,jdbcType=TIMESTAMP },
+           </if>
+           <if test="@Ognl@isNotEmpty(uptime)" >
+            uptime= #{uptime,jdbcType=TIMESTAMP },
+           </if>
+       </set>
+          where id =#{id}
+    </update>
+
+
+    <update id="updateMoneySub" parameterType="map">
+        update mbr_wallet set money = money - #{money},uptime =now() where member_id = #{memberId} and (money - #{money})>=0
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from mbr_wallet 
+          where id =#{id}
+    </delete>
+
+    <select id="load" parameterType="java.lang.String" resultMap="result_base">
+        select * from mbr_wallet 
+	          where id =#{id}
+    </select>
+
+    <select id="loadByMemberId" parameterType="java.lang.String" resultMap="result_base">
+        select * from mbr_wallet
+	          where member_id= #{memberId}
+    </select>
+
+
+    <select id="queryByMobile" parameterType="java.lang.String" resultMap="result_base">
+        select cw.* from mbr_wallet cw left join mbr c on cw.member_id = c.id where c.mobile =#{mobile}
+    </select>
+
+
+    <select id="query" parameterType="map" resultMap="result_base">
+        select * from mbr_wallet
+        <include refid="sql_query_where"/>
+		<if test="@Ognl@isNotEmpty(orderField)">
+		order by ${orderField} ${orderSeq}
+		</if>
+		<if test="@Ognl@isEmpty(orderField)">
+		order by crtime desc
+		</if>
+    </select>
+
+    
+    <select id="count"  parameterType="Map" resultType="Integer">
+        select count(1) from mbr_wallet
+        <include refid="sql_query_where"/>
+    </select>
+</mapper>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<!-- biz_bank: 商家_银行卡-->
+<mapper namespace="BizBank">
+    <resultMap id="result_base" type="BizBank">
+         	<id property="id" column="id" jdbcType="VARCHAR"/>
+         	<result property="bizId" column="biz_id" jdbcType="VARCHAR" />
+         	<result property="bankNo" column="bank_no" jdbcType="VARCHAR" />
+         	<result property="bankName" column="bank_name" jdbcType="VARCHAR" />
+         	<result property="bankAddr" column="bank_addr" jdbcType="VARCHAR" />
+         	<result property="crtime" column="crtime" jdbcType="TIMESTAMP" />
+         	<result property="uptime" column="uptime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+
+	<sql id="columns">
+	     id,  biz_id,  bank_no,  bank_name,  bank_addr,  crtime,  uptime 
+	</sql>
+
+    <sql id="sql_query_where">
+		<where>
+            <if test="@Ognl@isNotEmpty(id)"> AND id  = #{id} </if>
+            <if test="@Ognl@isNotEmpty(bizId)"> AND biz_id  = #{bizId} </if>
+            <if test="@Ognl@isNotEmpty(bankNo)"> AND bank_no  = #{bankNo} </if>
+            <if test="@Ognl@isNotEmpty(bankName)"> AND bank_name  = #{bankName} </if>
+            <if test="@Ognl@isNotEmpty(bankAddr)"> AND bank_addr  = #{bankAddr} </if>
+            <if test="@Ognl@isNotEmpty(crtime)"> AND crtime  = #{crtime} </if>
+            <if test="@Ognl@isNotEmpty(uptime)"> AND uptime  = #{uptime} </if>
+        </where>
+    </sql>
+    
+    <insert id="insert" parameterType="BizBank">
+        insert into biz_bank(
+         <include refid="columns"/>
+        ) values(
+	    #{id,jdbcType=VARCHAR },#{bizId,jdbcType=VARCHAR },#{bankNo,jdbcType=VARCHAR },#{bankName,jdbcType=VARCHAR },#{bankAddr,jdbcType=VARCHAR },#{crtime,jdbcType=TIMESTAMP },#{uptime,jdbcType=TIMESTAMP }
+        )
+    </insert>
+
+    <update id="update" parameterType="BizBank">
+        update biz_bank 
+        <set>
+           <if test="@Ognl@isNotEmpty(bizId)" >
+            biz_id= #{bizId,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(bankNo)" >
+            bank_no= #{bankNo,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(bankName)" >
+            bank_name= #{bankName,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(bankAddr)" >
+            bank_addr= #{bankAddr,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(crtime)" >
+            crtime= #{crtime,jdbcType=TIMESTAMP },
+           </if>
+           <if test="@Ognl@isNotEmpty(uptime)" >
+            uptime= #{uptime,jdbcType=TIMESTAMP },
+           </if>
+       </set>
+          where id =#{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from biz_bank 
+          where id =#{id}
+    </delete>
+
+    <select id="load" parameterType="java.lang.String" resultMap="result_base">
+        select * from biz_bank 
+	          where id =#{id}
+    </select>
+
+    <select id="query" parameterType="map" resultMap="result_base">
+        select * from biz_bank
+        <include refid="sql_query_where"/>
+		<if test="@Ognl@isNotEmpty(orderField)">
+		order by ${orderField} ${orderSeq}
+		</if>
+		<if test="@Ognl@isEmpty(orderField)">
+		order by crtime desc
+		</if>
+    </select>
+
+    
+    <select id="count"  parameterType="Map" resultType="Integer">
+        select count(1) from biz_bank
+        <include refid="sql_query_where"/>
+    </select>
+</mapper>

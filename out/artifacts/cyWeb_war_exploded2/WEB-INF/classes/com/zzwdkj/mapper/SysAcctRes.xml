@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- sys_acct_res: 权限_账号权限-->
+<mapper namespace="SysAcctRes">
+    <resultMap id="result_base" type="SysAcctRes">
+        <id property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="bizNo" column="biz_no" jdbcType="VARCHAR"/>
+        <result property="acct" column="acct" jdbcType="VARCHAR"/>
+        <result property="resCode" column="res_code" jdbcType="VARCHAR"/>
+        <result property="crtime" column="crtime" jdbcType="TIMESTAMP"/>
+        <result property="uptime" column="uptime" jdbcType="TIMESTAMP"/>
+
+    </resultMap>
+
+
+    <sql id="columns">
+	     id,  biz_no,  acct,  res_code,  crtime ,uptime
+	</sql>
+
+    <sql id="sql_query_where">
+        <where>
+            <if test="@Ognl@isNotEmpty(id)">AND id = #{id}</if>
+            <if test="@Ognl@isNotEmpty(bizNo)">AND biz_no = #{bizNo}</if>
+            <if test="@Ognl@isNotEmpty(acct)">AND acct = #{acct}</if>
+            <if test="@Ognl@isNotEmpty(resCode)">AND res_code = #{resCode}</if>
+            <if test="@Ognl@isNotEmpty(crtime)">AND crtime = #{crtime}</if>
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="SysAcctRes">
+        insert into sys_acct_res(
+        <include refid="columns"/>
+        ) values(
+        #{id,jdbcType=VARCHAR },#{bizNo,jdbcType=VARCHAR },#{acct,jdbcType=VARCHAR },#{resCode,jdbcType=VARCHAR },#{crtime,jdbcType=TIMESTAMP },#{uptime,jdbcType=TIMESTAMP }
+        )
+    </insert>
+
+    <update id="update" parameterType="SysAcctRes">
+        update sys_acct_res
+        <set>
+            <if test="@Ognl@isNotEmpty(bizNo)">
+                biz_no= #{bizNo,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(acct)">
+                acct= #{acct,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(resCode)">
+                res_code= #{resCode,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(crtime)">
+                crtime= #{crtime,jdbcType=TIMESTAMP },
+            </if>
+            <if test="@Ognl@isNotEmpty(uptime)">
+                uptime= #{uptime,jdbcType=TIMESTAMP },
+            </if>
+        </set>
+        where id =#{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from sys_acct_res 
+          where id =#{id}
+    </delete>
+
+
+    <delete id="deleteSysAcctRes" parameterType="java.lang.String">
+        delete from sys_acct_res where acct =#{acct}
+    </delete>
+
+    <select id="load" parameterType="java.lang.String" resultMap="result_base">
+        select * from sys_acct_res 
+	          where id =#{id}
+    </select>
+
+    <select id="query" parameterType="map" resultMap="result_base">
+        select * from sys_acct_res
+        <include refid="sql_query_where"/>
+        <if test="@Ognl@isNotEmpty(orderField)">
+            order by ${orderField} ${orderSeq}
+        </if>
+        <if test="@Ognl@isEmpty(orderField)">
+            order by crtime desc
+        </if>
+    </select>
+
+
+    <select id="count" parameterType="Map" resultType="Integer">
+        select count(1) from sys_acct_res
+        <include refid="sql_query_where"/>
+    </select>
+</mapper>

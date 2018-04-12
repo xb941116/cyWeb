@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<!-- mbr_recharge: 充值记录表-->
+<mapper namespace="MbrRecharge">
+    <resultMap id="result_base" type="MbrRecharge">
+         	<id property="id" column="id" jdbcType="VARCHAR"/>
+         	<result property="memberId" column="member_id" jdbcType="VARCHAR" />
+            <result property="bizNo" column="biz_no" jdbcType="VARCHAR" />
+            <result property="giftId" column="gift_id" jdbcType="VARCHAR" />
+         	<result property="money" column="money" jdbcType="DECIMAL" />
+         	<result property="payWay" column="pay_way" jdbcType="INTEGER" />
+         	<result property="radio" column="radio" jdbcType="INTEGER" />
+         	<result property="payno" column="payno" jdbcType="VARCHAR" />
+         	<result property="state" column="state" jdbcType="INTEGER" />
+         	<result property="giveMoney" column="give_money" jdbcType="INTEGER" />
+         	<result property="crtime" column="crtime" jdbcType="TIMESTAMP" />
+         	<result property="uptime" column="uptime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+
+	<sql id="columns">
+	     id,  member_id,biz_no,gift_id,  money,  pay_way,  radio,  payno,  state,  give_money,  crtime,  uptime
+	</sql>
+
+    <sql id="sql_query_where">
+		<where>
+            <if test="@Ognl@isNotEmpty(id)"> AND id  = #{id} </if>
+            <if test="@Ognl@isNotEmpty(memberId)"> AND member_id  = #{memberId} </if>
+            <if test="@Ognl@isNotEmpty(bizNo)"> AND biz_no  = #{bizNo} </if>
+            <if test="@Ognl@isNotEmpty(giftId)"> AND gift_id  = #{giftId} </if>
+            <if test="@Ognl@isNotEmpty(money)"> AND money  = #{money} </if>
+            <if test="@Ognl@isNotEmpty(payWay)"> AND pay_way  = #{payWay} </if>
+            <if test="@Ognl@isNotEmpty(radio)"> AND radio  = #{radio} </if>
+            <if test="@Ognl@isNotEmpty(payno)"> AND payno  = #{payno} </if>
+            <if test="@Ognl@isNotEmpty(state)"> AND state  = #{state} </if>
+            <if test="@Ognl@isNotEmpty(giveMoney)"> AND give_money  = #{giveMoney} </if>
+            <if test="@Ognl@isNotEmpty(crtime)"> AND crtime  = #{crtime} </if>
+            <if test="@Ognl@isNotEmpty(uptime)"> AND uptime  = #{uptime} </if>
+        </where>
+    </sql>
+    
+    <insert id="insert" parameterType="MbrRecharge">
+        insert into mbr_recharge(
+         <include refid="columns"/>
+        ) values(
+	    #{id,jdbcType=VARCHAR },#{memberId,jdbcType=VARCHAR },#{bizNo,jdbcType=VARCHAR },#{giftId,jdbcType=VARCHAR },#{money,jdbcType=DECIMAL },#{payWay,jdbcType=INTEGER },#{radio,jdbcType=INTEGER },#{payno,jdbcType=VARCHAR },#{state,jdbcType=INTEGER },#{giveMoney,jdbcType=INTEGER },#{crtime,jdbcType=TIMESTAMP },#{uptime,jdbcType=TIMESTAMP }
+        )
+    </insert>
+
+    <update id="update" parameterType="MbrRecharge">
+        update mbr_recharge 
+        <set>
+           <if test="@Ognl@isNotEmpty(memberId)" >
+            member_id= #{memberId,jdbcType=VARCHAR },
+           </if>
+            <if test="@Ognl@isNotEmpty(bizNo)" >
+                biz_no= #{bizNo,jdbcType=VARCHAR },
+            </if>
+           <if test="@Ognl@isNotEmpty(giftId)" >
+               gift_id= #{giftId,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(money)" >
+            money= #{money,jdbcType=DECIMAL },
+           </if>
+           <if test="@Ognl@isNotEmpty(payWay)" >
+            pay_way= #{payWay,jdbcType=INTEGER },
+           </if>
+           <if test="@Ognl@isNotEmpty(radio)" >
+            radio= #{radio,jdbcType=INTEGER },
+           </if>
+           <if test="@Ognl@isNotEmpty(payno)" >
+            payno= #{payno,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(state)" >
+            state= #{state,jdbcType=INTEGER },
+           </if>
+           <if test="@Ognl@isNotEmpty(giveMoney)" >
+            give_money= #{giveMoney,jdbcType=INTEGER },
+           </if>
+           <if test="@Ognl@isNotEmpty(crtime)" >
+            crtime= #{crtime,jdbcType=TIMESTAMP },
+           </if>
+           <if test="@Ognl@isNotEmpty(uptime)" >
+            uptime= #{uptime,jdbcType=TIMESTAMP },
+           </if>
+       </set>
+          where id =#{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from mbr_recharge 
+          where id =#{id}
+    </delete>
+
+    <select id="loadByPayno" parameterType="java.lang.String" resultMap="result_base">
+        select * from mbr_recharge 
+	          where payno =#{payno}
+    </select>
+
+    <select id="load" parameterType="java.lang.String" resultMap="result_base">
+        select * from mbr_recharge
+	          where id =#{id}
+    </select>
+
+    <select id="query" parameterType="map" resultMap="result_base">
+        select * from mbr_recharge
+        <include refid="sql_query_where"/>
+		<if test="@Ognl@isNotEmpty(orderField)">
+		order by ${orderField} ${orderSeq}
+		</if>
+		<if test="@Ognl@isEmpty(orderField)">
+		order by crtime desc
+		</if>
+    </select>
+
+
+    <select id="queryMbrReCgHisByOpenid" parameterType="java.lang.String" resultMap="result_base">
+        select rg.*  from mbr_recharge rg LEFT JOIN mbr_oauth on rg.member_id = mbr_oauth.member_id
+        where
+         mbr_oauth.openid=#{openid}
+         order by rg.crtime   desc
+    </select>
+
+    <select id="countMbrReCgHisByOpenid" parameterType="java.lang.String" resultType="Integer">
+        select count(1) from mbr_recharge rg LEFT JOIN mbr_oauth on rg.member_id = mbr_oauth.member_id
+        where
+          mbr_oauth.openid=#{openid}
+          order by rg.crtime   desc
+    </select>
+
+
+    <select id="queryMbrReCgHisByOpenidAndBizNo" parameterType="java.lang.String" resultMap="result_base">
+        select rg.*  from mbr_recharge rg LEFT JOIN mbr_oauth on rg.member_id = mbr_oauth.member_id
+          LEFT  JOIN  mbr ON rg.member_id=mbr.id
+        where
+         mbr_oauth.openid=#{openid}
+         and mbr.biz_no=#{bizNo}
+         order by rg.crtime   desc
+    </select>
+
+    <select id="loadMbrRechargeStaIncByBizNo" parameterType="java.lang.String" resultMap="result_base">
+        select sum(MONEY) as money,max(BIZ_NO) biz_no from mbr_recharge  where biz_no = #{bizNo} and state=1 GROUP BY BIZ_NO
+    </select>
+
+    <select id="countMbrReCgHisByOpenidAndBizNo" parameterType="java.lang.String" resultType="Integer">
+        select count(1) from mbr_recharge rg LEFT JOIN mbr_oauth on rg.member_id = mbr_oauth.member_id
+          LEFT  JOIN  mbr ON rg.member_id=mbr.id
+        where
+          mbr_oauth.openid=#{openid}
+          and mbr.biz_no=#{bizNo}
+          order by rg.crtime   desc
+    </select>
+    
+    <select id="count"  parameterType="Map" resultType="Integer">
+        select count(1) from mbr_recharge
+        <include refid="sql_query_where"/>
+    </select>
+</mapper>

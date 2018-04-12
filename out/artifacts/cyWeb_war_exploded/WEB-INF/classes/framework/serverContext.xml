@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans default-autowire="byName"
+       xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context.xsd"
+        >
+
+    <context:component-scan base-package="com.zzwdkj.gprs"/>
+
+    <context:property-placeholder location="classpath:application.properties"/>
+
+    <!-- This makes it possible to specify java.net.SocketAddress values
+      (e.g. :1234 below) as Strings.
+      They will be converted into java.net.InetSocketAddress objects by Spring.  -->
+    <bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+        <property name="customEditors">
+            <map>
+                <entry key="java.net.SocketAddress">
+                    <bean class="org.apache.mina.integration.beans.InetSocketAddressEditor"/>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <!-- The IoHandler implementation -->
+    <bean id="chargeHandler" class="com.zzwdkj.gprs.ChargeProtocolHandler"/>
+
+    <!-- the IoFilters -->
+
+    <bean id="executorFilter" class="org.apache.mina.filter.executor.ExecutorFilter"/>
+
+    <bean id="mdcInjectionFilter" class="org.apache.mina.filter.logging.MdcInjectionFilter">
+        <constructor-arg value="remoteAddress"/>
+    </bean>
+
+    <bean id="codecFilter" class="org.apache.mina.filter.codec.ProtocolCodecFilter">
+        <constructor-arg>
+            <bean class="com.zzwdkj.gprs.MessageProtocalCodecFactory">
+               <constructor-arg value="utf-8"></constructor-arg>
+            </bean>
+        </constructor-arg>
+    </bean>
+    <bean id="loggingFilter" class="org.apache.mina.filter.logging.LoggingFilter"/>
+
+    <bean id="keepAliveFilter" class="org.apache.mina.filter.keepalive.KeepAliveFilter">
+        <constructor-arg index="0">
+            <bean class="com.zzwdkj.gprs.KeepAliveMessageFactoryImpl"/>
+        </constructor-arg>
+        <constructor-arg index="1" value="BOTH_IDLE"/>
+        <property name="requestInterval" value="65"></property>
+        <property name="requestTimeout" value="30"></property>
+        <property name="forwardEvent" value="true"></property>
+    </bean>
+
+    <!-- The non-SSL filter chain. -->
+    <bean id="filterChainBuilder" class="org.apache.mina.core.filterchain.DefaultIoFilterChainBuilder">
+        <property name="filters">
+            <map>
+                <entry key="executor" value-ref="executorFilter"/>
+                <entry key="codecFilter" value-ref="codecFilter"/>
+                <entry key="keepAliveFilter" value-ref="keepAliveFilter"/>
+                <entry key="loggingFilter" value-ref="loggingFilter"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="sessionConfig" factory-bean="ioAcceptor" factory-method="getSessionConfig">
+        <property name="bothIdleTime" value="50"/>
+        <property name="readerIdleTime" value="45"/>
+        <property name="writerIdleTime" value="45"/>
+        <property name="readBufferSize" value="2048"/>
+        <property name="receiveBufferSize" value="2048"/>
+    </bean>
+
+    <!-- The IoAcceptor which binds to port 1234 -->
+    <bean id="ioAcceptor" class="org.apache.mina.transport.socket.nio.NioSocketAcceptor" init-method="bind"
+          destroy-method="unbind">
+        <property name="defaultLocalAddress" value="#{settings.gprs_port}"/>
+        <property name="handler" ref="chargeHandler"/>
+        <property name="reuseAddress" value="true"/>
+        <property name="filterChainBuilder" ref="filterChainBuilder"/>
+    </bean>
+
+</beans>

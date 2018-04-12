@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- ord_pay_wx: 订单_支付_微信支付记录表-->
+<mapper namespace="OrdPayWx">
+    <resultMap id="result_base" type="OrdPayWx">
+        <id property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="acct" column="acct" jdbcType="VARCHAR"/>
+        <result property="openid" column="openid" jdbcType="VARCHAR"/>
+        <result property="money" column="money" jdbcType="DECIMAL"/>
+        <result property="state" column="state" jdbcType="INTEGER"/>
+        <result property="payno" column="payno" jdbcType="VARCHAR"/>
+        <result property="resvAcct" column="resv_acct" jdbcType="VARCHAR"/>
+        <result property="resvBizNo" column="resv_biz_no" jdbcType="VARCHAR"/>
+        <result property="crtime" column="crtime" jdbcType="TIMESTAMP"/>
+        <result property="uptime" column="uptime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <sql id="columns">
+	     id,  acct,openid,  money,  state,  payno,  resv_acct,resv_biz_no,  crtime,  uptime
+	</sql>
+
+    <sql id="sql_query_where">
+        <where>
+            <if test="@Ognl@isNotEmpty(id)">AND id = #{id}</if>
+            <if test="@Ognl@isNotEmpty(acct)">AND acct = #{acct}</if>
+            <if test="@Ognl@isNotEmpty(openid)">AND openid = #{openid}</if>
+            <if test="@Ognl@isNotEmpty(money)">AND money = #{money}</if>
+            <if test="@Ognl@isNotEmpty(state)">AND state = #{state}</if>
+            <if test="@Ognl@isNotEmpty(payno)">AND payno = #{payno}</if>
+            <if test="@Ognl@isNotEmpty(resvAcct)">AND resv_acct = #{resvAcct}</if>
+            <if test="@Ognl@isNotEmpty(resvBizNo)">AND resv_biz_no = #{resvBizNo}</if>
+            <if test="@Ognl@isNotEmpty(crtime)">AND crtime = #{crtime}</if>
+            <if test="@Ognl@isNotEmpty(uptime)">AND uptime = #{uptime}</if>
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="OrdPayWx">
+        insert into ord_pay_wx(
+        <include refid="columns"/>
+        ) values(
+        #{id,jdbcType=VARCHAR },#{acct,jdbcType=VARCHAR },#{openid,jdbcType=VARCHAR },#{money,jdbcType=DECIMAL },#{state,jdbcType=INTEGER },#{payno,jdbcType=VARCHAR },#{resvAcct,jdbcType=VARCHAR },#{resvBizNo,jdbcType=VARCHAR },#{crtime,jdbcType=TIMESTAMP },#{uptime,jdbcType=TIMESTAMP }
+        )
+    </insert>
+
+    <update id="update" parameterType="OrdPayWx">
+        update ord_pay_wx
+        <set>
+            <if test="@Ognl@isNotEmpty(acct)">
+                acct= #{acct,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(openid)">
+                openid= #{openid,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(money)">
+                money= #{money,jdbcType=DECIMAL },
+            </if>
+            <if test="@Ognl@isNotEmpty(state)">
+                state= #{state,jdbcType=INTEGER },
+            </if>
+            <if test="@Ognl@isNotEmpty(payno)">
+                payno= #{payno,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(resvAcct)">
+                resv_acct= #{resvAcct,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(resvBizNo)">
+                resv_biz_no= #{resvBizNo,jdbcType=VARCHAR },
+            </if>
+            <if test="@Ognl@isNotEmpty(crtime)">
+                crtime= #{crtime,jdbcType=TIMESTAMP },
+            </if>
+            <if test="@Ognl@isNotEmpty(uptime)">
+                uptime= #{uptime,jdbcType=TIMESTAMP },
+            </if>
+        </set>
+        where id =#{id}
+    </update>
+
+    <update id="updateOrdPaySt" parameterType="map">
+        update ord_pay_wx set state = #{state},uptime = now() where payno = #{ordno}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from ord_pay_wx 
+          where id =#{id}
+    </delete>
+
+    <select id="load" parameterType="java.lang.String" resultMap="result_base">
+        select * from ord_pay_wx 
+	          where id =#{id}
+    </select>
+
+    <select id="loadOrdPayWxByOrdNo" parameterType="java.lang.String" resultMap="result_base">
+        select * from ord_pay_wx
+        where payno =#{ordno}
+    </select>
+
+
+    <select id="query" parameterType="map" resultMap="result_base">
+        select * from ord_pay_wx
+        <include refid="sql_query_where"/>
+        <if test="@Ognl@isNotEmpty(orderField)">
+            order by ${orderField} ${orderSeq}
+        </if>
+        <if test="@Ognl@isEmpty(orderField)">
+            order by crtime desc
+        </if>
+    </select>
+
+
+    <select id="count" parameterType="Map" resultType="Integer">
+        select count(1) from ord_pay_wx
+        <include refid="sql_query_where"/>
+    </select>
+</mapper>

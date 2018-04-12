@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<!-- ord_pay_return: 订单_退单表-->
+<mapper namespace="OrdPayReturn">
+    <resultMap id="result_base" type="OrdPayReturn">
+         	<result property="id" column="id" jdbcType="VARCHAR" />
+         	<result property="backno" column="backno" jdbcType="VARCHAR" />
+         	<result property="ordno" column="ordno" jdbcType="VARCHAR" />
+         	<result property="memberId" column="member_id" jdbcType="VARCHAR" />
+         	<result property="reason" column="reason" jdbcType="VARCHAR" />
+         	<result property="state" column="state" jdbcType="INTEGER" />
+         	<result property="crtime" column="crtime" jdbcType="TIMESTAMP" />
+         	<result property="uptime" column="uptime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+
+	<sql id="columns">
+	     id,  backno,  ordno,  member_id,  reason,  state,  crtime,  uptime 
+	</sql>
+
+    <sql id="sql_query_where">
+		<where>
+            <if test="@Ognl@isNotEmpty(id)"> AND id  = #{id} </if>
+            <if test="@Ognl@isNotEmpty(backno)"> AND backno  = #{backno} </if>
+            <if test="@Ognl@isNotEmpty(ordno)"> AND ordno  = #{ordno} </if>
+            <if test="@Ognl@isNotEmpty(memberId)"> AND member_id  = #{memberId} </if>
+            <if test="@Ognl@isNotEmpty(reason)"> AND reason  = #{reason} </if>
+            <if test="@Ognl@isNotEmpty(state)"> AND state  = #{state} </if>
+            <if test="@Ognl@isNotEmpty(crtime)"> AND crtime  = #{crtime} </if>
+            <if test="@Ognl@isNotEmpty(uptime)"> AND uptime  = #{uptime} </if>
+        </where>
+    </sql>
+    
+    <insert id="insert" parameterType="OrdPayReturn">
+        insert into ord_pay_return(
+         <include refid="columns"/>
+        ) values(
+	    #{id,jdbcType=VARCHAR },#{backno,jdbcType=VARCHAR },#{ordno,jdbcType=VARCHAR },#{memberId,jdbcType=VARCHAR },#{reason,jdbcType=VARCHAR },#{state,jdbcType=INTEGER },#{crtime,jdbcType=TIMESTAMP },#{uptime,jdbcType=TIMESTAMP }
+        )
+    </insert>
+
+    <update id="update" parameterType="OrdPayReturn">
+        update ord_pay_return 
+        <set>
+           <if test="@Ognl@isNotEmpty(id)" >
+            id= #{id,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(backno)" >
+            backno= #{backno,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(ordno)" >
+            ordno= #{ordno,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(memberId)" >
+            member_id= #{memberId,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(reason)" >
+            reason= #{reason,jdbcType=VARCHAR },
+           </if>
+           <if test="@Ognl@isNotEmpty(state)" >
+            state= #{state,jdbcType=INTEGER },
+           </if>
+           <if test="@Ognl@isNotEmpty(crtime)" >
+            crtime= #{crtime,jdbcType=TIMESTAMP },
+           </if>
+           <if test="@Ognl@isNotEmpty(uptime)" >
+            uptime= #{uptime,jdbcType=TIMESTAMP },
+           </if>
+       </set>
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from ord_pay_return 
+    </delete>
+
+    <select id="load" parameterType="java.lang.String" resultMap="result_base">
+        select * from ord_pay_return 
+    </select>
+
+    <select id="query" parameterType="map" resultMap="result_base">
+        select * from ord_pay_return
+        <include refid="sql_query_where"/>
+		<if test="@Ognl@isNotEmpty(orderField)">
+		order by ${orderField} ${orderSeq}
+		</if>
+		<if test="@Ognl@isEmpty(orderField)">
+		order by crtime desc
+		</if>
+    </select>
+
+    
+    <select id="count"  parameterType="Map" resultType="Integer">
+        select count(1) from ord_pay_return
+        <include refid="sql_query_where"/>
+    </select>
+</mapper>
