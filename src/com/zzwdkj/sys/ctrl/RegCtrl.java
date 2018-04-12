@@ -166,6 +166,6 @@ public class RegCtrl {
     public ExtMsg ceshi(String yusuan, String xuqiu,String name,String phone) {
         //ProjectFile project = new ProjectFile(yusuan,xuqiu,name,Integer.parseInt(phone),new Date(),0);
         // projectFileSV.addCreate(project);
-        return ExtMsg.success("测试git");
+        return ExtMsg.success("测试gitgit");
     }
 }

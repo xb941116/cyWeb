@@ -14,7 +14,10 @@
     <bookmark url="file://$PROJECT_DIR$/web/WEB-INF/pages/grzx/activityManage/BizGiftEdit.jsp" line="32" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f745ae0f-5deb-4868-8400-df3ba6d5bd10" name="Default" comment="徐斌提交" />
+    <list default="true" id="f745ae0f-5deb-4868-8400-df3ba6d5bd10" name="Default" comment="徐斌提交">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/zzwdkj/sys/ctrl/RegCtrl.java" afterPath="$PROJECT_DIR$/src/com/zzwdkj/sys/ctrl/RegCtrl.java" />
+    </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -58,7 +61,17 @@
         <entry file="file://$PROJECT_DIR$/src/com/zzwdkj/sys/ctrl/RegCtrl.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="108" column="33" selection-start-line="108" selection-start-column="33" selection-end-line="108" selection-end-column="33" />
+              <caret line="168" column="39" selection-start-line="168" selection-start-column="39" selection-end-line="168" selection-end-column="39" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="workspace.xml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.23731884">
+              <caret line="2139" column="17" selection-start-line="2139" selection-start-column="17" selection-end-line="2139" selection-end-column="17" />
               <folding />
             </state>
           </provider>
@@ -74,11 +87,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NavCtrl.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="NavCtrl.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/zzwdkj/sys/ctrl/NavCtrl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.3275862">
-              <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="226" column="35" selection-start-line="226" selection-start-column="35" selection-end-line="226" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -123,16 +136,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="16" column="72" selection-start-line="16" selection-start-column="72" selection-end-line="16" selection-end-column="72" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="spring-core.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/framework/spring-core.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="22" column="60" selection-start-line="22" selection-start-column="60" selection-end-line="22" selection-end-column="60" />
               <folding />
             </state>
           </provider>
@@ -213,7 +216,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/web/WEB-INF/pages/sjxx/adManage/bizAdEdit.jsp" />
         <option value="$PROJECT_DIR$/src/com/zzwdkj/biz/ctrl/BizCtrl.java" />
         <option value="$PROJECT_DIR$/web/WEB-INF/pages/sjxx/adSet/bizAdSet.jsp" />
         <option value="$PROJECT_DIR$/web/WEB-INF/pages/sjxx/accountManage/bizSubUserAdd.jsp" />
@@ -262,8 +264,9 @@
         <option value="$PROJECT_DIR$/src/com/zzwdkj/sys/service/SysAcctSV.java" />
         <option value="$PROJECT_DIR$/src/com/zzwdkj/sys/service/SysAcctSVImpl.java" />
         <option value="$PROJECT_DIR$/web/WEB-INF/pages/baiduAPI.jsp" />
-        <option value="$PROJECT_DIR$/src/com/zzwdkj/sys/ctrl/RegCtrl.java" />
         <option value="$PROJECT_DIR$/.idea/vcs.xml" />
+        <option value="$PROJECT_DIR$/src/com/zzwdkj/sys/ctrl/RegCtrl.java" />
+        <option value="$PROJECT_DIR$/.idea/workspace.xml" />
       </list>
     </option>
   </component>
@@ -1630,7 +1633,7 @@
       <workItem from="1523324240115" duration="4403000" />
       <workItem from="1523340208444" duration="80000" />
       <workItem from="1523514975698" duration="2403000" />
-      <workItem from="1523519029390" duration="1350000" />
+      <workItem from="1523519029390" duration="1644000" />
     </task>
     <task id="LOCAL-00001" summary="删除无用代码">
       <created>1501819169923</created>
@@ -1887,7 +1890,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1609325000" />
+    <option name="totallyTimeSpent" value="1609619000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1900,7 +1903,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296582" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
@@ -1912,7 +1915,7 @@
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32855567" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32952926" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
       <window_info id="控制板" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18923241" sideWeight="0.4532294" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18923241" sideWeight="0.4532294" order="0" side_tool="false" content_ui="combo" />
       <window_info id="版本控制" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32855567" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18914647" sideWeight="0.5467706" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="设计师" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -2027,13 +2030,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/web/WEB-INF/pages/sjxx/accountManage/bizSubUserAdd.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33295837">
-          <caret line="22" column="12" selection-start-line="22" selection-start-column="10" selection-end-line="22" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/zzwdkj/biz/ctrl/BizCtrl.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -2334,14 +2330,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zzwdkj/sys/ctrl/RegCtrl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="108" column="33" selection-start-line="108" selection-start-column="33" selection-end-line="108" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.idea/vcs.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-3.392857">
@@ -2352,8 +2340,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/zzwdkj/sys/ctrl/NavCtrl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3275862">
-          <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="226" column="35" selection-start-line="226" selection-start-column="35" selection-end-line="226" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/zzwdkj/sys/ctrl/RegCtrl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="168" column="39" selection-start-line="168" selection-start-column="39" selection-end-line="168" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.23731884">
+          <caret line="2139" column="17" selection-start-line="2139" selection-start-column="17" selection-end-line="2139" selection-end-column="17" />
           <folding />
         </state>
       </provider>
