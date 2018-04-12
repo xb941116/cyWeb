@@ -14,9 +14,8 @@
     <bookmark url="file://$PROJECT_DIR$/web/WEB-INF/pages/grzx/activityManage/BizGiftEdit.jsp" line="32" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f745ae0f-5deb-4868-8400-df3ba6d5bd10" name="Default" comment="徐斌提交">
+    <list default="true" id="f745ae0f-5deb-4868-8400-df3ba6d5bd10" name="Default" comment="2018-04-12">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/zzwdkj/sys/ctrl/RegCtrl.java" afterPath="$PROJECT_DIR$/src/com/zzwdkj/sys/ctrl/RegCtrl.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -57,22 +56,29 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RegCtrl.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="RegCtrl.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/zzwdkj/sys/ctrl/RegCtrl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="168" column="39" selection-start-line="168" selection-start-column="39" selection-end-line="168" selection-end-column="39" />
+            <state vertical-scroll-proportion="0.18103448">
+              <caret line="152" column="6" selection-start-line="152" selection-start-column="6" selection-end-line="152" selection-end-column="6" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="workspace.xml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="workspace.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.23731884">
-              <caret line="2139" column="17" selection-start-line="2139" selection-start-column="17" selection-end-line="2139" selection-end-column="17" />
-              <folding />
+            <state vertical-scroll-proportion="-14.178572">
+              <caret line="2153" column="17" selection-start-line="2153" selection-start-column="17" selection-end-line="2153" selection-end-column="17" />
+              <folding>
+                <marker date="1523525522308" expanded="true" signature="59:125516" placeholder="..." />
+                <marker date="1523525522308" expanded="true" signature="98:156" placeholder="..." />
+                <marker date="1523525522308" expanded="true" signature="204:361" placeholder="..." />
+                <marker date="1523525522308" expanded="true" signature="229:346" placeholder="..." />
+                <marker date="1523525522308" expanded="true" signature="398:703" placeholder="..." />
+                <marker date="1523525522308" expanded="true" signature="742:835" placeholder="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -206,6 +212,7 @@
     </dirStrings>
   </component>
   <component name="Git.Settings">
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GradleLocalSettings">
@@ -688,7 +695,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+    <property name="settings.editor.selected.configurable" value="vcs.Git" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="project.structure.last.edited" value="Modules" />
@@ -1633,7 +1640,7 @@
       <workItem from="1523324240115" duration="4403000" />
       <workItem from="1523340208444" duration="80000" />
       <workItem from="1523514975698" duration="2403000" />
-      <workItem from="1523519029390" duration="1644000" />
+      <workItem from="1523519029390" duration="1881000" />
     </task>
     <task id="LOCAL-00001" summary="删除无用代码">
       <created>1501819169923</created>
@@ -1869,7 +1876,13 @@
       <option name="project" value="LOCAL" />
       <updated>1523519195964</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="2018-04-12">
+      <created>1523525330004</created>
+      <option name="number" value="00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1523525330004</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1890,7 +1903,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1609619000" />
+    <option name="totallyTimeSpent" value="1609856000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1903,7 +1916,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296582" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
@@ -1915,7 +1928,7 @@
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32855567" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32952926" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
       <window_info id="控制板" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18923241" sideWeight="0.4532294" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18923241" sideWeight="0.4532294" order="0" side_tool="false" content_ui="combo" />
       <window_info id="版本控制" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32855567" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18914647" sideWeight="0.5467706" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="设计师" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1976,7 +1989,8 @@
     <MESSAGE value="修改" />
     <MESSAGE value="Default" />
     <MESSAGE value="徐斌提交" />
-    <option name="LAST_COMMIT_MESSAGE" value="徐斌提交" />
+    <MESSAGE value="2018-04-12" />
+    <option name="LAST_COMMIT_MESSAGE" value="2018-04-12" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2346,18 +2360,25 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/zzwdkj/sys/ctrl/RegCtrl.java">
+    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="168" column="39" selection-start-line="168" selection-start-column="39" selection-end-line="168" selection-end-column="39" />
-          <folding />
+        <state vertical-scroll-proportion="-14.178572">
+          <caret line="2153" column="17" selection-start-line="2153" selection-start-column="17" selection-end-line="2153" selection-end-column="17" />
+          <folding>
+            <marker date="1523525522308" expanded="true" signature="59:125516" placeholder="..." />
+            <marker date="1523525522308" expanded="true" signature="98:156" placeholder="..." />
+            <marker date="1523525522308" expanded="true" signature="204:361" placeholder="..." />
+            <marker date="1523525522308" expanded="true" signature="229:346" placeholder="..." />
+            <marker date="1523525522308" expanded="true" signature="398:703" placeholder="..." />
+            <marker date="1523525522308" expanded="true" signature="742:835" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
+    <entry file="file://$PROJECT_DIR$/src/com/zzwdkj/sys/ctrl/RegCtrl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.23731884">
-          <caret line="2139" column="17" selection-start-line="2139" selection-start-column="17" selection-end-line="2139" selection-end-column="17" />
+        <state vertical-scroll-proportion="0.18103448">
+          <caret line="152" column="6" selection-start-line="152" selection-start-column="6" selection-end-line="152" selection-end-column="6" />
           <folding />
         </state>
       </provider>
