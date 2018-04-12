@@ -161,4 +161,11 @@ public class RegCtrl {
        // projectFileSV.addCreate(project);
         return ExtMsg.success("提交成功！客户代表将在在三个工作日内联系您");
     }
+
+    @RequestMapping("/ceshi")
+    public ExtMsg ceshi(String yusuan, String xuqiu,String name,String phone) {
+        //ProjectFile project = new ProjectFile(yusuan,xuqiu,name,Integer.parseInt(phone),new Date(),0);
+        // projectFileSV.addCreate(project);
+        return ExtMsg.success("测试git");
+    }
 }
